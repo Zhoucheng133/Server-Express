@@ -23,6 +23,7 @@ dependencies:
   shared_preferences: ^2.5.3
   url_launcher: ^6.3.2
   window_manager: ^0.5.1
+  uuid: ^4.5.2
 
 dev_dependencies:
   flutter_test:
