@@ -7,6 +7,8 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  flutter_localizations:
+    sdk: flutter
   ffi: ^2.1.4
   file_picker: ^10.3.7
   flutter:
