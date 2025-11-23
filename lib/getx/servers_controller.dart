@@ -8,13 +8,15 @@ class Server {
   String url;
   String username;
   String password;
+  String port;
 
-  Server({required this.id, required this.url, required this.username, required this.password});
+  Server({required this.id, required this.url, required this.port, required this.username, required this.password});
 
   factory Server.fromJson(Map<String, dynamic> json) {
     return Server(
       id: json['id'],
       url: json["url"],
+      port: json["port"],
       username: json['username'],
       password: json["password"]
     );
@@ -24,6 +26,7 @@ class Server {
     return {
       "id": id,
       "url": url,
+      "port": port,
       "username": username,
       "password": password
     };
