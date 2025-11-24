@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/desktop/main_window.dart';
+import 'package:server_express/getx/servers_controller.dart';
+import 'package:server_express/getx/ssh_controller.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
@@ -23,6 +26,10 @@ Future<void> main() async {
       await windowManager.focus();
     });
   }
+
+  Get.put(SshController());
+  Get.put(ServersController());
+
   runApp(const MainApp());
 }
 

@@ -36,8 +36,17 @@ class Server {
 class ServersController extends GetxController {
   RxList servers=<Server>[].obs;
 
+  late SharedPreferences prefs;
+
+  Future<void> init() async {
+    prefs=await SharedPreferences.getInstance();
+  }
+
+  ServersController(){
+    init();
+  }
+
   Future<void> saveServers() async {
-    final prefs=await SharedPreferences.getInstance();
     prefs.setString("servers", jsonEncode(
       servers.map((item)=>item.toJson()).toList()
     ));
@@ -51,5 +60,12 @@ class ServersController extends GetxController {
   void removeServer(String id){
     servers.removeWhere((item)=>item.id==id);
     saveServers();
+  }
+
+  Future<void> initServers() async {
+    final servers=prefs.getString("servers");
+    if(servers==null || servers.isEmpty){
+      return;
+    }
   }
 }
