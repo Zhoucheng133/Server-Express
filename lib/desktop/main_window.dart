@@ -12,7 +12,7 @@ class MainWindow extends StatefulWidget {
 
 class _MainWindowState extends State<MainWindow> with WindowListener {
 
-   @override
+  @override
   void initState() {
     super.initState();
     windowManager.addListener(this);
