@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:server_express/components/add_server/add_server_content.dart';
 import 'package:server_express/getx/server_controller.dart';
 
-Future<void> addServer(BuildContext context) async {
+Future<void> showAddServer(BuildContext context) async {
 
   TextEditingController nameController=TextEditingController();
   TextEditingController addrController=TextEditingController();

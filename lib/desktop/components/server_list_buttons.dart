@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/add_server.dart';
+import 'package:server_express/desktop/components/dialogs/add_server.dart';
 import 'package:server_express/desktop/components/header_button_item.dart';
+import 'package:server_express/desktop/components/dialogs/settings.dart';
 
 class ServerListButtons extends StatefulWidget {
   const ServerListButtons({super.key});
@@ -15,8 +16,8 @@ class _ServerListButtonsState extends State<ServerListButtons> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>addServer(context), icon: Icons.add_rounded, text: "addServer".tr),
-        HeaderButtonItem(buttonSide: ButtonSide.right, func: (){}, icon: Icons.settings_rounded, text: "settings".tr),
+        HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>showAddServer(context), icon: Icons.add_rounded, text: "addServer".tr),
+        HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>showSettings(context), icon: Icons.settings_rounded, text: "settings".tr),
       ],
     );
   }
