@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:server_express/desktop/components/server_list_buttons.dart';
 
 class DesktopTitleBar extends StatefulWidget {
 
@@ -26,6 +27,10 @@ class _DesktopTitleBarState extends State<DesktopTitleBar> {
                 color: Theme.of(context).colorScheme.primary
               ),
             ),
+            Expanded(
+              child: Container(),
+            ),
+            ServerListButtons()
           ],
         ),
         Divider(

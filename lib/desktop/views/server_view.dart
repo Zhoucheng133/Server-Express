@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/desktop_title_bar.dart';
+import 'package:server_express/desktop/components/title_bar.dart';
 
 class ServerView extends StatefulWidget {
   const ServerView({super.key});

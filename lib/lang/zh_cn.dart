@@ -14,4 +14,5 @@ const Map<String, String> zhCN = {
   'ok': '好的',
   'connect': '连接',
   'loading': '加载中...',
+  'settings': '设置',
 };
