@@ -18,6 +18,7 @@ Future<void> main() async {
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = WindowOptions(
       size: Size(800, 600),
+      minimumSize: Size(800, 600),
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
@@ -84,9 +85,7 @@ class _MainAppState extends State<MainApp> {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
           textTheme: GoogleFonts.notoSansScTextTheme(),
         ),
-        home: Scaffold(
-          body: MainWindow()
-        ),
+        home: MainWindow()
       )
     );
   }
