@@ -14,7 +14,7 @@ class _ServerViewState extends State<ServerView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DesktopTitleBar(title: "serverList".tr),
+        TitleBar(title: "serverList".tr),
         Expanded(child: Container())
       ],
     );
