@@ -5,8 +5,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/desktop/main_window.dart';
+import 'package:server_express/getx/general_controller.dart';
 import 'package:server_express/getx/servers_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
+import 'package:server_express/lang/en_us.dart';
+import 'package:server_express/lang/zh_cn.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
@@ -29,41 +32,62 @@ Future<void> main() async {
 
   Get.put(SshController());
   Get.put(ServersController());
+  Get.put(GeneralController());
 
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainTranslations extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+    'en_US': enUS,
+    'zh_CN': zhCN,
+  };
+}
+
+class MainApp extends StatefulWidget {
+
+
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  final GeneralController controller=Get.find();
+
+  @override
   Widget build(BuildContext context) {
+    final brightness = MediaQuery.of(context).platformBrightness;
 
-    final brightness = MediaQuery.of(context).platformBrightness; 
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
-        textTheme: GoogleFonts.notoSansScTextTheme().apply(
-          bodyColor: Colors.white,
-          displayColor: Colors.white, 
+    return Obx(()=>
+      GetMaterialApp(
+        translations: MainTranslations(),
+        locale: controller.lang.value,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
+          textTheme: GoogleFonts.notoSansScTextTheme().apply(
+            bodyColor: Colors.white,
+            displayColor: Colors.white, 
+          ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.yellow,
+            brightness: Brightness.dark,
+          ),
+        ) : ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
+          textTheme: GoogleFonts.notoSansScTextTheme(),
         ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.yellow,
-          brightness: Brightness.dark,
+        home: Scaffold(
+          body: MainWindow()
         ),
-      ) : ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
-        textTheme: GoogleFonts.notoSansScTextTheme(),
-      ),
-      home: Scaffold(
-        body: MainWindow()
-      ),
+      )
     );
   }
 }
