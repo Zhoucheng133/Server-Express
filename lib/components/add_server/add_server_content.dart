@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/components/add_server_item.dart';
+import 'package:server_express/components/add_server/add_server_item.dart';
 
 class AddServerContent extends StatefulWidget {
 

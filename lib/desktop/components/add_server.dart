@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/components/add_server_content.dart';
+import 'package:server_express/components/add_server/add_server_content.dart';
 import 'package:server_express/getx/server_controller.dart';
 
 Future<void> addServer(BuildContext context) async {
