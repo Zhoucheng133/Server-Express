@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 // func SSHLogin(url *C.char, port *C.char, username *C.char, password *C.char) *C.char 
@@ -24,9 +25,17 @@ typedef SftpDeleteDart = Pointer<Utf8> Function(Pointer<Utf8>);
 typedef SftpRenameNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpRenameDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 
+// func Disconnect() *C.char
+typedef DisconnectNative = Pointer<Utf8> Function();
+typedef DisconnectDart = Pointer<Utf8> Function();
+
 class SshController extends GetxController {
-  static String sshLoginHandler(String url, String port, String username, String password){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'lib/core.dylib' : 'lib/core.dll');
+  static String sshLoginHandler(List params){
+    String url=params[0];
+    String port=params[1];
+    String username=params[2];
+    String password=params[3];
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final SSHLoginDart sshLogin=dynamicLib
     .lookup<NativeFunction<SSHLoginNative>>('SSHLogin')
     .asFunction();
@@ -35,7 +44,7 @@ class SshController extends GetxController {
   }
 
   static String sftpListHandler(String path){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'lib/core.dylib' : 'lib/core.dll');
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final SftpListDart sftpList=dynamicLib
     .lookup<NativeFunction<SftpListNative>>('SftpList')
     .asFunction();
@@ -44,7 +53,7 @@ class SshController extends GetxController {
   }
 
   static String sftpDownloadHandler(String path, String local){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'lib/core.dylib' : 'lib/core.dll');
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final SftpDownloadDart sftpDownload=dynamicLib
     .lookup<NativeFunction<SftpDownloadNative>>('SftpDelete')
     .asFunction();
@@ -53,7 +62,7 @@ class SshController extends GetxController {
   }
 
   static String sftpDeleteHandler(String path){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'lib/core.dylib' : 'lib/core.dll');
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final SftpDeleteDart sftpDelete=dynamicLib
     .lookup<NativeFunction<SftpDeleteNative>>('SftpDelete')
     .asFunction();
@@ -61,12 +70,31 @@ class SshController extends GetxController {
     return sftpDelete(path.toNativeUtf8()).toDartString();
   }
 
-  static String sftpRenameHandler(String path, String newName){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'lib/core.dylib' : 'lib/core.dll');
+  static String sftpRenameHandler(List params){
+    String path=params[0]; 
+    String newName=params[1];
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final SftpRenameNative sftpDownload=dynamicLib
     .lookup<NativeFunction<SftpRenameDart>>('SftpRename')
     .asFunction();
 
     return sftpDownload(path.toNativeUtf8(), newName.toNativeUtf8()).toDartString();
+  }
+
+  static String disconnectHandler(List params){
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final DisconnectNative disconnect=dynamicLib
+    .lookup<NativeFunction<DisconnectDart>>('Disconnect')
+    .asFunction();
+
+    return disconnect().toDartString();
+  }
+
+  Future<String> sshLogin(String url, String port, String username, String password) async {
+    return await compute(sshLoginHandler, [url, port, username, password]);
+  }
+
+  Future<String> disconnect() async {
+    return await compute(disconnectHandler, []);
   }
 }
