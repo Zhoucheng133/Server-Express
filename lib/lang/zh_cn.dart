@@ -1,3 +1,17 @@
 const Map<String, String> zhCN = {
   'serverList': '服务器列表',
+  'addServer': '添加服务器',
+  'serverName': '服务器名称',
+  'serverAddr': '服务器地址',
+  'ipDomain': 'IP地址或域名',
+  'port': '端口',
+  'username': '用户名',
+  'password': '密码',
+  'cancel': '取消',
+  'add': '添加',
+  'addSuccess': '添加成功',
+  'addFail': '添加失败',
+  'ok': '好的',
+  'connect': '连接',
+  'loading': '加载中...',
 };

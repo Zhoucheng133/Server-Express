@@ -1,3 +1,17 @@
 const Map<String, String> enUS = {
   'serverList': 'Server List',
+  'addServer': 'Add Server',
+  'serverName': 'Server Name',
+  'serverAddr': 'Server Address',
+  'ipDomain': 'IP & domain',
+  'port': 'Port',
+  'username': 'Username',
+  'password': 'Password',
+  'cancel': 'Cancel',
+  'add': 'Add',
+  'addSuccess': 'Add Successfully',
+  'addFail': 'Add failed',
+  'ok': 'Ok',
+  'connect': 'Connect',
+  'loading': 'Loading...',
 };
