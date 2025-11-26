@@ -33,8 +33,9 @@ class Server {
   }
 }
 
-class ServersController extends GetxController {
+class ServerController extends GetxController {
   RxList servers=<Server>[].obs;
+  Rx<Server?> nowServer=null.obs;
 
   late SharedPreferences prefs;
 
@@ -42,7 +43,7 @@ class ServersController extends GetxController {
     prefs=await SharedPreferences.getInstance();
   }
 
-  ServersController(){
+  ServerController(){
     init();
   }
 
