@@ -15,7 +15,23 @@ class _ServerViewState extends State<ServerView> {
     return Column(
       children: [
         TitleBar(title: "serverList".tr),
-        Expanded(child: Container())
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+              mainAxisExtent: 100
+            ),
+            itemBuilder: (context, index) {
+              return Container(
+                color: Colors.blue,
+                child: Text('Item $index'),
+              );
+            },
+            itemCount: 10,
+          )
+        )
       ],
     );
   }
