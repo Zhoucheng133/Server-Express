@@ -60,53 +60,14 @@ class ServerController extends GetxController {
     ));
   }
 
-  void addServer(Server server){
-    servers.add(server);
-    saveServers();
-  }
-
   void removeServer(String id){
     servers.removeWhere((item)=>item.id==id);
     saveServers();
   }
 
-  void editServer(Server server){
-    int index = servers.indexWhere((s) => s.id == server.id);
-    if (index == -1) return;
-    servers[index] = server;
-    saveServers();
-  }
-
-  Future<void> initServers() async {
-    final prefsData=prefs.getString("servers");
-    if(prefsData==null || prefsData.isEmpty){
-      return;
-    }
-
-    try {
-      final List<dynamic> json = jsonDecode(prefsData) as List;
-      servers.value=json.map((item)=>Server.fromJson(item)).toList();
-    } catch (_) {}
-  }
-
-  Future<void> serverCheck(BuildContext context, String name, String addr, String port, String username, String password) async {
+  Future<void> addServer(BuildContext context, String name, String addr, String port, String username, String password) async {
     final SshController sshController=Get.find();
-    showDialog(
-      context: context, 
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        content: SizedBox(
-          width: 100,
-          height: 100,
-          child: Center(
-            child: CircularProgressIndicator()
-          ),
-        ),
-      ),
-    );
-    final message=await sshController.sshLogin(addr, port, username, password);
-    if(context.mounted) Navigator.pop(context);
-
+    String message=await serverCheck(context, name, addr, port, username, password);
     if(message.contains("OK") && context.mounted){
 
       Server thisServer=Server(
@@ -117,8 +78,8 @@ class ServerController extends GetxController {
         username: username, 
         password: password
       );
-      // servers.add(thisServer);
-      addServer(thisServer);
+      servers.add(thisServer);
+      saveServers();
 
       Navigator.pop(context);
       await showDialog(
@@ -158,5 +119,45 @@ class ServerController extends GetxController {
         )
       );
     }
+  }
+
+  Future<void> editServer(BuildContext context, Server server) async {
+    int index = servers.indexWhere((s) => s.id == server.id);
+    if (index == -1) return;
+    servers[index] = server;
+    saveServers();
+    Navigator.pop(context);
+  }
+
+  Future<void> initServers() async {
+    final prefsData=prefs.getString("servers");
+    if(prefsData==null || prefsData.isEmpty){
+      return;
+    }
+
+    try {
+      final List<dynamic> json = jsonDecode(prefsData) as List;
+      servers.value=json.map((item)=>Server.fromJson(item)).toList();
+    } catch (_) {}
+  }
+
+  Future<String> serverCheck(BuildContext context, String name, String addr, String port, String username, String password) async {
+    final SshController sshController=Get.find();
+    showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        content: SizedBox(
+          width: 100,
+          height: 100,
+          child: Center(
+            child: CircularProgressIndicator()
+          ),
+        ),
+      ),
+    );
+    final message=await sshController.sshLogin(addr, port, username, password);
+    if(context.mounted) Navigator.pop(context);
+    return message;
   }
 }

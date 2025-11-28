@@ -30,6 +30,7 @@ Future<void> showEditServer(BuildContext context, Server server) async {
           onPressed: () async {
             final ServerController serverController=Get.find();
             serverController.editServer(
+              context,
               Server(
                 id: server.id, 
                 name: nameController.text, 

@@ -30,7 +30,7 @@ Future<void> showAddServer(BuildContext context) async {
         ElevatedButton(
           onPressed: () async {
             final ServerController serverController=Get.find();
-            serverController.serverCheck(context, nameController.text, addrController.text, portController.text, usernameController.text, passwordController.text);
+            serverController.addServer(context, nameController.text, addrController.text, portController.text, usernameController.text, passwordController.text);
           },
           child: Text("add".tr)
         )
