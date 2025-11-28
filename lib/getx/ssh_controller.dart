@@ -97,4 +97,8 @@ class SshController extends GetxController {
   Future<String> disconnect() async {
     return await compute(disconnectHandler, []);
   }
+
+  Future<String> sftpList(String path) async {
+    return await compute(sftpListHandler, path);
+  }
 }
