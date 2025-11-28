@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/desktop/main_window.dart';
+import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/general_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
@@ -34,6 +35,7 @@ Future<void> main() async {
   Get.put(SshController());
   Get.put(ServerController());
   Get.put(GeneralController());
+  Get.put(FileController());
 
   runApp(const MainApp());
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/desktop/views/file_view.dart';
 import 'package:server_express/desktop/views/server_view.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:window_manager/window_manager.dart';
@@ -80,7 +81,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: ServerView(),
+              child: Obx(()=>
+                serverController.nowServer.value==null ? ServerView() : FileView()
+              ),
             )
           )
         ],

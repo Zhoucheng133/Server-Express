@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:server_express/getx/file_controller.dart';
+import 'package:server_express/getx/server_controller.dart';
+
+class FileView extends StatefulWidget {
+  const FileView({super.key});
+
+  @override
+  State<FileView> createState() => _FileViewState();
+}
+
+class _FileViewState extends State<FileView> {
+
+  final FileController fileController=Get.find();
+  final ServerController serverController=Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    fileController.getFiles();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      ()=>Column(
+        children: [
+          // TitleBar(title: "${serverController.nowServer.value?.name} : ${fileController.path.value}"),
+          Expanded(
+            child: ListView.builder(
+              itemCount: fileController.files.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(fileController.files[index].name),
+                  subtitle: Text(fileController.files[index].size.toString()),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
