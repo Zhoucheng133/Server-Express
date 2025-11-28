@@ -17,5 +17,7 @@ const Map<String, String> enUS = {
   'settings': 'Settings',
   'actions': "Actions",
   'edit': 'Edit',
-  'delete': 'Delete'
+  'delete': 'Delete',
+  'editServer': 'Edit Server',
+  'save': 'Save'
 };

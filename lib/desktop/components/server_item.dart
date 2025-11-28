@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:server_express/desktop/components/dialogs/edit_server.dart';
 import 'package:server_express/getx/server_controller.dart';
 
 class ServerItem extends StatefulWidget {
@@ -61,7 +62,11 @@ class _ServerItemState extends State<ServerItem> {
                     PopupMenuButton(
                       tooltip: "actions".tr,
                       onSelected: (value) {
-                        // TODO 操作
+                        if(value=='edit'){
+                          showEditServer(context, widget.server);
+                        }else if(value=='del'){
+                          // TODO 删除服务器
+                        }
                       },
                       itemBuilder: (context) => [
                         PopupMenuItem(

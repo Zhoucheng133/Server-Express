@@ -70,6 +70,13 @@ class ServerController extends GetxController {
     saveServers();
   }
 
+  void editServer(Server server){
+    int index = servers.indexWhere((s) => s.id == server.id);
+    if (index == -1) return;
+    servers[index] = server;
+    saveServers();
+  }
+
   Future<void> initServers() async {
     final prefsData=prefs.getString("servers");
     if(prefsData==null || prefsData.isEmpty){

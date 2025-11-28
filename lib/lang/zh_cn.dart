@@ -17,5 +17,7 @@ const Map<String, String> zhCN = {
   'settings': '设置',
   'actions': "操作",
   'edit': '编辑',
-  'delete': '删除'
+  'delete': '删除',
+  'editServer': '编辑服务器',
+  'save': '保存'
 };
