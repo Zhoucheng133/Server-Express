@@ -41,7 +41,7 @@ class Server {
 
 class ServerController extends GetxController {
   RxList servers=<Server>[].obs;
-  Rx<Server?> nowServer=null.obs;
+  Rx<Server?> nowServer=Rx<Server?>(null);
 
   late SharedPreferences prefs;
 
@@ -67,7 +67,7 @@ class ServerController extends GetxController {
 
   Future<void> addServer(BuildContext context, String name, String addr, String port, String username, String password) async {
     final SshController sshController=Get.find();
-    String message=await serverCheck(context, name, addr, port, username, password);
+    String message=await serverCheck(context, addr, port, username, password);
     if(message.contains("OK") && context.mounted){
 
       Server thisServer=Server(
@@ -141,7 +141,7 @@ class ServerController extends GetxController {
     } catch (_) {}
   }
 
-  Future<String> serverCheck(BuildContext context, String name, String addr, String port, String username, String password) async {
+  Future<String> serverCheck(BuildContext context, String addr, String port, String username, String password) async {
     final SshController sshController=Get.find();
     showDialog(
       context: context, 

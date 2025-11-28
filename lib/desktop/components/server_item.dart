@@ -17,10 +17,21 @@ class ServerItem extends StatefulWidget {
 class _ServerItemState extends State<ServerItem> {
 
   bool hover=false;
+  final ServerController serverController=Get.find();
+
+  Future<void> connect(BuildContext context) async {
+    String message=await serverController.serverCheck(context, widget.server.addr, widget.server.port, widget.server.username, widget.server.password);
+    if(message.contains("OK") && context.mounted){
+      serverController.nowServer.value=widget.server;
+    }else if(context.mounted){
+      showGeneralOk(context, "loginFailTitle".tr, message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: ()=>connect(context),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_)=>setState(() {
@@ -68,8 +79,7 @@ class _ServerItemState extends State<ServerItem> {
                         }else if(value=='del'){
                           bool del=await showGeneralConfirm(context, "delServerTitle".tr, "delServerContent".tr);
                           if(del){
-                            final ServerController controller=Get.find();
-                            controller.removeServer(widget.server.id);
+                            serverController.removeServer(widget.server.id);
                           }
                         }
                       },

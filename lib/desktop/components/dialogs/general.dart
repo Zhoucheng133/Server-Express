@@ -29,3 +29,21 @@ Future<bool> showGeneralConfirm(BuildContext context, String title, String conte
   );
   return ok;
 }
+
+Future<void> showGeneralOk(BuildContext context, String title, String content, {String okText="ok"}) async {
+  await showDialog(
+    context: context, 
+    builder: (context)=>StatefulBuilder(
+      builder: (context, setState)=>AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          ElevatedButton(
+            onPressed: ()=>Navigator.pop(context),
+            child: Text(okText.tr)
+          )
+        ],
+      )
+    )
+  );
+}

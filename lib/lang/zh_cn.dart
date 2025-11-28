@@ -21,5 +21,6 @@ const Map<String, String> zhCN = {
   'editServer': '编辑服务器',
   'save': '保存',
   "delServerTitle": "确定要删除这个服务器吗?",
-  "delServerContent": "这是一个不可逆的操作!"
+  "delServerContent": "这是一个不可逆的操作!",
+  'loginFailTitle': '登录到服务器失败',
 };

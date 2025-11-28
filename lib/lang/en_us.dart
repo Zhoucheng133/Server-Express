@@ -21,5 +21,6 @@ const Map<String, String> enUS = {
   'editServer': 'Edit Server',
   'save': 'Save',
   "delServerTitle": "Delete this server?",
-  "delServerContent": "This is an irreversible operation!"
+  "delServerContent": "This is an irreversible operation!",
+  'loginFailTitle': 'Login to server failed',
 };
