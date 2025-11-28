@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/desktop/components/server_list_buttons.dart';
 
-class TitleBar extends StatefulWidget {
+class ServerHeader extends StatefulWidget {
 
   final String title;
 
-  const TitleBar({super.key, required this.title});
+  const ServerHeader({super.key, required this.title});
 
   @override
-  State<TitleBar> createState() => _TitleBarState();
+  State<ServerHeader> createState() => _ServerHeaderState();
 }
 
-class _TitleBarState extends State<TitleBar> {
-
+class _ServerHeaderState extends State<ServerHeader> {
   @override
   Widget build(BuildContext context) {
     return Column(

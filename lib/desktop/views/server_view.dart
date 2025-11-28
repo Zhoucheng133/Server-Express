@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/header.dart';
+import 'package:server_express/desktop/components/header/server_header.dart';
 import 'package:server_express/desktop/components/server_item.dart';
 import 'package:server_express/getx/server_controller.dart';
 
@@ -19,7 +19,7 @@ class _ServerViewState extends State<ServerView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TitleBar(title: "serverList".tr),
+        ServerHeader(title: "serverList".tr),
         Expanded(
           child: Obx(()=>
             GridView.builder(
