@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/desktop/components/dialogs/edit_server.dart';
+import 'package:server_express/desktop/components/dialogs/general.dart';
 import 'package:server_express/getx/server_controller.dart';
 
 class ServerItem extends StatefulWidget {
@@ -61,11 +62,15 @@ class _ServerItemState extends State<ServerItem> {
                     ),
                     PopupMenuButton(
                       tooltip: "actions".tr,
-                      onSelected: (value) {
+                      onSelected: (value) async {
                         if(value=='edit'){
                           showEditServer(context, widget.server);
                         }else if(value=='del'){
-                          // TODO 删除服务器
+                          bool del=await showGeneralConfirm(context, "delServerTitle".tr, "delServerContent".tr);
+                          if(del){
+                            final ServerController controller=Get.find();
+                            controller.removeServer(widget.server.id);
+                          }
                         }
                       },
                       itemBuilder: (context) => [

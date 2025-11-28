@@ -19,5 +19,7 @@ const Map<String, String> enUS = {
   'edit': 'Edit',
   'delete': 'Delete',
   'editServer': 'Edit Server',
-  'save': 'Save'
+  'save': 'Save',
+  "delServerTitle": "Delete this server?",
+  "delServerContent": "This is an irreversible operation!"
 };

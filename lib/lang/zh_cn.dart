@@ -19,5 +19,7 @@ const Map<String, String> zhCN = {
   'edit': '编辑',
   'delete': '删除',
   'editServer': '编辑服务器',
-  'save': '保存'
+  'save': '保存',
+  "delServerTitle": "确定要删除这个服务器吗?",
+  "delServerContent": "这是一个不可逆的操作!"
 };
