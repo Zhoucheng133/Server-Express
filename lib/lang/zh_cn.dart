@@ -15,4 +15,7 @@ const Map<String, String> zhCN = {
   'connect': '连接',
   'loading': '加载中...',
   'settings': '设置',
+  'actions': "操作",
+  'edit': '编辑',
+  'delete': '删除'
 };

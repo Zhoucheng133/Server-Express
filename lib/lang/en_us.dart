@@ -15,4 +15,7 @@ const Map<String, String> enUS = {
   'connect': 'Connect',
   'loading': 'Loading...',
   'settings': 'Settings',
+  'actions': "Actions",
+  'edit': 'Edit',
+  'delete': 'Delete'
 };
