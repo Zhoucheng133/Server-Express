@@ -38,7 +38,6 @@ class _FileViewState extends State<FileView> {
               scrollDirection: Axis.horizontal,
               itemCount: p.split(fileController.path.value).length,
               itemBuilder: (BuildContext context, int index){
-                // return Text(index==0 || index==1 ? p.split(fileController.path.value)[index] : "/${p.split(fileController.path.value)[index]}");
                 if(index==0){
                   return TextButton(
                     onPressed: (){
