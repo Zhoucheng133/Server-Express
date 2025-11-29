@@ -52,10 +52,12 @@ class SshController extends GetxController {
     return sftpList(path.toNativeUtf8()).toDartString();
   }
 
-  static String sftpDownloadHandler(String path, String local){
+  static String sftpDownloadHandler(List params){
+    String path=params[0];
+    String local=params[1];
     final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final SftpDownloadDart sftpDownload=dynamicLib
-    .lookup<NativeFunction<SftpDownloadNative>>('SftpDelete')
+    .lookup<NativeFunction<SftpDownloadNative>>('SftpDownload')
     .asFunction();
 
     return sftpDownload(path.toNativeUtf8(), local.toNativeUtf8()).toDartString();
@@ -100,5 +102,9 @@ class SshController extends GetxController {
 
   Future<String> sftpList(String path) async {
     return await compute(sftpListHandler, path);
+  }
+
+  Future<String> sftpDownload(String path, String local) async {
+    return await compute(sftpDownloadHandler, [path, local]);
   }
 }
