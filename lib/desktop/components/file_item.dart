@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/getx/file_controller.dart';
@@ -32,18 +33,23 @@ class _FileItemState extends State<FileItem> {
     return "$result ${units[unitIndex]}";
   }
 
+  final FileController fileController=Get.find();
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
       title: Text(widget.file.name),
       trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
-      onTap: (){
+      onTap: () async {
         if(widget.file.isDir){
-          Get.find<FileController>().path.value=p.join(Get.find<FileController>().path.value, widget.file.name);
-          Get.find<FileController>().getFiles(context);
+          fileController.path.value=p.join(Get.find<FileController>().path.value, widget.file.name);
+          fileController.getFiles(context);
         }else{
-          // TODO For file
+          String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+          if (selectedDirectory != null && context.mounted) {
+            fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
+          }
         }
       },
     );

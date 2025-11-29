@@ -56,4 +56,11 @@ class FileController extends GetxController {
       }
     }
   }
+
+  void downloadFile(BuildContext context, String path, String local) async {
+    String message=await Get.find<SshController>().sftpDownload(path, local);
+    if(!message.contains("OK") && context.mounted){
+      showGeneralOk(context, "cantDownload".tr, message);
+    }
+  }
 }

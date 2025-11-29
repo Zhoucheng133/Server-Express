@@ -28,5 +28,6 @@ const Map<String, String> zhCN = {
   'select': '选择',
   'refresh': '刷新',
   'parentFolder': '上层目录',
-  'noPath': '无法打开这个目录'
+  'noPath': '无法打开这个目录',
+  'cantDownload': '无法下载这个文件',
 };
