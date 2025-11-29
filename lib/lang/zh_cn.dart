@@ -27,4 +27,6 @@ const Map<String, String> zhCN = {
   'disconnectContent': '确定要断开连接吗? 你将会回到服务器列表页面',
   'select': '选择',
   'refresh': '刷新',
+  'parentFolder': '上层目录',
+  'noPath': '无法打开这个目录'
 };

@@ -33,9 +33,9 @@ class FileController extends GetxController {
 
   Future<void> getFiles(BuildContext context) async {
     final SshController sshController=Get.find();
-    final String json=await sshController.sftpList(path.value);
+    final String msg=await sshController.sftpList(path.value);
     try {
-      final List<dynamic> list=jsonDecode(json);
+      final List<dynamic> list=jsonDecode(msg);
       files.value=list.map((item)=>FileClass.fromJson(item)).toList();
       files.sort((a, b){
         if (a.isDir && !b.isDir) {
@@ -51,7 +51,7 @@ class FileController extends GetxController {
     } catch (_) {
       path.value="/";
       if(context.mounted){
-        showGeneralOk(context, "xxx", "xxx");
+        showGeneralOk(context, "noPath".tr, msg);
         getFiles(context);
       }
     }

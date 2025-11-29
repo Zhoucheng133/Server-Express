@@ -27,4 +27,6 @@ const Map<String, String> enUS = {
   'disconnectContent': 'Disconnect from server? You will return to the server list.',
   'select': 'Select',
   'refresh': 'Refresh',
+  'parentFolder': 'Parent Folder',
+  'noPath': "Can't open this path",
 };
