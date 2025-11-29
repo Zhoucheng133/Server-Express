@@ -23,4 +23,7 @@ const Map<String, String> zhCN = {
   "delServerTitle": "确定要删除这个服务器吗?",
   "delServerContent": "这是一个不可逆的操作!",
   'loginFailTitle': '登录到服务器失败',
+  'disconnect': '断开连接',
+  'disconnectContent': '确定要断开连接吗? 你将会回到服务器列表页面',
+  'select': '选择',
 };

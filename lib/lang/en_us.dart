@@ -23,4 +23,7 @@ const Map<String, String> enUS = {
   "delServerTitle": "Delete this server?",
   "delServerContent": "This is an irreversible operation!",
   'loginFailTitle': 'Login to server failed',
+  'disconnect': 'Disconnect',
+  'disconnectContent': 'Disconnect from server? You will return to the server list.',
+  'select': 'Select',
 };
