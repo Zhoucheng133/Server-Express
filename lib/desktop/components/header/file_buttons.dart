@@ -27,11 +27,16 @@ class _FileButtonsState extends State<FileButtons> {
     }
   }
 
+  void refreshFiles(BuildContext context) async {
+    await fileController.getFiles(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
+        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
         HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>{}, icon: Icons.check_box_rounded, text: "select".tr),
       ],
     );

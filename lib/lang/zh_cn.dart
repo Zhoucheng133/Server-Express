@@ -26,4 +26,5 @@ const Map<String, String> zhCN = {
   'disconnect': '断开连接',
   'disconnectContent': '确定要断开连接吗? 你将会回到服务器列表页面',
   'select': '选择',
+  'refresh': '刷新',
 };

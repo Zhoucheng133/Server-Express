@@ -26,4 +26,5 @@ const Map<String, String> enUS = {
   'disconnect': 'Disconnect',
   'disconnectContent': 'Disconnect from server? You will return to the server list.',
   'select': 'Select',
+  'refresh': 'Refresh',
 };
