@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/desktop/components/header/file_header.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 
@@ -26,7 +27,7 @@ class _FileViewState extends State<FileView> {
     return Obx(
       ()=>Column(
         children: [
-          // TitleBar(title: "${serverController.nowServer.value?.name} : ${fileController.path.value}"),
+          FileHeader(),
           Expanded(
             child: ListView.builder(
               itemCount: fileController.files.length,

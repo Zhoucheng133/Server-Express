@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:server_express/desktop/components/header/server_buttons.dart';
+import 'package:server_express/getx/file_controller.dart';
+import 'package:server_express/getx/server_controller.dart';
 
-class ServerHeader extends StatefulWidget {
-
-  final String title;
-
-  const ServerHeader({super.key, required this.title});
+class FileHeader extends StatefulWidget {
+  const FileHeader({super.key});
 
   @override
-  State<ServerHeader> createState() => _ServerHeaderState();
+  State<FileHeader> createState() => _FileHeaderState();
 }
 
-class _ServerHeaderState extends State<ServerHeader> {
+class _FileHeaderState extends State<FileHeader> {
+
+  final FileController fileController=Get.find();
+  final ServerController serverController=Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +23,7 @@ class _ServerHeaderState extends State<ServerHeader> {
         Row(
           children: [
             Text(
-              widget.title,
+              serverController.nowServer.value==null ? '' : serverController.nowServer.value!.name,
               style: GoogleFonts.notoSansSc(
                 fontSize: 18,
                 color: Theme.of(context).colorScheme.primary
@@ -29,7 +32,6 @@ class _ServerHeaderState extends State<ServerHeader> {
             Expanded(
               child: Container(),
             ),
-            ServerButtons()
           ],
         ),
         Divider(
