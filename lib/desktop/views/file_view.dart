@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/desktop/components/file_item.dart';
 import 'package:server_express/desktop/components/header/file_header.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
@@ -19,7 +20,9 @@ class _FileViewState extends State<FileView> {
   @override
   void initState() {
     super.initState();
-    fileController.getFiles();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fileController.getFiles(context);
+    });
   }
 
   @override
@@ -32,10 +35,7 @@ class _FileViewState extends State<FileView> {
             child: ListView.builder(
               itemCount: fileController.files.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(fileController.files[index].name),
-                  subtitle: Text(fileController.files[index].size.toString()),
-                );
+                return FileItem(file: fileController.files[index]);
               },
             ),
           ),
