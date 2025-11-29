@@ -4,6 +4,7 @@ import 'package:server_express/desktop/components/file_item.dart';
 import 'package:server_express/desktop/components/header/file_header.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
+import 'package:path/path.dart' as p;
 
 class FileView extends StatefulWidget {
   const FileView({super.key});
@@ -31,6 +32,38 @@ class _FileViewState extends State<FileView> {
       ()=>Column(
         children: [
           FileHeader(),
+          SizedBox(
+            height: 35,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: p.split(fileController.path.value).length,
+              itemBuilder: (BuildContext context, int index){
+                // return Text(index==0 || index==1 ? p.split(fileController.path.value)[index] : "/${p.split(fileController.path.value)[index]}");
+                if(index==0){
+                  return TextButton(
+                    onPressed: (){
+                      fileController.path.value = "/";
+                      fileController.getFiles(context);
+                    }, 
+                    child: Text("Root")
+                  );
+                }else{
+                  return Row(
+                    children: [
+                      Text("/"),
+                      TextButton(
+                        onPressed: (){
+                          fileController.path.value = p.split(fileController.path.value).sublist(0, index+1).join("/");
+                          fileController.getFiles(context);
+                        }, 
+                        child: Text(p.split(fileController.path.value)[index])
+                      )
+                    ],
+                  );
+                }
+              }
+            )
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: fileController.files.length,
