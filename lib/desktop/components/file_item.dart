@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/getx/file_controller.dart';
+import 'package:path/path.dart' as p;
 
 class FileItem extends StatefulWidget {
 
@@ -39,7 +40,7 @@ class _FileItemState extends State<FileItem> {
       trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
       onTap: (){
         if(widget.file.isDir){
-          Get.find<FileController>().path.value+="/${widget.file.name}";
+          Get.find<FileController>().path.value=p.join(Get.find<FileController>().path.value, widget.file.name);
           Get.find<FileController>().getFiles(context);
         }else{
           // TODO For file
