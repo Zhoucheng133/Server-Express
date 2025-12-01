@@ -30,4 +30,5 @@ const Map<String, String> enUS = {
   'parentFolder': 'Parent Folder',
   'noPath': "Can't open this path",
   'cantDownload': 'Can\'t download this file',
+  'connecting': 'Connecting...',
 };

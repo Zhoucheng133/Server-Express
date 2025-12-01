@@ -147,6 +147,7 @@ class ServerController extends GetxController {
       context: context, 
       barrierDismissible: false,
       builder: (context) => AlertDialog(
+        title: Text('connecting'.tr),
         content: SizedBox(
           width: 100,
           height: 100,

@@ -30,4 +30,5 @@ const Map<String, String> zhCN = {
   'parentFolder': '上层目录',
   'noPath': '无法打开这个目录',
   'cantDownload': '无法下载这个文件',
+  'connecting': '正在连接...',
 };
