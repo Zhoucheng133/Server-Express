@@ -31,4 +31,9 @@ const Map<String, String> zhCN = {
   'noPath': '无法打开这个目录',
   'cantDownload': '无法下载这个文件',
   'connecting': '正在连接...',
+  'rename': '重命名',
+  'open': '打开',
+  'deleteFileTitle': '确定要删除这个文件/目录吗?',
+  'deleteFileContent': '这是一个不可逆的操作!',
+  'cantDelete': '无法删除这个文件/目录',
 };

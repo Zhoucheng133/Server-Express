@@ -31,4 +31,9 @@ const Map<String, String> enUS = {
   'noPath': "Can't open this path",
   'cantDownload': 'Can\'t download this file',
   'connecting': 'Connecting...',
+  'rename': 'Rename',
+  'open': 'Open',
+  'deleteFileTitle': 'Delete this file (or folder)?',
+  'deleteFileContent': 'This is an irreversible operation!',
+  'cantDelete': 'Can\'t delete this file (or folder)',
 };

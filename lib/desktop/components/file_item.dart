@@ -35,23 +35,98 @@ class _FileItemState extends State<FileItem> {
 
   final FileController fileController=Get.find();
 
+  Future<void> showFuncMenu(BuildContext context, TapDownDetails details) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final Offset position = overlay.localToGlobal(details.globalPosition);
+    var val=await showMenu(
+      context: context,
+      // 菜单位置
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        position.dx + 50,
+        position.dy + 50,
+      ),
+      items: [
+        PopupMenuItem(
+          height: 35,
+          value: "open",
+          child: Row(
+            children: [
+              Icon(
+                Icons.open_in_new_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('open'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
+          value: "rename",
+          child: Row(
+            children: [
+              Icon(
+                Icons.edit_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('rename'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
+          value: "delete",
+          child: Row(
+            children: [
+              Icon(
+                Icons.delete_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('delete'.tr),
+            ],
+          ),
+        ),
+      ]
+    );
+    switch (val) {
+      case "open":
+        if(context.mounted) openHandler(context);
+        break;
+      case "rename":
+        // TODO: Rename.
+        break;
+      case "delete":
+        if(context.mounted) fileController.deleteFile(context, p.join(fileController.path.value, widget.file.name));
+        break;
+    }
+  }
+
+  Future<void> openHandler(BuildContext context) async {
+    if(widget.file.isDir){
+      fileController.path.value=p.join(fileController.path.value, widget.file.name);
+      fileController.getFiles(context);
+    }else{
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+      if (selectedDirectory != null && context.mounted) {
+        fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
-      title: Text(widget.file.name),
-      trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
-      onTap: () async {
-        if(widget.file.isDir){
-          fileController.path.value=p.join(Get.find<FileController>().path.value, widget.file.name);
-          fileController.getFiles(context);
-        }else{
-          String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-          if (selectedDirectory != null && context.mounted) {
-            fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
-          }
-        }
-      },
+    return GestureDetector(
+      onSecondaryTapDown: (val)=>showFuncMenu(context, val),
+      child: ListTile(
+        leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
+        title: Text(widget.file.name),
+        trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
+        onTap: ()=>openHandler(context)
+      ),
     );
   }
 }

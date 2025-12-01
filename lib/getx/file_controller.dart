@@ -63,4 +63,16 @@ class FileController extends GetxController {
       showGeneralOk(context, "cantDownload".tr, message);
     }
   }
+
+  void deleteFile(BuildContext context, String path) async { 
+    bool ok=await showGeneralConfirm(context, "deleteFileTitle".tr, "deleteFileContent".tr, okText: 'delete'.tr, );
+    if(ok){
+      String message=await Get.find<SshController>().sftpDelete(path);
+      if(!message.contains("OK") && context.mounted){
+        showGeneralOk(context, "cantDelete".tr, message);
+      }else if(context.mounted){
+        getFiles(context);
+      }
+    }
+  }
 }

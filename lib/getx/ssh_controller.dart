@@ -107,4 +107,8 @@ class SshController extends GetxController {
   Future<String> sftpDownload(String path, String local) async {
     return await compute(sftpDownloadHandler, [path, local]);
   }
+
+  Future<String> sftpDelete(String path) async {
+    return await compute(sftpDeleteHandler, path);
+  }
 }
