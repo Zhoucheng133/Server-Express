@@ -121,11 +121,18 @@ class _FileItemState extends State<FileItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onSecondaryTapDown: (val)=>showFuncMenu(context, val),
-      child: ListTile(
-        leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
-        title: Text(widget.file.name),
-        trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
-        onTap: ()=>openHandler(context)
+      child: Tooltip(
+        message: widget.file.name,
+        waitDuration: Duration(milliseconds: 500),
+        child: ListTile(
+          leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
+          title: Text(
+            widget.file.name,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
+          onTap: ()=>openHandler(context)
+        ),
       ),
     );
   }
