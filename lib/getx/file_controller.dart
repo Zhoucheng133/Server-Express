@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:server_express/desktop/components/dialogs/general.dart';
 import 'package:server_express/getx/ssh_controller.dart';
+import 'package:path/path.dart' as p;
 
 class FileClass{
   String name;
@@ -65,7 +66,11 @@ class FileController extends GetxController {
   }
 
   void deleteFile(BuildContext context, String path) async { 
-    bool ok=await showGeneralConfirm(context, "deleteFileTitle".tr, "deleteFileContent".tr, okText: 'delete'.tr, );
+    bool ok=await showGeneralConfirm(
+      context, "deleteFileTitle".tr, 
+      "${'delete'.tr}: ${p.basename(path)}\n${'deleteFileContent'.tr}", 
+      okText: 'delete'.tr, 
+    );
     if(ok){
       String message=await Get.find<SshController>().sftpDelete(path);
       if(!message.contains("OK") && context.mounted){
