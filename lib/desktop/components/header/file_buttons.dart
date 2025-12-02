@@ -97,9 +97,43 @@ class _FileButtonsState extends State<FileButtons> {
     }
   }
 
+  void uploadDir(BuildContext context) async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if (selectedDirectory != null) {
+      if(context.mounted){
+        showDialog(
+          context: context, 
+          builder: (context)=>AlertDialog(
+            title: Text("uploading".tr),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                const SizedBox(height: 10,),
+                Obx(()=>
+                  Text("${'upload'.tr}: ${progressFileName.value}")
+                )
+              ]
+            ),
+          )
+        );
+      }
+      progressFileName.value=p.basename(selectedDirectory);
+      String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(selectedDirectory)), selectedDirectory);
+      if(context.mounted && msg.contains("OK")){
+        await fileController.getFiles(context);
+      }else if(context.mounted){
+        showGeneralOk(context, "uploadFail".tr, msg);
+      }
+      if(context.mounted) Navigator.pop(context);
+      progressFileName.value = "";
+    }
+  }
+
   Future<void> upload(BuildContext context) async {
-    // TODO 临时，直接上传文件
-    uploadFile(context);
+    // TODO 临时
+    // uploadFile(context);
+    uploadDir(context);
   }
 
   @override
