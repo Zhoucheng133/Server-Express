@@ -36,4 +36,7 @@ const Map<String, String> enUS = {
   'deleteFileTitle': 'Delete this file (or folder)?',
   'deleteFileContent': 'This is an irreversible operation!',
   'cantDelete': 'Can\'t delete this file (or folder)',
+  'upload': 'Upload',
+  'uploadFail': 'Upload failed',
+  'uploading': 'Uploading...'
 };

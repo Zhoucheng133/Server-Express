@@ -29,6 +29,10 @@ typedef SftpRenameDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef DisconnectNative = Pointer<Utf8> Function();
 typedef DisconnectDart = Pointer<Utf8> Function();
 
+// func SftpUpload(path *C.char, local *C.char) *C.char
+typedef SftpUploadNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
+typedef SftpUploadDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
+
 class SshController extends GetxController {
   static String sshLoginHandler(List params){
     String url=params[0];
@@ -83,6 +87,18 @@ class SshController extends GetxController {
     return sftpDownload(path.toNativeUtf8(), newName.toNativeUtf8()).toDartString();
   }
 
+  static String uploadHandler(List params){
+    String path=params[0]; 
+    String local=params[1];
+
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final SftpUploadNative sftpUpload=dynamicLib
+    .lookup<NativeFunction<SftpUploadDart>>('SftpUpload')
+    .asFunction();
+
+    return sftpUpload(path.toNativeUtf8(), local.toNativeUtf8()).toDartString();
+  }
+
   static String disconnectHandler(List params){
     final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
     final DisconnectNative disconnect=dynamicLib
@@ -110,5 +126,13 @@ class SshController extends GetxController {
 
   Future<String> sftpDelete(String path) async {
     return await compute(sftpDeleteHandler, path);
+  }
+
+  Future<String> sftpRename(String path, String newName) async {
+    return await compute(sftpRenameHandler, [path, newName]);
+  }
+
+  Future<String> sftpUpload(String path, String local) async {
+    return await compute(uploadHandler, [path, local]);
   }
 }

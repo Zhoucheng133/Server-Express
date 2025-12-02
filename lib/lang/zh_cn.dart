@@ -36,4 +36,7 @@ const Map<String, String> zhCN = {
   'deleteFileTitle': '确定要删除这个文件/目录吗?',
   'deleteFileContent': '这是一个不可逆的操作!',
   'cantDelete': '无法删除这个文件/目录',
+  'upload': '上传',
+  'uploadFail': '上传失败',
+  'uploading': '正在上传...'
 };
