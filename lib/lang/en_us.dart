@@ -41,4 +41,6 @@ const Map<String, String> enUS = {
   'uploading': 'Uploading...',
   'uploadFile': 'Upload File',
   'uploadDir': 'Upload Folder',
+  'copyPath': 'Copy Path',
+  'copyDirPath': 'Copy Folder Path',
 };

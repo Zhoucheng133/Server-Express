@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -78,6 +79,34 @@ class _FileItemState extends State<FileItem> {
         ),
         PopupMenuItem(
           height: 35,
+          value: "copyPath",
+          child: Row(
+            children: [
+              Icon(
+                Icons.copy_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('copyPath'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
+          value: "copyDirPath",
+          child: Row(
+            children: [
+              Icon(
+                Icons.copy_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('copyDirPath'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
           value: "delete",
           child: Row(
             children: [
@@ -102,6 +131,10 @@ class _FileItemState extends State<FileItem> {
       case "delete":
         if(context.mounted) fileController.deleteFile(context, p.join(fileController.path.value, widget.file.name));
         break;
+      case "copyPath":
+        await FlutterClipboard.copy(p.join(fileController.path.value, widget.file.name));
+      case "copyDirPath":
+        await FlutterClipboard.copy(fileController.path.value);
     }
   }
 

@@ -41,4 +41,6 @@ const Map<String, String> zhCN = {
   'uploading': '正在上传...',
   'uploadFile': '上传文件',
   'uploadDir': '上传目录',
+  'copyPath': '复制路径',
+  'copyDirPath': '复制目录路径',
 };
