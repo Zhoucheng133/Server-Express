@@ -38,5 +38,7 @@ const Map<String, String> enUS = {
   'cantDelete': 'Can\'t delete this file (or folder)',
   'upload': 'Upload',
   'uploadFail': 'Upload failed',
-  'uploading': 'Uploading...'
+  'uploading': 'Uploading...',
+  'uploadFile': 'Upload File',
+  'uploadDir': 'Upload Folder',
 };

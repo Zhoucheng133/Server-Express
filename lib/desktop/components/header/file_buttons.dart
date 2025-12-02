@@ -30,6 +30,7 @@ class _FileButtonsState extends State<FileButtons> {
     if(ok){
       await sshController.disconnect();
       serverController.nowServer.value=null;
+      fileController.path.value="/";
     }
   }
 
@@ -131,9 +132,34 @@ class _FileButtonsState extends State<FileButtons> {
   }
 
   Future<void> upload(BuildContext context) async {
-    // TODO 临时
-    // uploadFile(context);
-    uploadDir(context);
+    final rootContext = context;
+    showDialog(
+      context: context, 
+      builder: (context)=>AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.upload_file_rounded),
+              title: Text('uploadFile'.tr),
+              onTap: (){
+                Navigator.pop(context);
+                uploadFile(rootContext);
+              }
+            ),
+            ListTile(
+              leading: const Icon(Icons.folder_rounded),
+              title: Text('uploadDir'.tr),
+              onTap: (){
+                Navigator.pop(context);
+                uploadDir(rootContext);
+              },
+            )
+          ],
+        ),
+      )
+    );
   }
 
   @override

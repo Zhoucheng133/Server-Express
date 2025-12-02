@@ -38,5 +38,7 @@ const Map<String, String> zhCN = {
   'cantDelete': '无法删除这个文件/目录',
   'upload': '上传',
   'uploadFail': '上传失败',
-  'uploading': '正在上传...'
+  'uploading': '正在上传...',
+  'uploadFile': '上传文件',
+  'uploadDir': '上传目录',
 };
