@@ -126,7 +126,7 @@ class _FileItemState extends State<FileItem> {
         if(context.mounted) openHandler(context);
         break;
       case "rename":
-        // TODO: Rename.
+        if(context.mounted) fileController.renameFile(context, p.join(fileController.path.value, widget.file.name));
         break;
       case "delete":
         if(context.mounted) fileController.deleteFile(context, p.join(fileController.path.value, widget.file.name));

@@ -43,4 +43,7 @@ const Map<String, String> zhCN = {
   'uploadDir': '上传目录',
   'copyPath': '复制路径',
   'copyDirPath': '复制目录路径',
+  'newName': '新名称',
+  'renameFail': '重命名失败',
+  'renameEmpty': '新名称不能为空',
 };

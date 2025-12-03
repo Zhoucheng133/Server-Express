@@ -43,4 +43,7 @@ const Map<String, String> enUS = {
   'uploadDir': 'Upload Folder',
   'copyPath': 'Copy Path',
   'copyDirPath': 'Copy Folder Path',
+  'newName': 'New Name',
+  'renameFail': 'Rename failed',
+  'renameEmpty': 'New name can\'t be empty',
 };

@@ -80,4 +80,44 @@ class FileController extends GetxController {
       }
     }
   }
+
+  void renameFile(BuildContext context, String path) async {
+    final controller=TextEditingController(text: p.basename(path));
+    showDialog(
+      context: context, 
+      builder: (context)=>AlertDialog(
+        title: Text("rename".tr,),
+        content: StatefulBuilder(
+          builder: (context, setState)=>TextField(
+            decoration: InputDecoration(
+              labelText: "newName".tr,
+            ),
+            controller: controller,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: ()=>Navigator.pop(context),
+            child: Text("cancel".tr),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if(controller.text.isEmpty){
+                showGeneralOk(context, "renameFail".tr, "renameEmpty".tr);
+                return;
+              }
+              String message=await Get.find<SshController>().sftpRename(path, controller.text);
+              if(context.mounted && !message.contains("OK")){
+                showGeneralOk(context, "renameFail".tr, message);
+              }else if(context.mounted){
+                Navigator.pop(context);
+                getFiles(context);
+              }
+            }, 
+            child: Text('rename'.tr)
+          )
+        ],
+      )
+    );
+  }
 }
