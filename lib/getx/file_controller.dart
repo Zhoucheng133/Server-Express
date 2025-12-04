@@ -62,7 +62,7 @@ class FileController extends GetxController {
     }
   }
 
-  void downloadFile(BuildContext context, String path, String local) async {
+  Future<void> downloadFile(BuildContext context, String path, String local) async {
     String message=await Get.find<SshController>().sftpDownload(path, local);
     if(!message.contains("OK") && context.mounted){
       showGeneralOk(context, "cantDownload".tr, message);
@@ -141,14 +141,34 @@ class FileController extends GetxController {
     }
   }
 
+  RxString nowDownloadFile=RxString("");
+
   void downloadSelected(BuildContext context) async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if (selectedDirectory != null && context.mounted) {
+      showDialog(
+        context: context, 
+        builder: (context)=>AlertDialog(
+          title: Text("downloading".tr),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              const SizedBox(height: 10,),
+              Obx(()=>Text("${'download'.tr}: ${nowDownloadFile.value}")),
+            ]
+          ),
+        )
+      );
       for (var file in files) {
         if(file.selcted){
-          downloadFile(context, p.join(path.value, file.name), selectedDirectory);
+          nowDownloadFile.value=file.name;
+          await downloadFile(context, p.join(path.value, file.name), selectedDirectory);
         }
       }
+      if(context.mounted) Navigator.pop(context);
+      selectMode.value=false;
+      nowDownloadFile.value="";
     }
   }
 }

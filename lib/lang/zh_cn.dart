@@ -50,4 +50,5 @@ const Map<String, String> zhCN = {
   'deleteSelectedContent': '这是一个不可逆的操作!',
   'unselect': '取消选择',
   'download': '下载',
+  'downloading': '正在下载...',
 };

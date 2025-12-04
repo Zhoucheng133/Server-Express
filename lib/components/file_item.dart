@@ -149,7 +149,22 @@ class _FileItemState extends State<FileItem> {
     }else{
       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
       if (selectedDirectory != null && context.mounted) {
-        fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
+        showDialog(
+          context: context, 
+          builder: (context)=>AlertDialog(
+            title: Text("downloading".tr),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                const SizedBox(height: 10,),
+                Text("${'download'.tr}: ${widget.file.name}")
+              ]
+            ),
+          )
+        );
+        await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
+        if(context.mounted) Navigator.pop(context);
       }
     }
   }

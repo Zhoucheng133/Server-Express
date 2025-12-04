@@ -50,4 +50,5 @@ const Map<String, String> enUS = {
   'deleteSelectedContent': 'This is an irreversible operation!',
   'unselect': 'Unselect',
   'download': 'Download',
+  'downloading': 'Downloading...',
 };
