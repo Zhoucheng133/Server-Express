@@ -56,11 +56,11 @@ class _FileItemState extends State<FileItem> {
           child: Row(
             children: [
               Icon(
-                Icons.open_in_new_rounded,
+                widget.file.isDir ?  Icons.open_in_new_rounded : Icons.download_rounded,
                 size: 20,
               ),
               const SizedBox(width: 5,),
-              Text('open'.tr),
+              Text(widget.file.isDir ? 'open'.tr : 'download'.tr),
             ],
           ),
         ),
