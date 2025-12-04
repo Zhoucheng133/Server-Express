@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:server_express/desktop/components/header/server_buttons.dart';
+import 'package:server_express/components/header/server_buttons.dart';
 
 class ServerHeader extends StatefulWidget {
 

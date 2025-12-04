@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/dialogs/add_server.dart';
-import 'package:server_express/desktop/components/header/header_button_item.dart';
-import 'package:server_express/desktop/components/dialogs/settings.dart';
+import 'package:server_express/components/dialogs/add_server.dart';
+import 'package:server_express/components/header/header_button_item.dart';
+import 'package:server_express/components/dialogs/settings.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 
 class ServerButtons extends StatefulWidget {

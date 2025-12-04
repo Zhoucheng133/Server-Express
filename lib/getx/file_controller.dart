@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lpinyin/lpinyin.dart';
-import 'package:server_express/desktop/components/dialogs/general.dart';
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 import 'package:path/path.dart' as p;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:server_express/desktop/components/dialogs/edit_server.dart';
-import 'package:server_express/desktop/components/dialogs/general.dart';
+import 'package:server_express/components/dialogs/edit_server.dart';
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/server_controller.dart';
 
 class ServerItem extends StatefulWidget {

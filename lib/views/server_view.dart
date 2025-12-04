@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/header/server_header.dart';
-import 'package:server_express/desktop/components/server_item.dart';
+import 'package:server_express/components/header/server_header.dart';
+import 'package:server_express/components/server_item.dart';
 import 'package:server_express/getx/server_controller.dart';
 
 class ServerView extends StatefulWidget {

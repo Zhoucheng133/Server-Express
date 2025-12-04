@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/file_item.dart';
-import 'package:server_express/desktop/components/header/file_header.dart';
+import 'package:server_express/components/file_item.dart';
+import 'package:server_express/components/header/file_header.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:path/path.dart' as p;

@@ -1,8 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:server_express/desktop/components/dialogs/general.dart';
-import 'package:server_express/desktop/components/header/header_button_item.dart';
+import 'package:server_express/components/dialogs/general.dart';
+import 'package:server_express/components/header/header_button_item.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
