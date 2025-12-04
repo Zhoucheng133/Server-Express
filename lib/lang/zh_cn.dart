@@ -49,4 +49,5 @@ const Map<String, String> zhCN = {
   'deleteSelected': '删除选中的文件(或文件夹)?',
   'deleteSelectedContent': '这是一个不可逆的操作!',
   'unselect': '取消选择',
+  'download': '下载',
 };

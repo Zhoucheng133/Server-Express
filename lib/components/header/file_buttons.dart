@@ -174,6 +174,7 @@ class _FileButtonsState extends State<FileButtons> {
           HeaderButtonItem(buttonSide: ButtonSide.left, func: () => disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.deletSelected(context), icon: Icons.delete_rounded, text: "delete".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>toggleSelectMode(), icon: Icons.check_box_outline_blank_rounded, text: "unselect".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.downloadSelected(context), icon: Icons.download_rounded, text: "download".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
         ] : [
           HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),

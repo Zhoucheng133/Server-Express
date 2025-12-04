@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lpinyin/lpinyin.dart';
@@ -137,6 +138,17 @@ class FileController extends GetxController {
       }
       if(context.mounted) getFiles(context);
       selectMode.value=false;
+    }
+  }
+
+  void downloadSelected(BuildContext context) async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if (selectedDirectory != null && context.mounted) {
+      for (var file in files) {
+        if(file.selcted){
+          downloadFile(context, p.join(path.value, file.name), selectedDirectory);
+        }
+      }
     }
   }
 }

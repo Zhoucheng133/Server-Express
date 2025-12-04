@@ -49,4 +49,5 @@ const Map<String, String> enUS = {
   'deleteSelected': 'Delete Selected Files (or Folders)?',
   'deleteSelectedContent': 'This is an irreversible operation!',
   'unselect': 'Unselect',
+  'download': 'Download',
 };
