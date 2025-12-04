@@ -8,8 +8,9 @@ import 'package:path/path.dart' as p;
 class FileItem extends StatefulWidget {
 
   final FileClass file;
+  final int index;
 
-  const FileItem({super.key, required this.file});
+  const FileItem({super.key, required this.file, required this.index});
 
   @override
   State<FileItem> createState() => _FileItemState();
@@ -139,7 +140,10 @@ class _FileItemState extends State<FileItem> {
   }
 
   Future<void> openHandler(BuildContext context) async {
-    if(widget.file.isDir){
+    if(fileController.selectMode.value){
+      fileController.files[widget.index].selcted=!fileController.files[widget.index].selcted;
+      fileController.files.refresh();
+    }else if(widget.file.isDir){
       fileController.path.value=p.join(fileController.path.value, widget.file.name);
       fileController.getFiles(context);
     }else{
@@ -158,7 +162,22 @@ class _FileItemState extends State<FileItem> {
         message: widget.file.name,
         waitDuration: Duration(milliseconds: 500),
         child: ListTile(
-          leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
+          leading: Obx(()=>
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if(fileController.selectMode.value) Checkbox(
+                  splashRadius: 0,
+                  value: widget.file.selcted,
+                  onChanged: (val){
+                    fileController.files[widget.index].selcted=val!;
+                    fileController.files.refresh();
+                  },
+                ),
+                widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded)
+              ],
+            ),
+          ),
           title: Text(
             widget.file.name,
             overflow: TextOverflow.ellipsis,

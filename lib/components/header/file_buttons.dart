@@ -162,6 +162,10 @@ class _FileButtonsState extends State<FileButtons> {
     );
   }
 
+  void toggleSelectMode(){
+    fileController.selectMode.value=!fileController.selectMode.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -169,7 +173,7 @@ class _FileButtonsState extends State<FileButtons> {
         HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
         HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
         HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>parentFolder(context), icon: Icons.keyboard_arrow_up_rounded, text: "parentFolder".tr),
-        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>{}, icon: Icons.check_box_rounded, text: "select".tr),
+        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
         HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
       ],
     );

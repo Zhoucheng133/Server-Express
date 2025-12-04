@@ -33,6 +33,7 @@ class FileClass{
 class FileController extends GetxController {
   RxString path="/".obs;
   RxList<FileClass> files=<FileClass>[].obs;
+  RxBool selectMode=false.obs;
 
   Future<void> getFiles(BuildContext context) async {
     final SshController sshController=Get.find();

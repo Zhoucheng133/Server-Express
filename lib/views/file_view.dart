@@ -43,6 +43,8 @@ class _FileViewState extends State<FileView> {
                     onPressed: (){
                       fileController.path.value = "/";
                       fileController.getFiles(context);
+                      fileController.selectMode.value = false;
+                      fileController.getFiles(context);
                     }, 
                     child: Text("Root")
                   );
@@ -53,6 +55,7 @@ class _FileViewState extends State<FileView> {
                       TextButton(
                         onPressed: (){
                           fileController.path.value = p.split(fileController.path.value).sublist(0, index+1).join("/");
+                          fileController.selectMode.value = false;
                           fileController.getFiles(context);
                         }, 
                         child: Text(p.split(fileController.path.value)[index])
@@ -67,7 +70,7 @@ class _FileViewState extends State<FileView> {
             child: ListView.builder(
               itemCount: fileController.files.length,
               itemBuilder: (BuildContext context, int index) {
-                return FileItem(file: fileController.files[index]);
+                return FileItem(file: fileController.files[index], index: index,);
               },
             ),
           ),
