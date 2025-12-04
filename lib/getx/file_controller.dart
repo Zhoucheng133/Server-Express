@@ -62,11 +62,13 @@ class FileController extends GetxController {
     }
   }
 
-  Future<void> downloadFile(BuildContext context, String path, String local) async {
+  Future<String> downloadFile(BuildContext context, String path, String local) async {
     String message=await Get.find<SshController>().sftpDownload(path, local);
     if(!message.contains("OK") && context.mounted){
       showGeneralOk(context, "cantDownload".tr, message);
+      return message;
     }
+    return message;
   }
 
   void deleteFile(BuildContext context, String path) async { 
@@ -184,14 +186,25 @@ class FileController extends GetxController {
           ),
         )
       );
+      String message="";
       for (var file in files) {
         if(file.selcted){
           nowDownloadFile.value=file.name;
-          await downloadFile(context, p.join(path.value, file.name), selectedDirectory);
+          message=await downloadFile(context, p.join(path.value, file.name), selectedDirectory);
+          if(!message.contains("OK")){
+            break;
+          }
           downloadIndex.value++;
         }
       }
-      if(context.mounted) Navigator.pop(context);
+      if(context.mounted && message.contains("OK")){
+        Navigator.pop(context);
+      }else if(context.mounted){
+        Navigator.pop(context);
+        Navigator.pop(context);
+        showGeneralOk(context, "cantDownload".tr, message);
+      }
+
       selectMode.value=false;
       nowDownloadFile.value="";
       downloadCount.value=0;
