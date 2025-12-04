@@ -51,4 +51,6 @@ const Map<String, String> enUS = {
   'unselect': 'Unselect',
   'download': 'Download',
   'downloading': 'Downloading...',
+  'noSelect': 'No file selected',
+  'noSelectContent': 'Please select a file or folder',
 };

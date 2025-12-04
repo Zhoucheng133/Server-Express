@@ -126,6 +126,11 @@ class FileController extends GetxController {
   }
 
   Future<void> deletSelected(BuildContext context) async {
+    int selectCount=files.where((element) => element.selcted).length;
+    if(selectCount==0){
+      showGeneralOk(context, "noSelect".tr, "noSelectContent".tr);
+      return;
+    }
     bool ok=await showGeneralConfirm(context, "deleteSelected".tr, "deleteSelectedContent".tr, okText: 'delete'.tr, );
     if(ok){
       for (var file in files) {
@@ -142,10 +147,28 @@ class FileController extends GetxController {
   }
 
   RxString nowDownloadFile=RxString("");
+  RxInt downloadCount=RxInt(0);
+  RxInt downloadIndex=RxInt(0);
+
+  void toggleSelectMode(){
+    selectMode.value=!selectMode.value;
+    for (var file in files) {
+      file.selcted=false;
+    }
+    files.refresh();
+  }
 
   void downloadSelected(BuildContext context) async {
+
+    downloadCount.value=files.where((element) => element.selcted).length;
+    if(downloadCount.value==0){
+      showGeneralOk(context, "noSelect".tr, "noSelectContent".tr);
+      return;
+    }
+
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if (selectedDirectory != null && context.mounted) {
+
       showDialog(
         context: context, 
         builder: (context)=>AlertDialog(
@@ -155,6 +178,7 @@ class FileController extends GetxController {
             children: [
               CircularProgressIndicator(),
               const SizedBox(height: 10,),
+              Obx(()=>Text("${downloadIndex.value} / ${downloadCount.value}")),
               Obx(()=>Text("${'download'.tr}: ${nowDownloadFile.value}")),
             ]
           ),
@@ -164,11 +188,14 @@ class FileController extends GetxController {
         if(file.selcted){
           nowDownloadFile.value=file.name;
           await downloadFile(context, p.join(path.value, file.name), selectedDirectory);
+          downloadIndex.value++;
         }
       }
       if(context.mounted) Navigator.pop(context);
       selectMode.value=false;
       nowDownloadFile.value="";
+      downloadCount.value=0;
+      downloadIndex.value=0;
     }
   }
 }
