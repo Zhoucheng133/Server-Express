@@ -11,7 +11,8 @@ class FileClass{
   String name;
   bool isDir;
   int? size;
-  FileClass({required this.name, required this.isDir, required this.size});
+  bool selcted;
+  FileClass({required this.name, required this.isDir, required this.size, this.selcted=false});
 
   factory FileClass.fromJson(Map<String, dynamic> json) {
     return FileClass(
@@ -25,6 +26,7 @@ class FileClass{
     'name': name,
     'isDir': isDir,
     'size': size,
+    'selcted': selcted,
   };
 }
 
