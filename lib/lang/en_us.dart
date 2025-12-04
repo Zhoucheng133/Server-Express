@@ -46,4 +46,7 @@ const Map<String, String> enUS = {
   'newName': 'New Name',
   'renameFail': 'Rename failed',
   'renameEmpty': 'New name can\'t be empty',
+  'deleteSelected': 'Delete Selected Files (or Folders)?',
+  'deleteSelectedContent': 'This is an irreversible operation!',
+  'unselect': 'Unselect',
 };

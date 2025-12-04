@@ -123,4 +123,20 @@ class FileController extends GetxController {
       )
     );
   }
+
+  Future<void> deletSelected(BuildContext context) async {
+    bool ok=await showGeneralConfirm(context, "deleteSelected".tr, "deleteSelectedContent".tr, okText: 'delete'.tr, );
+    if(ok){
+      for (var file in files) {
+        if(file.selcted && context.mounted){
+          String message=await Get.find<SshController>().sftpDelete(p.join(path.value, file.name));
+          if(!message.contains("OK") && context.mounted){
+            showGeneralOk(context, "cantDelete".tr, message);
+          }
+        }
+      }
+      if(context.mounted) getFiles(context);
+      selectMode.value=false;
+    }
+  }
 }

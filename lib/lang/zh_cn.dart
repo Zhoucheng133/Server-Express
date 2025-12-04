@@ -46,4 +46,7 @@ const Map<String, String> zhCN = {
   'newName': '新名称',
   'renameFail': '重命名失败',
   'renameEmpty': '新名称不能为空',
+  'deleteSelected': '删除选中的文件(或文件夹)?',
+  'deleteSelectedContent': '这是一个不可逆的操作!',
+  'unselect': '取消选择',
 };

@@ -168,14 +168,21 @@ class _FileButtonsState extends State<FileButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
-        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
-        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>parentFolder(context), icon: Icons.keyboard_arrow_up_rounded, text: "parentFolder".tr),
-        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
-        HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
-      ],
+    return Obx(
+      ()=>Row(
+        children: fileController.selectMode.value ? [
+          HeaderButtonItem(buttonSide: ButtonSide.left, func: () => disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.deletSelected(context), icon: Icons.delete_rounded, text: "delete".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>toggleSelectMode(), icon: Icons.check_box_outline_blank_rounded, text: "unselect".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
+        ] : [
+          HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>parentFolder(context), icon: Icons.keyboard_arrow_up_rounded, text: "parentFolder".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
+        ],
+      )
     );
   }
 }
