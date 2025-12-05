@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/components/system_menu.dart';
 import 'package:server_express/views/file_view.dart';
 import 'package:server_express/views/server_view.dart';
 import 'package:server_express/getx/server_controller.dart';
@@ -85,7 +86,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 serverController.nowServer.value==null ? ServerView() : FileView()
               ),
             )
-          )
+          ),
+          if(Platform.isMacOS) SystemMenu()
         ],
       ),
     );
