@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/components/dialogs/about.dart';
 import 'package:server_express/components/dialogs/add_server.dart';
 import 'package:server_express/components/header/header_button_item.dart';
 import 'package:server_express/components/dialogs/settings.dart';
@@ -23,7 +24,8 @@ class _ServerButtonsState extends State<ServerButtons> {
         HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>showAddServer(context), icon: Icons.add_rounded, text: "addServer".tr),
         // 测试按钮
         HeaderButtonItem(buttonSide: ButtonSide.mid,  func: ()=>sshController.disconnect(), icon: Icons.link_off_rounded, text: "断开连接",),
-        HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>showSettings(context), icon: Icons.settings_rounded, text: "settings".tr),
+        HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>showSettings(context), icon: Icons.settings_rounded, text: "settings".tr),
+        HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.info_rounded, text: "about".tr, func: ()=>showAbout(context))
       ],
     );
   }
