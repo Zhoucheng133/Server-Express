@@ -63,4 +63,5 @@ const Map<String, String> zhCN = {
   "Copy": "复制",
   "Paste": "粘贴",
   "Select All": "全选",
+  'fileNameRepeat': '文件名重复',
 };

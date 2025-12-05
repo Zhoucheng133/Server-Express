@@ -46,10 +46,23 @@ class _FileButtonsState extends State<FileButtons> {
     await fileController.getFiles(context);
   }
 
+  bool matchName(List<String> names){
+    List listNames = fileController.files.map((file) => file.name).toList();
+    return names.any((name) => listNames.contains(name));
+  }
+
   Future<void> uploadFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result != null) {
       List paths = result.paths;
+
+      List<String> fileNames=paths.map((path) => p.basename(path)).toList();
+      
+      if(matchName(fileNames) && context.mounted){
+        showGeneralOk(context, "uploadFail".tr, "fileNameRepeat".tr);
+        return;
+      }
+      
 
       if(context.mounted){
         showDialog(
@@ -101,6 +114,12 @@ class _FileButtonsState extends State<FileButtons> {
   void uploadDir(BuildContext context) async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if (selectedDirectory != null) {
+      
+      if(matchName([p.basename(selectedDirectory)]) && context.mounted){
+        showGeneralOk(context, "uploadFail".tr, "fileNameRepeat".tr);
+        return;
+      }
+
       if(context.mounted){
         showDialog(
           context: context, 
