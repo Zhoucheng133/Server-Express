@@ -22,6 +22,7 @@ class _ServerButtonsState extends State<ServerButtons> {
     return Row(
       children: [
         HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>showAddServer(context), icon: Icons.add_rounded, text: "addServer".tr),
+        // 临时
         // HeaderButtonItem(buttonSide: ButtonSide.mid,  func: ()=>sshController.disconnect(), icon: Icons.link_off_rounded, text: "断开连接",),
         HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.info_rounded, text: "about".tr, func: ()=>showAbout(context))
       ],

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,24 @@ class FileController extends GetxController {
     }
   }
 
+  bool checkDownload(List<String> fileNames, String local){
+    final directory=Directory(local);
+    for (var entity in directory.listSync()) {
+      if (entity is File) {
+        final name = p.basename(entity.path);
+        if (fileNames.contains(name)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   Future<String> downloadFile(BuildContext context, String path, String local) async {
+    if(!checkDownload([p.basename(path)], local)){
+      return "ERR: ${p.basename(path)} ${'alreadyExists'.tr}";
+    }
+
     String message=await Get.find<SshController>().sftpDownload(path, local);
     if(!message.contains("OK") && context.mounted){
       showGeneralOk(context, "cantDownload".tr, message);
@@ -171,6 +189,12 @@ class FileController extends GetxController {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if (selectedDirectory != null && context.mounted) {
 
+      final List<String> selectedFiles = files.where((element) => element.selcted).toList().map((item)=>item.name).toList();
+      if(!checkDownload(selectedFiles, selectedDirectory)){
+        showGeneralOk(context, "cantDownload".tr, 'alreadyExists'.tr);
+        return;
+      }
+
       showDialog(
         context: context, 
         builder: (context)=>AlertDialog(
@@ -200,7 +224,6 @@ class FileController extends GetxController {
       if(context.mounted && message.contains("OK")){
         Navigator.pop(context);
       }else if(context.mounted){
-        Navigator.pop(context);
         Navigator.pop(context);
         showGeneralOk(context, "cantDownload".tr, message);
       }

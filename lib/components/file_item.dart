@@ -2,6 +2,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:path/path.dart' as p;
 
@@ -163,8 +164,13 @@ class _FileItemState extends State<FileItem> {
             ),
           )
         );
-        await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
-        if(context.mounted) Navigator.pop(context);
+        final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
+        if(context.mounted && message.contains("OK")){
+          Navigator.pop(context);
+        }else if(context.mounted){
+          Navigator.pop(context);
+          showGeneralOk(context, "cantDownload".tr, message);
+        }
       }
     }
   }

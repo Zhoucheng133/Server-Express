@@ -64,4 +64,5 @@ const Map<String, String> zhCN = {
   "Paste": "粘贴",
   "Select All": "全选",
   'fileNameRepeat': '文件名重复',
+  'alreadyExists': '已经存在同名的文件或目录',
 };

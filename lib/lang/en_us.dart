@@ -64,4 +64,5 @@ const Map<String, String> enUS = {
   "Paste": "Paste",
   "Select All": "Select All",
   'fileNameRepeat': 'File name already exists',
+  'alreadyExists': 'Already exists',
 };
