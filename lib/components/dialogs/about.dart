@@ -16,10 +16,10 @@ Future<void> showAbout(BuildContext context) async {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Image.asset(
-            //   'assets/icon.png',
-            //   width: 100,
-            // ),
+            Image.asset(
+              'assets/icon.png',
+              width: 100,
+            ),
             const SizedBox(height: 10,),
             Text(
               'Server Express',
