@@ -80,11 +80,11 @@ class _MainAppState extends State<MainApp> {
             displayColor: Colors.white, 
           ),
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.yellow,
+            seedColor: Colors.blueGrey,
             brightness: Brightness.dark,
           ),
         ) : ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
           textTheme: GoogleFonts.notoSansScTextTheme(),
         ),
         home: MainWindow()
