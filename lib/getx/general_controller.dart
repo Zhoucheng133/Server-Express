@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GeneralController extends GetxController {
   Rx<Locale> lang=Rx(Locale("en", "US"));
+  RxBool autoDark=true.obs;
+  RxBool darkMode=false.obs;
 
   late SharedPreferences prefs;
 

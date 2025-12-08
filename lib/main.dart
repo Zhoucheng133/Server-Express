@@ -59,6 +59,13 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   final GeneralController controller=Get.find();
+  bool isDarkMode(Brightness brightness){
+    final GeneralController controller=Get.find();
+    if(controller.autoDark.value){
+      return brightness == Brightness.dark;
+    }
+    return controller.darkMode.value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +81,7 @@ class _MainAppState extends State<MainApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
-        theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
+        theme: isDarkMode(brightness) ? ThemeData.dark().copyWith(
           textTheme: GoogleFonts.notoSansScTextTheme().apply(
             bodyColor: Colors.white,
             displayColor: Colors.white, 
