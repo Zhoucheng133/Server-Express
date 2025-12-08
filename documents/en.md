@@ -8,6 +8,8 @@
 
 This is a SFTP client based on Flutter
 
+The core framework is available [here](https://github.com/Zhoucheng133/Server-Express-Core).
+
 ## Screenshot
 
 <img src="../demo/截图3.png" width="600px">

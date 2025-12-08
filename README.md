@@ -10,6 +10,8 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 
 这是一个SFTP客户端，基于Flutter
 
+核心组件[在这里](https://github.com/Zhoucheng133/Server-Express-Core)
+
 ## 截图
 
 <img src="demo/截图1.png" width="600px">
