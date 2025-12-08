@@ -10,4 +10,5 @@ This is a SFTP client based on Flutter
 
 ## Screenshot
 
-<img src="../demo/截图1.png" width="600px">
+<img src="../demo/截图3.png" width="600px">
+<img src="../demo/截图4.png" width="600px">

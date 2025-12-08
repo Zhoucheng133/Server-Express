@@ -13,3 +13,4 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 ## 截图
 
 <img src="demo/截图1.png" width="600px">
+<img src="demo/截图2.png" width="600px">
