@@ -155,6 +155,7 @@ class _FileButtonsState extends State<FileButtons> {
     showDialog(
       context: context, 
       builder: (context)=>AlertDialog(
+        clipBehavior: Clip.antiAlias,
         contentPadding: EdgeInsets.all(0),
         content: Column(
           mainAxisSize: MainAxisSize.min,
