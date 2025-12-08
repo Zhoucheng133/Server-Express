@@ -6,6 +6,9 @@
 
 ![License](https://img.shields.io/badge/License-MIT-dark_green)
 
+> [!NOTE]
+> There are some issues calling dynamic libraries under Windows, which are currently being addressed. 🏗️
+
 This is a SFTP client based on Flutter
 
 The core framework is available [here](https://github.com/Zhoucheng133/Server-Express-Core).
