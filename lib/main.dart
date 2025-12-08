@@ -74,7 +74,7 @@ class _MainAppState extends State<MainApp> {
     return Obx(()=>
       GetMaterialApp(
         translations: MainTranslations(),
-        locale: controller.lang.value,
+        locale: controller.lang.value.locale,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
