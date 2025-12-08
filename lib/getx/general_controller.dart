@@ -47,7 +47,10 @@ class GeneralController extends GetxController {
     Get.updateLocale(lang.value.locale);
   }
 
-  GeneralController(){
-    init();
+  void changeLanguage(int index){
+    lang.value=supportedLocales[index];
+    prefs.setInt("langIndex", index);
+    lang.refresh();
+    Get.updateLocale(lang.value.locale);
   }
 }

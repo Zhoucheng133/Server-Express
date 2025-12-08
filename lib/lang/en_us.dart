@@ -65,4 +65,9 @@ const Map<String, String> enUS = {
   "Select All": "Select All",
   'fileNameRepeat': 'File name already exists',
   'alreadyExists': 'Already exists',
+  'autoDark': 'Auto Dark Mode',
+  'darkMode': 'Dark Mode',
+  'close': 'Close',
+  'lang': 'Language',
+  'change': 'Change',
 };

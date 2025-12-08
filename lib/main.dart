@@ -34,7 +34,8 @@ Future<void> main() async {
 
   Get.put(SshController());
   Get.put(ServerController());
-  Get.put(GeneralController());
+  final controller=Get.put(GeneralController());
+  await controller.init();
   Get.put(FileController());
 
   runApp(const MainApp());

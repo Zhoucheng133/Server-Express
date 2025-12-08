@@ -65,4 +65,9 @@ const Map<String, String> zhCN = {
   "Select All": "全选",
   'fileNameRepeat': '文件名重复',
   'alreadyExists': '已经存在同名的文件或目录',
+  'autoDark': '自动深色模式',
+  'darkMode': '深色模式',
+  'close': '关闭',
+  'lang': '语言',
+  'change': '更改',
 };
