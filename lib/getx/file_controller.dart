@@ -197,6 +197,7 @@ class FileController extends GetxController {
 
       showDialog(
         context: context, 
+        barrierDismissible: false, 
         builder: (context)=>AlertDialog(
           title: Text("downloading".tr),
           content: Column(

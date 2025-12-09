@@ -152,6 +152,7 @@ class _FileItemState extends State<FileItem> {
       if (selectedDirectory != null && context.mounted) {
         showDialog(
           context: context, 
+          barrierDismissible: false, 
           builder: (context)=>AlertDialog(
             title: Text("downloading".tr),
             content: Column(

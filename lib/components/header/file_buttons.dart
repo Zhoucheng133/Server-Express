@@ -67,6 +67,7 @@ class _FileButtonsState extends State<FileButtons> {
       if(context.mounted){
         showDialog(
           context: context, 
+          barrierDismissible: false, 
           builder: (context)=>AlertDialog(
             title: Text("uploading".tr),
             content: Column(
@@ -123,6 +124,7 @@ class _FileButtonsState extends State<FileButtons> {
       if(context.mounted){
         showDialog(
           context: context, 
+          barrierDismissible: false, 
           builder: (context)=>AlertDialog(
             title: Text("uploading".tr),
             content: Column(
