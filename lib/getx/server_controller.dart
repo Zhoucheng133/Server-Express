@@ -91,6 +91,7 @@ class ServerController extends GetxController {
             if(message.contains("OK")) TextButton(
               onPressed: (){
                 nowServer.value=thisServer;
+                Navigator.pop(context);
               }, 
               child: Text("connect".tr)
             ),
