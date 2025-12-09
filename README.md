@@ -2,9 +2,6 @@
 
 Also available in English. Click [HERE](/documents/en.md) to view the English version of the README
 
-> [!NOTE]
-> 在Windows下调用动态库有些问题，正在处理中 🏗️
-
 ## 简介
 
 <img src="assets/icon.png" width="100px">
