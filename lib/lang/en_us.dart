@@ -70,4 +70,8 @@ const Map<String, String> enUS = {
   'close': 'Close',
   'lang': 'Language',
   'change': 'Change',
+  'addFolder': 'Add Folder',
+  'name': 'Name',
+  'addFolderFail': 'Add folder failed',
+  'nameNotEmpty': 'Name can\'t be empty',
 };

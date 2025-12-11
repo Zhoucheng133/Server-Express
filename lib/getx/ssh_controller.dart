@@ -33,6 +33,10 @@ typedef DisconnectDart = Pointer<Utf8> Function();
 typedef SftpUploadNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpUploadDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 
+// func SftpMkdir(path *C.char, name *C.char) *C.char
+typedef SftpMkdirNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
+typedef SftpMkdirDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
+
 class SshController extends GetxController {
   static String sshLoginHandler(List params){
     String url=params[0];
@@ -80,7 +84,7 @@ class SshController extends GetxController {
     String path=params[0]; 
     String newName=params[1];
     final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
-    final SftpRenameNative sftpDownload=dynamicLib
+    final SftpRenameDart sftpDownload=dynamicLib
     .lookup<NativeFunction<SftpRenameDart>>('SftpRename')
     .asFunction();
 
@@ -92,16 +96,27 @@ class SshController extends GetxController {
     String local=params[1];
 
     final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
-    final SftpUploadNative sftpUpload=dynamicLib
+    final SftpUploadDart sftpUpload=dynamicLib
     .lookup<NativeFunction<SftpUploadDart>>('SftpUpload')
     .asFunction();
 
     return sftpUpload(path.toNativeUtf8(), local.toNativeUtf8()).toDartString();
   }
 
+  static String mkdirHandler(List params){
+    String path=params[0];
+    String name=params[1];
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final SftpMkdirDart sftpMkdir=dynamicLib
+    .lookup<NativeFunction<SftpMkdirNative>>('SftpMkdir')
+    .asFunction();
+
+    return sftpMkdir(path.toNativeUtf8(), name.toNativeUtf8()).toDartString();
+  }
+
   static String disconnectHandler(List params){
     final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
-    final DisconnectNative disconnect=dynamicLib
+    final DisconnectDart disconnect=dynamicLib
     .lookup<NativeFunction<DisconnectDart>>('Disconnect')
     .asFunction();
 
@@ -134,5 +149,9 @@ class SshController extends GetxController {
 
   Future<String> sftpUpload(String path, String local) async {
     return await compute(uploadHandler, [path, local]);
+  }
+
+  Future<String> sftpMkdir(String path, String name) async {
+    return await compute(mkdirHandler, [path, name]);
   }
 }

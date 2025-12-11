@@ -70,4 +70,8 @@ const Map<String, String> zhCN = {
   'close': '关闭',
   'lang': '语言',
   'change': '更改',
+  'addFolder': '添加文件夹',
+  'name': '名称',
+  'addFolderFail': '添加文件夹失败',
+  'nameNotEmpty': '名称不能为空',
 };

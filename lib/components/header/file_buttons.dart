@@ -184,6 +184,49 @@ class _FileButtonsState extends State<FileButtons> {
     );
   }
 
+  void addFolder(BuildContext context){
+    TextEditingController controller=TextEditingController();
+    FocusNode focusNode=FocusNode();
+    showDialog(
+      context: context, 
+      builder: (context)=>AlertDialog(
+        title: Text("addFolder".tr),
+        content: StatefulBuilder(
+          builder: (context, setState)=>TextField(
+            decoration: InputDecoration(
+              labelText: "name".tr,
+            ),
+            controller: controller,
+            focusNode: focusNode,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: ()=>Navigator.pop(context), 
+            child: Text('cancel'.tr)
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if(controller.text.isEmpty){
+                showGeneralOk(context, "addFolderFail".tr, "nameNotEmpty".tr);
+                return;
+              }else if(fileController.files.any((file) => file.name==controller.text)){
+                showGeneralOk(context, "addFolderFail".tr, "fileNameRepeat".tr);
+                return;
+              }else{
+                await sshController.sftpMkdir(fileController.path.value, controller.text);
+                if(context.mounted) fileController.getFiles(context);
+                if(context.mounted) Navigator.pop(context);
+              }
+            }, 
+            child: Text('ok'.tr)
+          )
+        ]
+      )
+    );
+    focusNode.requestFocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -197,6 +240,7 @@ class _FileButtonsState extends State<FileButtons> {
         ] : [
           HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>addFolder(context), icon: Icons.create_new_folder_rounded, text: "addFolder".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>parentFolder(context), icon: Icons.keyboard_arrow_up_rounded, text: "parentFolder".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
