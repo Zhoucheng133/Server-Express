@@ -62,7 +62,7 @@ const Map<String, String> zhCN = {
   "Edit": "编辑",
   "Copy": "复制",
   "Paste": "粘贴",
-  "Select All": "全选",
+  "selectAll": "全选",
   'fileNameRepeat': '文件名重复',
   'alreadyExists': '已经存在同名的文件或目录',
   'autoDark': '自动深色模式',

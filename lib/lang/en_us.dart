@@ -62,7 +62,7 @@ const Map<String, String> enUS = {
   "Edit": "Edit",
   "Copy": "Copy",
   "Paste": "Paste",
-  "Select All": "Select All",
+  "selectAll": "Select All",
   'fileNameRepeat': 'File name already exists',
   'alreadyExists': 'Already exists',
   'autoDark': 'Auto Dark Mode',
