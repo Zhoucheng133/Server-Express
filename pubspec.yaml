@@ -28,6 +28,7 @@ dependencies:
   clipboard: ^2.0.2
   font_awesome_flutter: ^10.9.1
   dropdown_button2: ^2.3.9
+  flutter_localized_locales: ^2.0.5
 
 dev_dependencies:
   flutter_test:
