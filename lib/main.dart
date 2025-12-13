@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:server_express/lang/zh_tw.dart';
 import 'package:server_express/main_window.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/general_controller.dart';
@@ -46,6 +47,7 @@ class MainTranslations extends Translations {
   Map<String, Map<String, String>> get keys => {
     'en_US': enUS,
     'zh_CN': zhCN,
+    'zh_TW': zhTW,
   };
 }
 

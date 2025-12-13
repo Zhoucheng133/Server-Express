@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:get/get.dart';
@@ -14,6 +13,7 @@ class LanguageType{
 List<LanguageType> get supportedLocales => [
   LanguageType("English", Locale("en", "US")),
   LanguageType("简体中文", Locale("zh", "CN")),
+  LanguageType("繁體中文", Locale("zh", "TW")),
 ];
 
 class GeneralController extends GetxController {
@@ -29,10 +29,8 @@ class GeneralController extends GetxController {
     int? langIndex=prefs.getInt("langIndex");
 
     if(langIndex==null){
-      final sysLang=Platform.localeName;
-      final languageCode = sysLang.split('_')[0];
-      final countryCode = sysLang.split('_').last;
-      final local=Locale(languageCode, countryCode);
+      final deviceLocale=PlatformDispatcher.instance.locale;
+      final local=Locale(deviceLocale.languageCode, deviceLocale.countryCode);
       int index=supportedLocales.indexWhere((element) => element.locale==local);
       if(index==-1){
         prefs.setInt("langIndex", 0);
