@@ -6,7 +6,8 @@
 
 ![License](https://img.shields.io/badge/License-MIT-dark_green)
 
-This is a SFTP client based on Flutter
+This is a SFTP client based on Flutter  
+Support English and Chinese (Simplified & Traditional)
 
 The core framework is available [here](https://github.com/Zhoucheng133/Server-Express-Core).
 
