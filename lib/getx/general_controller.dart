@@ -32,11 +32,8 @@ class GeneralController extends GetxController {
       final deviceLocale=PlatformDispatcher.instance.locale;
       final local=Locale(deviceLocale.languageCode, deviceLocale.countryCode);
       int index=supportedLocales.indexWhere((element) => element.locale==local);
-      if(index==-1){
-        prefs.setInt("langIndex", 0);
-      }else{
+      if(index!=-1){
         lang.value=supportedLocales[index];
-        prefs.setInt("langIndex", index);
         lang.refresh();
       }
     }else{
