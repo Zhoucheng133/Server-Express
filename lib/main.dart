@@ -84,6 +84,7 @@ class _MainAppState extends State<MainApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
+        fallbackLocale: supportedLocales[0].locale,
         theme: isDarkMode(brightness) ? ThemeData.dark().copyWith(
           textTheme: GoogleFonts.notoSansScTextTheme().apply(
             bodyColor: Colors.white,
