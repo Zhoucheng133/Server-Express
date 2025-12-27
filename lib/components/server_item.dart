@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/components/dialogs/edit_server.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/server_controller.dart';
@@ -66,7 +65,7 @@ class _ServerItemState extends State<ServerItem> {
                       child: Text(
                         widget.server.name,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.notoSansSc(
+                        style: TextStyle(
                           fontSize: 16
                         ),
                       ),

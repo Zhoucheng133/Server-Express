@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SettingItem extends StatefulWidget {
 
@@ -23,7 +22,7 @@ class _SettingItemState extends State<SettingItem> {
           Expanded(
             child: Text(
               widget.label,
-              style: GoogleFonts.notoSansSc(
+              style: TextStyle(
                 color: widget.enabled ? null : Colors.grey,
               ),
             )

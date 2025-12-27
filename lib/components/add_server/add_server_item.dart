@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AddServerItem extends StatefulWidget {
   final String label;
@@ -34,13 +33,13 @@ class _AddServerItemState extends State<AddServerItem> {
             contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
             hint: Text(
               widget.hint,
-              style: GoogleFonts.notoSansSc(
+              style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey
               ),
             ),
           ),
-          style: GoogleFonts.notoSansSc(
+          style: TextStyle(
             fontSize: 14
           ),
           autocorrect: widget.enableCorrect,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/components/header/server_buttons.dart';
 
 class ServerHeader extends StatefulWidget {
@@ -21,7 +20,7 @@ class _ServerHeaderState extends State<ServerHeader> {
           children: [
             Text(
               widget.title,
-              style: GoogleFonts.notoSansSc(
+              style: TextStyle(
                 fontSize: 18,
                 color: Theme.of(context).colorScheme.primary
               ),

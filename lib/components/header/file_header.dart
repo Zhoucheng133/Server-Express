@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/components/header/file_buttons.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
@@ -25,7 +24,7 @@ class _FileHeaderState extends State<FileHeader> {
           children: [
             Text(
               serverController.nowServer.value==null ? '' : serverController.nowServer.value!.name,
-              style: GoogleFonts.notoSansSc(
+              style: TextStyle(
                 fontSize: 18,
                 color: Theme.of(context).colorScheme.primary
               ),

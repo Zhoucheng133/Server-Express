@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:server_express/lang/zh_tw.dart';
 import 'package:server_express/main_window.dart';
 import 'package:server_express/getx/file_controller.dart';
@@ -85,18 +84,20 @@ class _MainAppState extends State<MainApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         fallbackLocale: supportedLocales[0].locale,
-        theme: isDarkMode(brightness) ? ThemeData.dark().copyWith(
-          textTheme: GoogleFonts.notoSansScTextTheme().apply(
-            bodyColor: Colors.white,
-            displayColor: Colors.white, 
-          ),
+        theme: ThemeData(
+          brightness: brightness,
+          fontFamily: 'Noto', 
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blueGrey,
-            brightness: Brightness.dark,
+            brightness: brightness,
           ),
-        ) : ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
-          textTheme: GoogleFonts.notoSansScTextTheme(),
+          textTheme: brightness==Brightness.dark ? ThemeData.dark().textTheme.apply(
+            fontFamily: 'Noto',
+            bodyColor: Colors.white,
+            displayColor: Colors.white,
+          ) : ThemeData.light().textTheme.apply(
+            fontFamily: 'Noto',
+          ),
         ),
         home: MainWindow()
       )

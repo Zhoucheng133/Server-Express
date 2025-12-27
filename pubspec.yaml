@@ -14,7 +14,6 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.7.2
-  google_fonts: ^6.3.2
   loading_animation_widget: ^1.3.0
   msix: ^3.16.12
   package_info_plus: ^9.0.0
@@ -37,5 +36,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: "Noto"
+      fonts:
+      - asset: fonts/NotoSansSC-Regular.ttf
+        weight: 400
   assets:
     - assets/
