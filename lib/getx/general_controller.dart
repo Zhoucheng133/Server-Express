@@ -50,11 +50,7 @@ class GeneralController extends GetxController {
 
   void darkModeHandler(Brightness brightness){ 
     if(autoDark.value){
-      if(brightness==Brightness.dark){
-        darkMode.value=true;
-      }else{
-        darkMode.value=false;
-      }
+      darkMode.value=brightness==Brightness.dark;
     }
   }
 }

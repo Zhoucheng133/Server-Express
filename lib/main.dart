@@ -61,13 +61,6 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   final GeneralController controller=Get.find();
-  bool isDarkMode(Brightness brightness){
-    final GeneralController controller=Get.find();
-    if(controller.autoDark.value){
-      return brightness == Brightness.dark;
-    }
-    return controller.darkMode.value;
-  }
 
   @override
   Widget build(BuildContext context) {
