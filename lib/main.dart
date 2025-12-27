@@ -72,6 +72,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     final brightness = MediaQuery.of(context).platformBrightness;
+    controller.darkModeHandler(brightness);
 
     return Obx(()=>
       GetMaterialApp(
@@ -85,13 +86,13 @@ class _MainAppState extends State<MainApp> {
         ],
         fallbackLocale: supportedLocales[0].locale,
         theme: ThemeData(
-          brightness: brightness,
+          brightness: controller.darkMode.value ? Brightness.dark : Brightness.light,
           fontFamily: 'Noto', 
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blueGrey,
-            brightness: brightness,
+            brightness: controller.darkMode.value ? Brightness.dark : Brightness.light,
           ),
-          textTheme: brightness==Brightness.dark ? ThemeData.dark().textTheme.apply(
+          textTheme: controller.darkMode.value ? ThemeData.dark().textTheme.apply(
             fontFamily: 'Noto',
             bodyColor: Colors.white,
             displayColor: Colors.white,

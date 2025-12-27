@@ -47,4 +47,14 @@ class GeneralController extends GetxController {
     lang.refresh();
     Get.updateLocale(lang.value.locale);
   }
+
+  void darkModeHandler(Brightness brightness){ 
+    if(autoDark.value){
+      if(brightness==Brightness.dark){
+        darkMode.value=true;
+      }else{
+        darkMode.value=false;
+      }
+    }
+  }
 }
