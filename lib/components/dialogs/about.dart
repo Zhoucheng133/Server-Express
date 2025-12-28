@@ -23,7 +23,6 @@ Future<void> showAbout(BuildContext context) async {
             Text(
               'Server Express',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
