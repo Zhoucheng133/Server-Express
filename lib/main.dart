@@ -81,17 +81,17 @@ class _MainAppState extends State<MainApp> {
         fallbackLocale: supportedLocales[0].locale,
         theme: ThemeData(
           brightness: controller.darkMode.value ? Brightness.dark : Brightness.light,
-          fontFamily: 'Noto', 
+          fontFamily: 'PuHui', 
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blueGrey,
             brightness: controller.darkMode.value ? Brightness.dark : Brightness.light,
           ),
           textTheme: controller.darkMode.value ? ThemeData.dark().textTheme.apply(
-            fontFamily: 'Noto',
+            fontFamily: 'PuHui',
             bodyColor: Colors.white,
             displayColor: Colors.white,
           ) : ThemeData.light().textTheme.apply(
-            fontFamily: 'Noto',
+            fontFamily: 'PuHui',
           ),
         ),
         home: MainWindow()
