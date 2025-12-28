@@ -39,6 +39,9 @@ class GeneralController extends GetxController {
     }else{
       lang.value=supportedLocales[langIndex];
     }
+
+    autoDark.value=prefs.getBool("autoDark")??true;
+    darkMode.value=prefs.getBool("darkMode")??false;
   }
 
   void changeLanguage(int index){
@@ -52,5 +55,15 @@ class GeneralController extends GetxController {
     if(autoDark.value){
       darkMode.value=brightness==Brightness.dark;
     }
+  }
+
+  void changeAutoDark(bool auto){
+    autoDark.value=auto;
+    prefs.setBool("autoDark", auto);
+  }
+
+  void changeDarkMode(bool dark){
+    darkMode.value=dark;
+    prefs.setBool("darkMode", dark);
   }
 }

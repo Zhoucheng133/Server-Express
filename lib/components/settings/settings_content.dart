@@ -30,7 +30,7 @@ class _SettingsContentState extends State<SettingsContent> {
                 splashRadius: 0,
                 value: generalController.autoDark.value,
                 onChanged: (value){
-                  generalController.autoDark.value=value;
+                  generalController.changeAutoDark(value);
                 },
               ),
             ),
@@ -44,7 +44,7 @@ class _SettingsContentState extends State<SettingsContent> {
                 splashRadius: 0,
                 value: generalController.darkMode.value,
                 onChanged: generalController.autoDark.value ? null : (value){
-                  generalController.darkMode.value=value;
+                  generalController.changeDarkMode(value);
                 },
               ),
             ),
