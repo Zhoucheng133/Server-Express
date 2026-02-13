@@ -184,6 +184,7 @@ class _FileItemState extends State<FileItem> {
         message: widget.file.name,
         waitDuration: Duration(milliseconds: 500),
         child: ListTile(
+          mouseCursor: SystemMouseCursors.basic,
           leading: Obx(()=>
             Row(
               mainAxisSize: MainAxisSize.min,

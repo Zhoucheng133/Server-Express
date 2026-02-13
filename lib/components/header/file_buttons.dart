@@ -163,6 +163,7 @@ class _FileButtonsState extends State<FileButtons> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
+              mouseCursor: SystemMouseCursors.basic,
               leading: const Icon(Icons.upload_file_rounded),
               title: Text('uploadFile'.tr),
               onTap: (){
@@ -171,6 +172,7 @@ class _FileButtonsState extends State<FileButtons> {
               }
             ),
             ListTile(
+              mouseCursor: SystemMouseCursors.basic,
               leading: const Icon(Icons.folder_rounded),
               title: Text('uploadDir'.tr),
               onTap: (){

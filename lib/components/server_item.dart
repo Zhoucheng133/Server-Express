@@ -32,7 +32,6 @@ class _ServerItemState extends State<ServerItem> {
     return GestureDetector(
       onTap: ()=>connect(context),
       child: MouseRegion(
-        cursor: SystemMouseCursors.click,
         onEnter: (_)=>setState(() {
           hover=true;
         }),
