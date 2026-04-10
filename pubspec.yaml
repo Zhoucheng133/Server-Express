@@ -1,7 +1,7 @@
 name: server_express
 description: "SFTP Tool"
 publish_to: 'none'
-version: 0.2.2
+version: 0.2.3
 
 environment:
   sdk: ^3.8.1
@@ -28,6 +28,7 @@ dependencies:
   font_awesome_flutter: ^10.9.1
   dropdown_button2: ^2.3.9
   flutter_localized_locales: ^2.0.5
+  desktop_drop: ^0.7.0
 
 dev_dependencies:
   flutter_test:
