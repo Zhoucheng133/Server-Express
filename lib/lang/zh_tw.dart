@@ -74,4 +74,5 @@ const Map<String, String> zhTW = {
   'name': '名稱',
   'addFolderFail': '新增資料夾失敗',
   'nameNotEmpty': '名稱不能為空',
+  'upload_content': '上傳拖曳的文件?',
 };
