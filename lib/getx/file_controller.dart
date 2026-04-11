@@ -117,6 +117,19 @@ class FileController extends GetxController {
               labelText: "newName".tr,
             ),
             controller: controller,
+            onSubmitted: (val) async {
+              if(controller.text.isEmpty){
+                showGeneralOk(context, "renameFail".tr, "renameEmpty".tr);
+                return;
+              }
+              String message=await Get.find<SshController>().sftpRename(path, controller.text);
+              if(context.mounted && !message.contains("OK")){
+                showGeneralOk(context, "renameFail".tr, message);
+              }else if(context.mounted){
+                Navigator.pop(context);
+                getFiles(context);
+              }
+            },
           ),
         ),
         actions: [

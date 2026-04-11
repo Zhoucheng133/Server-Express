@@ -200,6 +200,19 @@ class _FileButtonsState extends State<FileButtons> {
             ),
             controller: controller,
             focusNode: focusNode,
+            onSubmitted: (String val) async {
+              if(controller.text.isEmpty){
+                showGeneralOk(context, "addFolderFail".tr, "nameNotEmpty".tr);
+                return;
+              }else if(fileController.files.any((file) => file.name==controller.text)){
+                showGeneralOk(context, "addFolderFail".tr, "fileNameRepeat".tr);
+                return;
+              }else{
+                await sshController.sftpMkdir(fileController.path.value, controller.text);
+                if(context.mounted) fileController.getFiles(context);
+                if(context.mounted) Navigator.pop(context);
+              }
+            },
           ),
         ),
         actions: [
