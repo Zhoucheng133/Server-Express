@@ -1,4 +1,3 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/getx/general_controller.dart';
@@ -12,7 +11,10 @@ void showLanguageDialog(BuildContext context){
     builder: (context)=> AlertDialog( 
       title: Text('lang'.tr),
       content: DropdownButtonHideUnderline(
-        child: DropdownButton2<String>(
+        child: DropdownButton<String>(
+          focusColor: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           value: generalController.lang.value.name,
           items: supportedLocales.map((item)=>DropdownMenuItem<String>(
             value: item.name,
