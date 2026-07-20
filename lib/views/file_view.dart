@@ -26,7 +26,6 @@ class _FileViewState extends State<FileView> {
   final SshController sshController=Get.find();
 
   RxString progressFileName=RxString("");
-  RxBool isUploadingCancelled = false.obs;
 
   @override
   void initState() {
@@ -60,22 +59,10 @@ class _FileViewState extends State<FileView> {
                 TransferProgressView(fallbackFileName: progressFileName.value),
               ]
             ),
-            actions: [
-              TextButton(
-                onPressed: (){
-                  isUploadingCancelled.value=true;
-                }, 
-                child: Text("cancel".tr)
-              )
-            ]
-
           )
         );
       }
       for(String path in paths){
-        if (isUploadingCancelled.value) {
-          break;
-        }
         progressFileName.value=p.basename(path);
         String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
         if(context.mounted && msg.contains("OK")){
@@ -86,7 +73,6 @@ class _FileViewState extends State<FileView> {
       }
 
       if(context.mounted) Navigator.pop(context);
-      isUploadingCancelled.value = false;
       progressFileName.value = "";
     }
   }

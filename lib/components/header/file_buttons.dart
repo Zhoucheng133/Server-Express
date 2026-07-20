@@ -24,7 +24,6 @@ class _FileButtonsState extends State<FileButtons> {
 
   // 上传相关
   RxString progressFileName=RxString("");
-  RxBool isUploadingCancelled = false.obs;
 
   void disconnectServer(BuildContext context) async {
     bool ok=await showGeneralConfirm(context, "disconnect".tr, "disconnectContent".tr);
@@ -81,23 +80,11 @@ class _FileButtonsState extends State<FileButtons> {
                 ),
               ]
             ),
-            actions: [
-              TextButton(
-                onPressed: (){
-                  isUploadingCancelled.value=true;
-                }, 
-                child: Text("cancel".tr)
-              )
-            ]
-
           )
         );
       }
 
       for(String path in paths){
-        if (isUploadingCancelled.value) {
-          break;
-        }
         progressFileName.value=p.basename(path);
         String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
         if(context.mounted && msg.contains("OK")){
@@ -108,7 +95,6 @@ class _FileButtonsState extends State<FileButtons> {
       }
 
       if(context.mounted) Navigator.pop(context);
-      isUploadingCancelled.value = false;
       progressFileName.value = "";
     }
   }
