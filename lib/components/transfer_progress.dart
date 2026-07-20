@@ -23,9 +23,9 @@ class TransferProgressView extends StatelessWidget {
             value: progress.totalBytes == 0 ? null : progress.fraction,
           ),
           const SizedBox(height: 10),
-          Text('$fileName  ${progress.percentage}%'),
+          Text(fileName),
           const SizedBox(height: 4),
-          Text(progress.transferredLabel),
+          Text("${progress.transferredLabel} (${progress.percentage}%)"),
         ],
       );
     });
