@@ -162,6 +162,15 @@ class _FileItemState extends State<FileItem> {
                 TransferProgressView(fallbackFileName: widget.file.name),
               ]
             ),
+            actions: [
+              TextButton(
+                child: Text("cancel".tr),
+                onPressed: (){
+                  // TODO 取消下载
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           )
         );
         final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);

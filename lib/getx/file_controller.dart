@@ -225,6 +225,15 @@ class FileController extends GetxController {
               ),
             ]
           ),
+          actions: [
+            TextButton(
+              child: Text("cancel".tr),
+              onPressed: (){
+                // TODO 取消下载
+                Navigator.pop(context);
+              },
+            ),
+          ],
         )
       );
       String message="";

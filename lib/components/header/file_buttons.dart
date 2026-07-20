@@ -80,7 +80,16 @@ class _FileButtonsState extends State<FileButtons> {
                 ),
               ]
             ),
-          )
+            actions: [
+              TextButton(
+                child: Text("cancel".tr),
+                onPressed: (){
+                  // TODO 取消上传
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         );
       }
 
@@ -124,6 +133,15 @@ class _FileButtonsState extends State<FileButtons> {
                 ),
               ]
             ),
+            actions: [
+              TextButton(
+                child: Text("cancel".tr),
+                onPressed: (){
+                  // TODO 取消上传
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           )
         );
       }

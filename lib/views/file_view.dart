@@ -59,6 +59,15 @@ class _FileViewState extends State<FileView> {
                 TransferProgressView(fallbackFileName: progressFileName.value),
               ]
             ),
+            actions: [
+              TextButton(
+                child: Text("cancel".tr),
+                onPressed: (){
+                  // TODO 取消上传
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           )
         );
       }
