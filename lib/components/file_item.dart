@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/general.dart';
+import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:path/path.dart' as p;
 
@@ -158,9 +159,7 @@ class _FileItemState extends State<FileItem> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
-                const SizedBox(height: 10,),
-                Text("${'download'.tr}: ${widget.file.name}")
+                TransferProgressView(fallbackFileName: widget.file.name),
               ]
             ),
           )

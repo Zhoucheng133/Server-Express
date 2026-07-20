@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/components/header/header_button_item.dart';
+import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
@@ -73,11 +74,11 @@ class _FileButtonsState extends State<FileButtons> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
-                const SizedBox(height: 10,),
-                Obx(()=>
-                  Text("${'upload'.tr}: ${progressFileName.value}")
-                )
+                Obx(
+                  () => TransferProgressView(
+                    fallbackFileName: progressFileName.value,
+                  ),
+                ),
               ]
             ),
             actions: [
@@ -130,11 +131,11 @@ class _FileButtonsState extends State<FileButtons> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
-                const SizedBox(height: 10,),
-                Obx(()=>
-                  Text("${'upload'.tr}: ${progressFileName.value}")
-                )
+                Obx(
+                  () => TransferProgressView(
+                    fallbackFileName: progressFileName.value,
+                  ),
+                ),
               ]
             ),
           )

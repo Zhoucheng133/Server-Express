@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/components/file_item.dart';
 import 'package:server_express/components/header/file_header.dart';
+import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:path/path.dart' as p;
@@ -56,11 +57,7 @@ class _FileViewState extends State<FileView> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
-                const SizedBox(height: 10,),
-                Obx(()=>
-                  Text("${'upload'.tr}: ${progressFileName.value}")
-                )
+                TransferProgressView(fallbackFileName: progressFileName.value),
               ]
             ),
             actions: [

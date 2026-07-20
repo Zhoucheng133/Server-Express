@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:server_express/components/dialogs/general.dart';
+import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 import 'package:path/path.dart' as p;
 
@@ -216,10 +217,12 @@ class FileController extends GetxController {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircularProgressIndicator(),
-              const SizedBox(height: 10,),
               Obx(()=>Text("${downloadIndex.value} / ${downloadCount.value}")),
-              Obx(()=>Text("${'download'.tr}: ${nowDownloadFile.value}")),
+              Obx(
+                () => TransferProgressView(
+                  fallbackFileName: nowDownloadFile.value,
+                ),
+              ),
             ]
           ),
         )

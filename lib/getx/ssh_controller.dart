@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -37,7 +39,71 @@ typedef SftpUploadDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpMkdirNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpMkdirDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 
+// func SftpTransferProgress() *C.char
+typedef SftpTransferProgressNative = Pointer<Utf8> Function();
+typedef SftpTransferProgressDart = Pointer<Utf8> Function();
+typedef FreeStringNative = Void Function(Pointer<Utf8>);
+typedef FreeStringDart = void Function(Pointer<Utf8>);
+
+class TransferProgress {
+  final bool active;
+  final int totalBytes;
+  final int transferredBytes;
+  final String currentFile;
+  final int currentFileBytes;
+  final int currentFileTotalBytes;
+
+  const TransferProgress({
+    required this.active,
+    required this.totalBytes,
+    required this.transferredBytes,
+    required this.currentFile,
+    required this.currentFileBytes,
+    required this.currentFileTotalBytes,
+  });
+
+  factory TransferProgress.empty() => const TransferProgress(
+    active: false,
+    totalBytes: 0,
+    transferredBytes: 0,
+    currentFile: '',
+    currentFileBytes: 0,
+    currentFileTotalBytes: 0,
+  );
+
+  factory TransferProgress.fromJson(Map<String, dynamic> json) =>
+      TransferProgress(
+        active: json['active'] == true,
+        totalBytes: (json['total_bytes'] as num? ?? 0).toInt(),
+        transferredBytes: (json['transferred_bytes'] as num? ?? 0).toInt(),
+        currentFile: json['current_file'] as String? ?? '',
+        currentFileBytes: (json['current_file_bytes'] as num? ?? 0).toInt(),
+        currentFileTotalBytes: (json['current_file_total_bytes'] as num? ?? 0)
+            .toInt(),
+      );
+
+  double get fraction => totalBytes == 0
+      ? 0
+      : (transferredBytes / totalBytes).clamp(0, 1).toDouble();
+  int get percentage => (fraction * 100).round();
+  String get transferredLabel =>
+      '${_formatBytes(transferredBytes)} / ${_formatBytes(totalBytes)}';
+
+  static String _formatBytes(int bytes) {
+    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    double value = bytes.toDouble();
+    var unit = 0;
+    while (value >= 1024 && unit < units.length - 1) {
+      value /= 1024;
+      unit++;
+    }
+    return '${value.toStringAsFixed(unit == 0 ? 0 : 1)} ${units[unit]}';
+  }
+}
+
 class SshController extends GetxController {
+  final transferProgress = TransferProgress.empty().obs;
+  Timer? _progressTimer;
   static String sshLoginHandler(List params){
     String url=params[0];
     String port=params[1];
@@ -69,6 +135,26 @@ class SshController extends GetxController {
     .asFunction();
 
     return sftpDownload(path.toNativeUtf8(), local.toNativeUtf8()).toDartString();
+  }
+
+  static String transferProgressHandler(List params) {
+    final dynamicLib = DynamicLibrary.open(
+      Platform.isMacOS ? 'core.dylib' : 'core.dll',
+    );
+    final SftpTransferProgressDart getProgress = dynamicLib
+        .lookup<NativeFunction<SftpTransferProgressNative>>(
+          'SftpTransferProgress',
+        )
+        .asFunction();
+    final FreeStringDart freeString = dynamicLib
+        .lookup<NativeFunction<FreeStringNative>>('FreeString')
+        .asFunction();
+    final result = getProgress();
+    try {
+      return result.toDartString();
+    } finally {
+      freeString(result);
+    }
   }
 
   static String sftpDeleteHandler(String path){
@@ -136,7 +222,7 @@ class SshController extends GetxController {
   }
 
   Future<String> sftpDownload(String path, String local) async {
-    return await compute(sftpDownloadHandler, [path, local]);
+    return _runTransfer(() => compute(sftpDownloadHandler, [path, local]));
   }
 
   Future<String> sftpDelete(String path) async {
@@ -148,10 +234,38 @@ class SshController extends GetxController {
   }
 
   Future<String> sftpUpload(String path, String local) async {
-    return await compute(uploadHandler, [path, local]);
+    return _runTransfer(() => compute(uploadHandler, [path, local]));
   }
 
   Future<String> sftpMkdir(String path, String name) async {
     return await compute(mkdirHandler, [path, name]);
+  }
+
+  Future<void> _refreshTransferProgress() async {
+    try {
+      final response = await compute(transferProgressHandler, []);
+      transferProgress.value = TransferProgress.fromJson(jsonDecode(response));
+    } catch (_) {}
+  }
+
+  Future<String> _runTransfer(Future<String> Function() operation) async {
+    transferProgress.value = TransferProgress.empty();
+    _progressTimer?.cancel();
+    _progressTimer = Timer.periodic(const Duration(milliseconds: 100), (_) {
+      _refreshTransferProgress();
+    });
+    try {
+      return await operation();
+    } finally {
+      _progressTimer?.cancel();
+      _progressTimer = null;
+      await _refreshTransferProgress();
+    }
+  }
+
+  @override
+  void onClose() {
+    _progressTimer?.cancel();
+    super.onClose();
   }
 }
