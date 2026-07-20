@@ -1,0 +1,3 @@
+[submodule "core"]
+	path = core
+	url = https://github.com/Zhoucheng133/Server-Express-Core.git
