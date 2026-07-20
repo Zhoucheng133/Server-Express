@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
+import 'package:server_express/getx/ssh_controller.dart';
 import 'package:path/path.dart' as p;
 
 class FileItem extends StatefulWidget {
@@ -151,6 +152,7 @@ class _FileItemState extends State<FileItem> {
     }else{
       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
       if (selectedDirectory != null && context.mounted) {
+        bool cancelled=false;
         showDialog(
           context: context, 
           barrierDismissible: false, 
@@ -166,7 +168,8 @@ class _FileItemState extends State<FileItem> {
               TextButton(
                 child: Text("cancel".tr),
                 onPressed: (){
-                  // TODO 取消下载
+                  cancelled=true;
+                  Get.find<SshController>().cancelTransfer();
                   Navigator.pop(context);
                 },
               ),
@@ -174,11 +177,13 @@ class _FileItemState extends State<FileItem> {
           )
         );
         final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
-        if(context.mounted && message.contains("OK")){
-          Navigator.pop(context);
-        }else if(context.mounted){
-          Navigator.pop(context);
-          showGeneralOk(context, "cantDownload".tr, message);
+        if(context.mounted && !cancelled){
+          if(message.contains("OK")){
+            Navigator.pop(context);
+          }else{
+            Navigator.pop(context);
+            showGeneralOk(context, "cantDownload".tr, message);
+          }
         }
       }
     }

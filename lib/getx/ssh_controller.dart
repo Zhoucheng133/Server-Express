@@ -39,6 +39,10 @@ typedef SftpUploadDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpMkdirNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpMkdirDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 
+// func SftpCancel() *C.char
+typedef SftpCancelNative = Pointer<Utf8> Function();
+typedef SftpCancelDart = Pointer<Utf8> Function();
+
 // func SftpTransferProgress() *C.char
 typedef SftpTransferProgressNative = Pointer<Utf8> Function();
 typedef SftpTransferProgressDart = Pointer<Utf8> Function();
@@ -209,6 +213,15 @@ class SshController extends GetxController {
     return disconnect().toDartString();
   }
 
+  static String cancelTransferHandler(List params){
+    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final SftpCancelDart cancel=dynamicLib
+    .lookup<NativeFunction<SftpCancelNative>>('SftpCancel')
+    .asFunction();
+
+    return cancel().toDartString();
+  }
+
   Future<String> sshLogin(String url, String port, String username, String password) async {
     return await compute(sshLoginHandler, [url, port, username, password]);
   }
@@ -239,6 +252,12 @@ class SshController extends GetxController {
 
   Future<String> sftpMkdir(String path, String name) async {
     return await compute(mkdirHandler, [path, name]);
+  }
+
+  Future<String> cancelTransfer() async {
+    _progressTimer?.cancel();
+    _progressTimer = null;
+    return await compute(cancelTransferHandler, []);
   }
 
   Future<void> _refreshTransferProgress() async {

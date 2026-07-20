@@ -82,12 +82,7 @@ class FileController extends GetxController {
       return "ERR: ${p.basename(path)} ${'alreadyExists'.tr}";
     }
 
-    String message=await Get.find<SshController>().sftpDownload(path, local);
-    if(!message.contains("OK") && context.mounted){
-      showGeneralOk(context, "cantDownload".tr, message);
-      return message;
-    }
-    return message;
+    return await Get.find<SshController>().sftpDownload(path, local);
   }
 
   void deleteFile(BuildContext context, String path) async { 
@@ -183,6 +178,7 @@ class FileController extends GetxController {
   RxString nowDownloadFile=RxString("");
   RxInt downloadCount=RxInt(0);
   RxInt downloadIndex=RxInt(0);
+  bool _downloadCancelled=false;
 
   void toggleSelectMode(){
     selectMode.value=!selectMode.value;
@@ -209,6 +205,7 @@ class FileController extends GetxController {
         return;
       }
 
+      _downloadCancelled=false;
       showDialog(
         context: context, 
         barrierDismissible: false, 
@@ -229,7 +226,8 @@ class FileController extends GetxController {
             TextButton(
               child: Text("cancel".tr),
               onPressed: (){
-                // TODO 取消下载
+                _downloadCancelled=true;
+                Get.find<SshController>().cancelTransfer();
                 Navigator.pop(context);
               },
             ),
@@ -238,6 +236,7 @@ class FileController extends GetxController {
       );
       String message="";
       for (var file in files) {
+        if(_downloadCancelled) break;
         if(file.selcted){
           nowDownloadFile.value=file.name;
           message=await downloadFile(context, p.join(path.value, file.name), selectedDirectory);
@@ -247,11 +246,13 @@ class FileController extends GetxController {
           downloadIndex.value++;
         }
       }
-      if(context.mounted && message.contains("OK")){
-        Navigator.pop(context);
-      }else if(context.mounted){
-        Navigator.pop(context);
-        showGeneralOk(context, "cantDownload".tr, message);
+      if(context.mounted){
+        if(!_downloadCancelled && message.contains("OK")){
+          Navigator.pop(context);
+        }else if(!_downloadCancelled){
+          Navigator.pop(context);
+          showGeneralOk(context, "cantDownload".tr, message);
+        }
       }
 
       selectMode.value=false;

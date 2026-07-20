@@ -48,6 +48,7 @@ class _FileViewState extends State<FileView> {
         }
       }
       if(context.mounted){
+        bool cancelled=false;
         showDialog(
           context: context, 
           barrierDismissible: false, 
@@ -56,33 +57,39 @@ class _FileViewState extends State<FileView> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TransferProgressView(fallbackFileName: progressFileName.value),
+                Obx(
+                  () => TransferProgressView(
+                    fallbackFileName: progressFileName.value,
+                  ),
+                ),
               ]
             ),
             actions: [
               TextButton(
                 child: Text("cancel".tr),
                 onPressed: (){
-                  // TODO 取消上传
+                  cancelled=true;
+                  sshController.cancelTransfer();
                   Navigator.pop(context);
                 },
               ),
             ],
           )
         );
-      }
-      for(String path in paths){
-        progressFileName.value=p.basename(path);
-        String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
-        if(context.mounted && msg.contains("OK")){
-          await fileController.getFiles(context);
-        }else if(context.mounted){
-          showGeneralOk(context, "uploadFail".tr, msg);
+        for(String path in paths){
+          if(cancelled) break;
+          progressFileName.value=p.basename(path);
+          String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
+          if(context.mounted && msg.contains("OK")){
+            await fileController.getFiles(context);
+          }else if(context.mounted){
+            showGeneralOk(context, "uploadFail".tr, msg);
+          }
         }
-      }
 
-      if(context.mounted) Navigator.pop(context);
-      progressFileName.value = "";
+        if(context.mounted && !cancelled) Navigator.pop(context);
+        progressFileName.value = "";
+      }
     }
   }
 
