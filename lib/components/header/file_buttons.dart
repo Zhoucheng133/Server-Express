@@ -63,7 +63,7 @@ class _FileButtonsState extends State<FileButtons> {
         return;
       }
       
-
+      bool cancelled=false;
       if(context.mounted){
         showDialog(
           context: context, 
@@ -84,7 +84,8 @@ class _FileButtonsState extends State<FileButtons> {
               TextButton(
                 child: Text("cancel".tr),
                 onPressed: (){
-                  // TODO 取消上传
+                  cancelled=true;
+                  sshController.cancelTransfer();
                   Navigator.pop(context);
                 },
               ),
@@ -94,16 +95,17 @@ class _FileButtonsState extends State<FileButtons> {
       }
 
       for(String path in paths){
+        if(cancelled) break;
         progressFileName.value=p.basename(path);
         String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
-        if(context.mounted && msg.contains("OK")){
+        if(context.mounted && (msg.contains("OK") || cancelled)){
           await fileController.getFiles(context);
         }else if(context.mounted){
           showGeneralOk(context, "uploadFail".tr, msg);
         }
       }
 
-      if(context.mounted) Navigator.pop(context);
+      if(context.mounted && !cancelled) Navigator.pop(context);
       progressFileName.value = "";
     }
   }
@@ -117,6 +119,7 @@ class _FileButtonsState extends State<FileButtons> {
         return;
       }
 
+      bool cancelled=false;
       if(context.mounted){
         showDialog(
           context: context, 
@@ -137,7 +140,8 @@ class _FileButtonsState extends State<FileButtons> {
               TextButton(
                 child: Text("cancel".tr),
                 onPressed: (){
-                  // TODO 取消上传
+                  cancelled=true;
+                  sshController.cancelTransfer();
                   Navigator.pop(context);
                 },
               ),
@@ -147,12 +151,14 @@ class _FileButtonsState extends State<FileButtons> {
       }
       progressFileName.value=p.basename(selectedDirectory);
       String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(selectedDirectory)), selectedDirectory);
-      if(context.mounted && msg.contains("OK")){
-        await fileController.getFiles(context);
-      }else if(context.mounted){
-        showGeneralOk(context, "uploadFail".tr, msg);
+      if(context.mounted){
+        if(msg.contains("OK") || cancelled){
+          await fileController.getFiles(context);
+        }else{
+          showGeneralOk(context, "uploadFail".tr, msg);
+        }
+        if(context.mounted && !cancelled) Navigator.pop(context);
       }
-      if(context.mounted) Navigator.pop(context);
       progressFileName.value = "";
     }
   }
