@@ -149,13 +149,7 @@ class ServerController extends GetxController {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Text('connecting'.tr),
-        content: SizedBox(
-          width: 100,
-          height: 100,
-          child: Center(
-            child: CircularProgressIndicator()
-          ),
-        ),
+        content: LinearProgressIndicator(),
       ),
     );
     final message=await sshController.sshLogin(addr, port, username, password);
