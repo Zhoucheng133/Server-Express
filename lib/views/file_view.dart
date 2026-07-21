@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,12 +38,7 @@ class _FileViewState extends State<FileView> {
     if(upload){
       List<String> paths=[];
       for(var file in files){
-        bool isDir = await FileSystemEntity.isDirectory(file.path);
-        if(isDir){
-          continue;
-        }else{
-          paths.add(file.path);
-        }
+        paths.add(file.path);
       }
       if(context.mounted){
         bool cancelled=false;
