@@ -48,7 +48,7 @@ msix_config:
   display_name: Server Express
   publisher_display_name: ZhouCheng
   identity_name: ZhouCheng.ServerExpress
-  msix_version: 0.3.0
+  msix_version: 0.3.0.0
   logo_path: assets/icon.png
   trim_logo: false
   capabilities: internetClient
