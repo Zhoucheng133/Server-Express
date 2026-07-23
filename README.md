@@ -8,6 +8,10 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 
 ![License](https://img.shields.io/badge/License-MIT-dark_green)
 
+<a href="https://apps.microsoft.com/detail/9nxl2mp4v7mz?referrer=appbadge&mode=direct">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
+
 这是一个SFTP客户端，基于Flutter  
 支持简体中文、繁体中文和英语
 
