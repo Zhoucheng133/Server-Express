@@ -49,6 +49,18 @@ typedef SftpTransferProgressDart = Pointer<Utf8> Function();
 typedef FreeStringNative = Void Function(Pointer<Utf8>);
 typedef FreeStringDart = void Function(Pointer<Utf8>);
 
+DynamicLibrary dylibPath(){
+  if(Platform.isWindows){
+    return DynamicLibrary.open("core.dll");
+  }else if(Platform.isMacOS){
+    return DynamicLibrary.open("core.dylib");
+  }else if(Platform.isIOS){
+    return DynamicLibrary.process();
+  }else{
+    return DynamicLibrary.open("core.so");
+  }
+}
+
 class TransferProgress {
   final bool active;
   final int totalBytes;
@@ -113,7 +125,7 @@ class SshController extends GetxController {
     String port=params[1];
     String username=params[2];
     String password=params[3];
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SSHLoginDart sshLogin=dynamicLib
     .lookup<NativeFunction<SSHLoginNative>>('SSHLogin')
     .asFunction();
@@ -122,7 +134,7 @@ class SshController extends GetxController {
   }
 
   static String sftpListHandler(String path){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpListDart sftpList=dynamicLib
     .lookup<NativeFunction<SftpListNative>>('SftpList')
     .asFunction();
@@ -133,7 +145,7 @@ class SshController extends GetxController {
   static String sftpDownloadHandler(List params){
     String path=params[0];
     String local=params[1];
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpDownloadDart sftpDownload=dynamicLib
     .lookup<NativeFunction<SftpDownloadNative>>('SftpDownload')
     .asFunction();
@@ -142,9 +154,7 @@ class SshController extends GetxController {
   }
 
   static String transferProgressHandler(List params) {
-    final dynamicLib = DynamicLibrary.open(
-      Platform.isMacOS ? 'core.dylib' : 'core.dll',
-    );
+    final dynamicLib=dylibPath();
     final SftpTransferProgressDart getProgress = dynamicLib
         .lookup<NativeFunction<SftpTransferProgressNative>>(
           'SftpTransferProgress',
@@ -162,7 +172,7 @@ class SshController extends GetxController {
   }
 
   static String sftpDeleteHandler(String path){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpDeleteDart sftpDelete=dynamicLib
     .lookup<NativeFunction<SftpDeleteNative>>('SftpDelete')
     .asFunction();
@@ -173,7 +183,7 @@ class SshController extends GetxController {
   static String sftpRenameHandler(List params){
     String path=params[0]; 
     String newName=params[1];
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpRenameDart sftpDownload=dynamicLib
     .lookup<NativeFunction<SftpRenameDart>>('SftpRename')
     .asFunction();
@@ -185,7 +195,7 @@ class SshController extends GetxController {
     String path=params[0]; 
     String local=params[1];
 
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpUploadDart sftpUpload=dynamicLib
     .lookup<NativeFunction<SftpUploadDart>>('SftpUpload')
     .asFunction();
@@ -196,7 +206,7 @@ class SshController extends GetxController {
   static String mkdirHandler(List params){
     String path=params[0];
     String name=params[1];
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpMkdirDart sftpMkdir=dynamicLib
     .lookup<NativeFunction<SftpMkdirNative>>('SftpMkdir')
     .asFunction();
@@ -205,7 +215,7 @@ class SshController extends GetxController {
   }
 
   static String disconnectHandler(List params){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final DisconnectDart disconnect=dynamicLib
     .lookup<NativeFunction<DisconnectDart>>('Disconnect')
     .asFunction();
@@ -214,7 +224,7 @@ class SshController extends GetxController {
   }
 
   static String cancelTransferHandler(List params){
-    final dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'core.dylib' : 'core.dll');
+    final dynamicLib=dylibPath();
     final SftpCancelDart cancel=dynamicLib
     .lookup<NativeFunction<SftpCancelNative>>('SftpCancel')
     .asFunction();

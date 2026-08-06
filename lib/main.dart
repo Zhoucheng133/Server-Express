@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -11,11 +9,12 @@ import 'package:server_express/getx/server_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 import 'package:server_express/lang/en_us.dart';
 import 'package:server_express/lang/zh_cn.dart';
+import 'package:server_express/mobile/main_view.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(Platform.isWindows || Platform.isMacOS || Platform.isLinux){
+  if(isDesktop()){
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = WindowOptions(
       size: Size(800, 600),
@@ -93,7 +92,7 @@ class _MainAppState extends State<MainApp> {
             fontFamily: 'PuHui',
           ),
         ),
-        home: MainWindow()
+        home: isDesktop() ? MainWindow() : MainView(),
       )
     );
   }

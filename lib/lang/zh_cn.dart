@@ -75,4 +75,6 @@ const Map<String, String> zhCN = {
   'addFolderFail': '添加文件夹失败',
   'nameNotEmpty': '名称不能为空',
   'upload_content': '上传拖拽的文件?',
+
+  'home': '主页',
 };

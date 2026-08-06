@@ -75,4 +75,6 @@ const Map<String, String> enUS = {
   'addFolderFail': 'Add folder failed',
   'nameNotEmpty': 'Name can\'t be empty',
   'upload_content': 'Upload drag-and-drop files?',
+
+  'home': 'Home',
 };

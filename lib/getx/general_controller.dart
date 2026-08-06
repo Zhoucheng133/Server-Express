@@ -3,6 +3,10 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+bool isDesktop(){
+  return GetPlatform.isMacOS || GetPlatform.isWindows || GetPlatform.isLinux;
+}
+
 class LanguageType{
   String name;
   Locale locale;
