@@ -53,17 +53,31 @@ class _FileItemState extends State<FileItem> {
         position.dy + 50,
       ),
       items: [
-        PopupMenuItem(
+        if(widget.file.isDir) PopupMenuItem(
           height: 35,
           value: "open",
           child: Row(
             children: [
               Icon(
-                widget.file.isDir ?  Icons.open_in_new_rounded : Icons.download_rounded,
+                Icons.open_in_new_rounded,
                 size: 20,
               ),
               const SizedBox(width: 5,),
-              Text(widget.file.isDir ? 'open'.tr : 'download'.tr),
+              Text('open'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
+          value: "download",
+          child: Row(
+            children: [
+              Icon(
+                Icons.download_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('download'.tr),
             ],
           ),
         ),
@@ -129,6 +143,9 @@ class _FileItemState extends State<FileItem> {
       case "open":
         if(context.mounted) openHandler(context);
         break;
+      case "download":
+        if(context.mounted) downloadHandler(context);
+        break;
       case "rename":
         if(context.mounted) fileController.renameFile(context, p.join(fileController.path.value, widget.file.name));
         break;
@@ -142,13 +159,10 @@ class _FileItemState extends State<FileItem> {
     }
   }
 
-  Future<void> openHandler(BuildContext context) async {
+  void downloadHandler(BuildContext context) async {
     if(fileController.selectMode.value){
       fileController.files[widget.index].selcted=!fileController.files[widget.index].selcted;
       fileController.files.refresh();
-    }else if(widget.file.isDir){
-      fileController.path.value=p.join(fileController.path.value, widget.file.name);
-      fileController.getFiles(context);
     }else{
       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
       if (selectedDirectory != null && context.mounted) {
@@ -186,6 +200,16 @@ class _FileItemState extends State<FileItem> {
           }
         }
       }
+    }
+  }
+
+  Future<void> openHandler(BuildContext context) async {
+    if(fileController.selectMode.value){
+      fileController.files[widget.index].selcted=!fileController.files[widget.index].selcted;
+      fileController.files.refresh();
+    }else if(widget.file.isDir){
+      fileController.path.value=p.join(fileController.path.value, widget.file.name);
+      fileController.getFiles(context);
     }
   }
 
