@@ -210,6 +210,8 @@ class _FileItemState extends State<FileItem> {
     }else if(widget.file.isDir){
       fileController.path.value=p.join(fileController.path.value, widget.file.name);
       fileController.getFiles(context);
+    }else{
+      downloadHandler(context);
     }
   }
 
