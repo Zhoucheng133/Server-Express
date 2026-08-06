@@ -13,7 +13,7 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 </a>
 
 这是一个SFTP客户端，基于Flutter  
-支持简体中文、繁体中文和英语
+支持macOS, Windows, Android, iOS
 
 核心组件[在这里](https://github.com/Zhoucheng133/Server-Express-Core)
 
