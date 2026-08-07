@@ -38,6 +38,9 @@ class FileController extends GetxController {
   RxList<FileClass> files=<FileClass>[].obs;
   RxBool selectMode=false.obs;
 
+  // 移动端
+  RxString downloadDir="".obs;
+
   Future<void> getFiles(BuildContext context) async {
     final SshController sshController=Get.find();
     final String msg=await sshController.sftpList(path.value);

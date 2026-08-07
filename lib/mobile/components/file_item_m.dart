@@ -43,8 +43,6 @@ class _FileItemMState extends State<FileItemM> {
       fileController.files[widget.index].selcted=!fileController.files[widget.index].selcted;
       fileController.files.refresh();
     }else{
-      // TODO 下载路径
-      String selectedDirectory = p.join("");
       if (context.mounted) {
         bool cancelled=false;
         showDialog(
@@ -70,7 +68,7 @@ class _FileItemMState extends State<FileItemM> {
             ],
           )
         );
-        final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), selectedDirectory);
+        final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), fileController.downloadDir.value);
         if(context.mounted && !cancelled){
           if(message.contains("OK")){
             Navigator.pop(context);
