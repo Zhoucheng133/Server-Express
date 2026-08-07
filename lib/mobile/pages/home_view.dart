@@ -26,6 +26,38 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  void showServerOption(BuildContext context, int index){
+    showModalBottomSheet(
+      context: context, 
+      clipBehavior: Clip.antiAlias,
+      builder: (context)=> Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            title: Text("edit".tr),
+            onTap: (){
+              Navigator.pop(context);
+              showEditServer(context, serverController.servers[index]);
+            },
+          ),
+          ListTile(
+            title: Text("delete".tr),
+            onTap: () async {
+              Navigator.pop(context);
+              bool del=await showGeneralConfirm(context, "delServerTitle".tr, "delServerContent".tr);
+              if(del){
+                serverController.removeServer(serverController.servers[index].id);
+              }
+            }
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ]
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,37 +76,14 @@ class _HomeViewState extends State<HomeView> {
               title: Text(serverController.servers[index].name),
               subtitle: Text("${serverController.servers[index].addr}:${serverController.servers[index].port}"),
               onTap: ()=>connect(context, serverController.servers[index]),
-              onLongPress: (){
-                showModalBottomSheet(
-                  context: context, 
-                  clipBehavior: Clip.antiAlias,
-                  builder: (context)=> Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        title: Text("edit".tr),
-                        onTap: (){
-                          Navigator.pop(context);
-                          showEditServer(context, serverController.servers[index]);
-                        },
-                      ),
-                      ListTile(
-                        title: Text("delete".tr),
-                        onTap: () async {
-                          Navigator.pop(context);
-                          bool del=await showGeneralConfirm(context, "delServerTitle".tr, "delServerContent".tr);
-                          if(del){
-                            serverController.removeServer(serverController.servers[index].id);
-                          }
-                        }
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.bottom,
-                      )
-                    ]
-                   )
-                );
-              },
+              onLongPress: ()=>showServerOption(context, index), 
+              trailing: Transform.translate(
+                offset: Offset(10, 0),
+                child: IconButton(
+                  onPressed: ()=>showServerOption(context, index), 
+                  icon: Icon(Icons.more_vert_rounded)
+                ),
+              ),
             );
           }
         )

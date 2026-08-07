@@ -33,10 +33,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           ListTile(
             title: Text("darkMode".tr),
-            // trailing: Switch(
-            //   value: generalController.darkMode.value,
-            //   onChanged: (value) => generalController.darkMode.value = value,
-            // ),
+            // TODO 深色模式
           )
         ],
       )
