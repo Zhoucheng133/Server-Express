@@ -21,19 +21,21 @@ class _AddServerContentState extends State<AddServerContent> {
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState)=>Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AddServerItem(label: "serverName".tr, controller: widget.nameController),
-          const SizedBox(height: 10,),
-          AddServerItem(label: "serverAddr".tr, controller: widget.addrController, hint: "ipDomain".tr, enableCorrect: false),
-          const SizedBox(height: 10,),
-          AddServerItem(label: "port".tr, controller: widget.portController, numberOnly: true, enableCorrect: false,),
-          const SizedBox(height: 10,),
-          AddServerItem(label: "username".tr, controller: widget.usernameController, enableCorrect: false),
-          const SizedBox(height: 10,),
-          AddServerItem(label: "password".tr, controller: widget.passwordController, obscureText: true, enableCorrect: false),
-        ],
+      builder: (BuildContext context, StateSetter setState)=>SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AddServerItem(label: "serverName".tr, controller: widget.nameController),
+            const SizedBox(height: 10,),
+            AddServerItem(label: "serverAddr".tr, controller: widget.addrController, hint: "ipDomain".tr, enableCorrect: false),
+            const SizedBox(height: 10,),
+            AddServerItem(label: "port".tr, controller: widget.portController, numberOnly: true, enableCorrect: false,),
+            const SizedBox(height: 10,),
+            AddServerItem(label: "username".tr, controller: widget.usernameController, enableCorrect: false),
+            const SizedBox(height: 10,),
+            AddServerItem(label: "password".tr, controller: widget.passwordController, obscureText: true, enableCorrect: false),
+          ],
+        ),
       )
     );
   }
