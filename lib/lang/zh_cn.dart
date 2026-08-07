@@ -77,4 +77,5 @@ const Map<String, String> zhCN = {
   'upload_content': '上传拖拽的文件?',
 
   'home': '主页',
+  'noServer': '没有服务器',
 };

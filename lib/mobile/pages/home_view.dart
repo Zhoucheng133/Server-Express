@@ -69,7 +69,28 @@ class _HomeViewState extends State<HomeView> {
         onPressed: ()=>showAddServer(context),
       ),
       body: Obx(()=>
-        ListView.builder(
+        serverController.servers.isEmpty ? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 10,
+            mainAxisSize: .min,
+            children: [
+              Icon(
+                Icons.dns_rounded, 
+                size: 50,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Text(
+                "noServer".tr,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 16
+                ),
+              ),
+            ],
+          ),
+        ) : ListView.builder(
           itemCount: serverController.servers.length,
           itemBuilder: (context, index){
             return ListTile(

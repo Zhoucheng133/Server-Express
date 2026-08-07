@@ -77,4 +77,5 @@ const Map<String, String> enUS = {
   'upload_content': 'Upload drag-and-drop files?',
 
   'home': 'Home',
+  'noServer': 'No Server',
 };

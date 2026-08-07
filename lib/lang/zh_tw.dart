@@ -77,4 +77,5 @@ const Map<String, String> zhTW = {
   'upload_content': '上傳拖曳的文件?',
 
   'home': '首頁',
+  'noServer': '無伺服器',
 };

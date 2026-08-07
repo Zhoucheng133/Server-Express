@@ -22,7 +22,28 @@ class _ServerViewState extends State<ServerView> {
         ServerHeader(title: "serverList".tr),
         Expanded(
           child: Obx(()=>
-            GridView.builder(
+            serverController.servers.isEmpty ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 10,
+                mainAxisSize: .min,
+                children: [
+                  Icon(
+                    Icons.dns_rounded, 
+                    size: 50,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  Text(
+                    "noServer".tr,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 16
+                    ),
+                  ),
+                ],
+              ),
+            ) : GridView.builder(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
                 crossAxisSpacing: 15,
