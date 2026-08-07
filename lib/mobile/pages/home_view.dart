@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/add_server.dart';
+import 'package:server_express/components/dialogs/edit_server.dart';
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/server_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,6 +15,16 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
 
   final ServerController serverController=Get.find();
+
+  Future<void> connect(BuildContext context, Server server) async {
+    String message=await serverController.serverCheck(context, server.addr, server.port, server.username, server.password);
+    if(message.contains("OK") && context.mounted){
+      serverController.nowServer.value=server;
+      // TODO 跳转
+    }else if(context.mounted){
+      showGeneralOk(context, "loginFailTitle".tr, message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +43,38 @@ class _HomeViewState extends State<HomeView> {
             return ListTile(
               title: Text(serverController.servers[index].name),
               subtitle: Text("${serverController.servers[index].addr}:${serverController.servers[index].port}"),
+              onTap: ()=>connect(context, serverController.servers[index]),
+              onLongPress: (){
+                showModalBottomSheet(
+                  context: context, 
+                  clipBehavior: Clip.antiAlias,
+                  builder: (context)=> Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        title: Text("edit".tr),
+                        onTap: (){
+                          Navigator.pop(context);
+                          showEditServer(context, serverController.servers[index]);
+                        },
+                      ),
+                      ListTile(
+                        title: Text("delete".tr),
+                        onTap: () async {
+                          Navigator.pop(context);
+                          bool del=await showGeneralConfirm(context, "delServerTitle".tr, "delServerContent".tr);
+                          if(del){
+                            serverController.removeServer(serverController.servers[index].id);
+                          }
+                        }
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).padding.bottom,
+                      )
+                    ]
+                   )
+                );
+              },
             );
           }
         )
