@@ -77,9 +77,49 @@ class _FileViewMState extends State<FileViewM> {
               ),
             ],
           ),
-          body: ListView.builder(
-            itemCount: fileController.files.length,
-            itemBuilder: (context, index)=>FileItemM(file: fileController.files[index], index: index,)
+          body: Column(
+            children: [
+              SizedBox(
+                height: 35,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: p.split(fileController.path.value).length,
+                  itemBuilder: (BuildContext context, int index){
+                    if(index==0){
+                      return TextButton(
+                        onPressed: (){
+                          fileController.path.value = "/";
+                          fileController.getFiles(context);
+                          fileController.selectMode.value = false;
+                          fileController.getFiles(context);
+                        }, 
+                        child: Text("Root")
+                      );
+                    }else{
+                      return Row(
+                        children: [
+                          Text("/"),
+                          TextButton(
+                            onPressed: (){
+                              fileController.path.value = p.split(fileController.path.value).sublist(0, index+1).join("/");
+                              fileController.selectMode.value = false;
+                              fileController.getFiles(context);
+                            }, 
+                            child: Text(p.split(fileController.path.value)[index])
+                          )
+                        ],
+                      );
+                    }
+                  }
+                )
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: fileController.files.length,
+                  itemBuilder: (context, index)=>FileItemM(file: fileController.files[index], index: index,)
+                ),
+              ),
+            ],
           ),
           bottomSheet: AnimatedSwitcher(
             duration: Duration(milliseconds: 200),
