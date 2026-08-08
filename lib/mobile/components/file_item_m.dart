@@ -89,7 +89,10 @@ class _FileItemMState extends State<FileItemM> {
       fileController.path.value=p.join(fileController.path.value, widget.file.name);
       fileController.getFiles(context);
     }else{
-      downloadHandler(context);
+      final confirm=await showGeneralConfirm(context, "download".tr, "${"download".tr}: ${widget.file.name}", okText: "download".tr);
+      if(confirm && context.mounted){
+        downloadHandler(context);
+      }
     }
   }
 
