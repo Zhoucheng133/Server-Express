@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
+import 'package:server_express/getx/ssh_controller.dart';
 import 'package:server_express/mobile/components/file_item_m.dart';
 
 class FileViewM extends StatefulWidget {
@@ -16,6 +18,7 @@ class _FileViewMState extends State<FileViewM> {
 
   final FileController fileController=Get.find();
   final ServerController serverController=Get.find();
+  final SshController sshController=Get.find();
 
   @override
   void initState() {
@@ -25,28 +28,93 @@ class _FileViewMState extends State<FileViewM> {
     });
   }
 
+  Future<void> handleBack() async {
+    fileController.path.value=p.dirname(fileController.path.value);
+    await fileController.getFiles(context);
+  }
+
+  void disconnectServer(BuildContext context) async {
+    bool ok=await showGeneralConfirm(context, "disconnect".tr, "disconnectContent".tr);
+    if(ok){
+      await sshController.disconnect();
+      serverController.nowServer.value=null;
+      fileController.path.value="/";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
-      ()=> Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          scrolledUnderElevation: 0.0,
-          title: Text(
-            serverController.nowServer.value?.name ?? "",
-            overflow: TextOverflow.ellipsis,
+      ()=> PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
+          if(fileController.path.value=="/"){
+            disconnectServer(context);
+          }else{
+            handleBack();
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            scrolledUnderElevation: 0.0,
+            title: Text(
+              serverController.nowServer.value?.name ?? "",
+              overflow: TextOverflow.ellipsis,
+            ),
+            leading: IconButton(
+              onPressed: fileController.path.value=="/" ? null : handleBack, 
+              icon: Icon(Icons.arrow_back_rounded)
+            ),
+            actions: [
+              Padding(
+                padding: .only(right: 10.0),
+                child: IconButton(
+                  onPressed: () => disconnectServer(context), 
+                  icon: Icon(Icons.logout_rounded)
+                ),
+              ),
+            ],
           ),
-          leading: IconButton(
-            onPressed: fileController.path.value=="/" ? null : () async {
-              fileController.path.value=p.dirname(fileController.path.value);
-              await fileController.getFiles(context);
-            }, 
-            icon: Icon(Icons.arrow_back_rounded)
+          body: ListView.builder(
+            itemCount: fileController.files.length,
+            itemBuilder: (context, index)=>FileItemM(file: fileController.files[index], index: index,)
           ),
-        ),
-        body: ListView.builder(
-          itemCount: fileController.files.length,
-          itemBuilder: (context, index)=>FileItemM(file: fileController.files[index], index: index,)
+          bottomSheet: AnimatedSwitcher(
+            duration: Duration(milliseconds: 200),
+            child: fileController.selectMode.value ? Container(
+              key: ValueKey(1),
+              height: 60 + MediaQuery.of(context).padding.bottom,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(50),
+                    blurRadius: 10.0,
+                  )
+                ]
+              ),
+              child: Padding(
+                padding: .only(bottom: MediaQuery.of(context).padding.bottom),
+                child: Row(
+                  crossAxisAlignment: .center,
+                  children: [
+                    TextButton(
+                      onPressed: (){
+                        fileController.selectMode.value=false;
+                        for (var element in fileController.files) {
+                          element.selcted=false;
+                        }
+                      }, 
+                      child: Text("unselect".tr)
+                    )
+                  ],
+                ),
+              ),
+            ) : SizedBox(key: ValueKey(2)),
+          ),
         ),
       ),
     );

@@ -96,13 +96,31 @@ class _FileItemMState extends State<FileItemM> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
+      leading: Obx(
+        ()=>Row(
+          mainAxisSize: .min,
+          children: [
+            if(fileController.selectMode.value) Checkbox(
+              value: widget.file.selcted,
+              onChanged: (val){
+                fileController.files[widget.index].selcted=val!;
+                fileController.files.refresh();
+              },
+            ),
+            widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
+          ],
+        ),
+      ),
       title: Text(
         widget.file.name,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
       onTap: ()=>openHandler(context),
+      onLongPress: (){
+        fileController.selectMode.value=true;
+        openHandler(context);
+      },
     );
   }
 }
