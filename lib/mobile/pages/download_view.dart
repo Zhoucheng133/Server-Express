@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
+import 'package:server_express/mobile/components/download_item_m.dart';
 
 class DownloadView extends StatefulWidget {
   const DownloadView({super.key});
@@ -70,55 +70,7 @@ class _DownloadViewState extends State<DownloadView> {
       await loadDir(p.join(currentPath, file.name));
       return;
     }
-    if(!context.mounted) return;
-    showModalBottomSheet(
-      context: context,
-      clipBehavior: Clip.antiAlias,
-      builder: (context)=>Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            title: Text(file.name, overflow: TextOverflow.ellipsis),
-            subtitle: Text(p.join(currentPath, file.name)),
-          ),
-          ListTile(
-            leading: Icon(Icons.delete_outline_rounded, color: Theme.of(context).colorScheme.error),
-            title: Text("delete".tr, style: TextStyle(color: Theme.of(context).colorScheme.error)),
-            onTap: () async {
-              Navigator.pop(context);
-              await deleteFile(file);
-            },
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).padding.bottom,
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<void> deleteFile(FileClass file) async {
-    bool ok=await showGeneralConfirm(
-      context, "deleteFileTitle".tr,
-      "${'delete'.tr}: ${file.name}\n${'deleteFileContent'.tr}",
-      okText: 'delete'.tr,
-    );
-    if(!ok || !mounted) return;
-    String message="";
-    try {
-      final String path=p.join(currentPath, file.name);
-      if(file.isDir){
-        await Directory(path).delete(recursive: true);
-      }else{
-        await File(path).delete();
-      }
-      await loadDir(currentPath);
-    } catch (_) {
-      message="deleteFileContent".tr;
-    }
-    if(message.isNotEmpty && mounted){
-      showGeneralOk(context, "cantDelete".tr, message);
-    }
+    // TODO
   }
 
   @override
@@ -210,15 +162,11 @@ class _DownloadViewState extends State<DownloadView> {
                   itemCount: fileController.localFiles.length,
                   itemBuilder: (context, index){
                     final file=fileController.localFiles[index];
-                    return ListTile(
-                      leading: file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
-                      title: Text(
-                        file.name,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: Text(file.size != null ? formatSize(file.size!) : ""),
+                    return DownloadItemM(
+                      file: file, 
                       onTap: ()=>openFile(file),
-                      onLongPress: ()=>openFile(file),
+                      loadDir: () => loadDir(currentPath),
+                      currentPath: currentPath,
                     );
                   },
                 ),
