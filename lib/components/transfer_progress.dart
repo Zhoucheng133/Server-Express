@@ -23,7 +23,13 @@ class TransferProgressView extends StatelessWidget {
             value: progress.totalBytes == 0 ? null : progress.fraction,
           ),
           const SizedBox(height: 10),
-          Text(fileName),
+          Text(
+            fileName,
+            maxLines: 1,
+            style: TextStyle(
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           const SizedBox(height: 4),
           Text("${progress.transferredLabel} (${progress.percentage}%)"),
         ],

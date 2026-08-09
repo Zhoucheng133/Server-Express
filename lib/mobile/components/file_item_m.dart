@@ -39,43 +39,44 @@ class _FileItemMState extends State<FileItemM> {
   }
 
   void downloadHandler(BuildContext context) async {
-    if(fileController.selectMode.value){
-      fileController.files[widget.index].selcted=!fileController.files[widget.index].selcted;
-      fileController.files.refresh();
-    }else{
-      if (context.mounted) {
-        bool cancelled=false;
-        showDialog(
-          context: context, 
-          barrierDismissible: false, 
-          builder: (context)=>AlertDialog(
-            title: Text("downloading".tr),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TransferProgressView(fallbackFileName: widget.file.name),
-              ]
-            ),
-            actions: [
-              TextButton(
-                child: Text("cancel".tr),
-                onPressed: (){
-                  cancelled=true;
-                  Get.find<SshController>().cancelTransfer();
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          )
-        );
-        final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), fileController.downloadDir.value);
-        if(context.mounted && !cancelled){
-          if(message.contains("OK")){
-            Navigator.pop(context);
-          }else{
-            Navigator.pop(context);
-            showGeneralOk(context, "cantDownload".tr, message);
-          }
+
+    final navigator = Navigator.of(context);
+    bool cancelled=false;
+
+    showDialog(
+      context: context, 
+      barrierDismissible: false, 
+      builder: (context)=>AlertDialog(
+        title: Text("downloading".tr),
+        content: SizedBox(
+          width: 300,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TransferProgressView(fallbackFileName: widget.file.name),
+            ]
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: Text("cancel".tr),
+            onPressed: (){
+              cancelled=true;
+              Get.find<SshController>().cancelTransfer();
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      )
+    );
+    final message=await fileController.downloadFile(context, p.join(fileController.path.value, widget.file.name), fileController.downloadDir.value);
+    if(!cancelled){
+      if(message.contains("OK")){
+        navigator.pop();
+      }else{
+        navigator.pop();
+        if(context.mounted){
+          showGeneralOk(context, "cantDownload".tr, message);
         }
       }
     }
