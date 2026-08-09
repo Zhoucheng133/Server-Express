@@ -52,12 +52,16 @@ class _DownloadViewState extends State<DownloadView> {
   }
 
   Future<void> loadDir(String path) async {
-    currentPath=path;
+    setState(() {
+      currentPath=path;
+    });
     await fileController.getLocalFiles(path);
   }
 
   void handleBack() async {
-    if(currentPath==rootPath) return;
+    if(currentPath==rootPath){
+      return;
+    }
     await loadDir(p.dirname(currentPath));
   }
 
@@ -135,6 +139,10 @@ class _DownloadViewState extends State<DownloadView> {
           backgroundColor: Theme.of(context).colorScheme.surface,
           scrolledUnderElevation: 0.0,
           title: Text("download".tr),
+          leading: IconButton(
+            onPressed: currentPath == rootPath ? null : handleBack,
+            icon: Icon(Icons.arrow_back_rounded),
+          ),
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 10.0),
