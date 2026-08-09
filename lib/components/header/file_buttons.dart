@@ -70,15 +70,18 @@ class _FileButtonsState extends State<FileButtons> {
           barrierDismissible: false, 
           builder: (context)=>AlertDialog(
             title: Text("uploading".tr),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Obx(
-                  () => TransferProgressView(
-                    fallbackFileName: progressFileName.value,
+            content: SizedBox(
+              width: 300,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Obx(
+                    () => TransferProgressView(
+                      fallbackFileName: progressFileName.value,
+                    ),
                   ),
-                ),
-              ]
+                ]
+              ),
             ),
             actions: [
               TextButton(
@@ -126,15 +129,18 @@ class _FileButtonsState extends State<FileButtons> {
           barrierDismissible: false, 
           builder: (context)=>AlertDialog(
             title: Text("uploading".tr),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Obx(
-                  () => TransferProgressView(
-                    fallbackFileName: progressFileName.value,
+            content: SizedBox(
+              width: 300,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Obx(
+                    () => TransferProgressView(
+                      fallbackFileName: progressFileName.value,
+                    ),
                   ),
-                ),
-              ]
+                ]
+              ),
             ),
             actions: [
               TextButton(

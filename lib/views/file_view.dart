@@ -47,15 +47,18 @@ class _FileViewState extends State<FileView> {
           barrierDismissible: false, 
           builder: (context)=>AlertDialog(
             title: Text("uploading".tr),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Obx(
-                  () => TransferProgressView(
-                    fallbackFileName: progressFileName.value,
+            content: SizedBox(
+              width: 300,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Obx(
+                    () => TransferProgressView(
+                      fallbackFileName: progressFileName.value,
+                    ),
                   ),
-                ),
-              ]
+                ]
+              ),
             ),
             actions: [
               TextButton(
