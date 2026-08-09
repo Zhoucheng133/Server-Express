@@ -65,8 +65,12 @@ class _DownloadViewState extends State<DownloadView> {
     await loadDir(p.dirname(currentPath));
   }
 
-  Future<void> openFile(FileClass file) async {
-    if(file.isDir){
+  Future<void> openFile(FileClass file, int index) async {
+    if(fileController.selectMode.value){
+      fileController.localFiles[index].selcted=!fileController.localFiles[index].selcted;
+      fileController.localFiles.refresh();
+      return;
+    }else if(file.isDir){
       await loadDir(p.join(currentPath, file.name));
       return;
     }
@@ -104,6 +108,27 @@ class _DownloadViewState extends State<DownloadView> {
               ),
             ),
           ],
+        ),
+        bottomSheet: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: Obx(()=>
+            fileController.selectMode.value ?
+            Container(
+              height: 70,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+              ),
+              child: Row(
+                children: [
+                  TextButton(
+                    onPressed: () => fileController.toggleSelectMode(), 
+                    child: Text("unselect".tr)
+                  )
+                ],
+              ),
+            ) : SizedBox(),
+          ),
         ),
         body: Column(
           children: [
@@ -163,8 +188,9 @@ class _DownloadViewState extends State<DownloadView> {
                   itemBuilder: (context, index){
                     final file=fileController.localFiles[index];
                     return DownloadItemM(
+                      index: index,
                       file: file, 
-                      onTap: ()=>openFile(file),
+                      onTap: ()=>openFile(file, index),
                       loadDir: () => loadDir(currentPath),
                       currentPath: currentPath,
                     );

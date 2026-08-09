@@ -12,8 +12,9 @@ class DownloadItemM extends StatefulWidget {
   final VoidCallback onTap;
   final Future<void> Function() loadDir;
   final String currentPath;
+  final int index;
 
-  const DownloadItemM({super.key, required this.file, required this.onTap, required this.loadDir, required this.currentPath});
+  const DownloadItemM({super.key, required this.file, required this.onTap, required this.loadDir, required this.currentPath, required this.index});
 
   @override
   State<DownloadItemM> createState() => _DownloadItemMState();
@@ -21,7 +22,9 @@ class DownloadItemM extends StatefulWidget {
 
 class _DownloadItemMState extends State<DownloadItemM> {
 
-    Future<void> deleteFile(FileClass file) async {
+  final FileController fileController=Get.find();
+
+  Future<void> deleteFile(FileClass file) async {
     bool ok=await showGeneralConfirm(
       context, "deleteFileTitle".tr,
       "${'delete'.tr}: ${file.name}\n${'deleteFileContent'.tr}",
@@ -89,15 +92,31 @@ class _DownloadItemMState extends State<DownloadItemM> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded),
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Obx(()=>
+            fileController.selectMode.value ? Checkbox(
+              value: widget.file.selcted,
+              onChanged: (val){
+                fileController.localFiles[widget.index].selcted=val!;
+                fileController.localFiles.refresh();
+              },
+            ) : Container(),
+          ),
+          widget.file.isDir ? Icon(Icons.folder_rounded) : Icon(Icons.insert_drive_file_rounded)
+        ],
+      ),
       title: Text(
         widget.file.name,
         overflow: TextOverflow.ellipsis,
       ),
-      // trailing: Text(file.size != null ? formatSize(file.size!) : ""),
       subtitle: widget.file.isDir ? null : Text(formatSize(widget.file.size!)),
       onTap: widget.onTap,
-      onLongPress: (){},
+      onLongPress: (){
+        fileController.selectMode.value=true;
+        fileController.localFiles[widget.index].selcted=true;
+      },
       trailing: Transform.translate(
         offset: Offset(10, 0),
         child: IconButton(

@@ -213,6 +213,9 @@ class FileController extends GetxController {
     selectMode.value=!selectMode.value;
     for (var file in files) {
       file.selcted=false;
+    } 
+    for (var file in localFiles) {
+      file.selcted=false;
     }
     files.refresh();
   }

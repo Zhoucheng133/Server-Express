@@ -38,6 +38,7 @@ class _FileViewMState extends State<FileViewM> {
     bool ok=await showGeneralConfirm(context, "disconnect".tr, "disconnectContent".tr);
     if(ok){
       await sshController.disconnect();
+      fileController.selectMode.value=false;
       serverController.nowServer.value=null;
       fileController.path.value="/";
     }
@@ -143,12 +144,7 @@ class _FileViewMState extends State<FileViewM> {
                   crossAxisAlignment: .center,
                   children: [
                     TextButton(
-                      onPressed: (){
-                        fileController.selectMode.value=false;
-                        for (var element in fileController.files) {
-                          element.selcted=false;
-                        }
-                      }, 
+                      onPressed: () => fileController.toggleSelectMode(), 
                       child: Text("unselect".tr)
                     )
                   ],

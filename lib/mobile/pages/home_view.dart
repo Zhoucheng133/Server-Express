@@ -20,7 +20,6 @@ class _HomeViewState extends State<HomeView> {
     String message=await serverController.serverCheck(context, server.addr, server.port, server.username, server.password);
     if(message.contains("OK") && context.mounted){
       serverController.nowServer.value=server;
-      // TODO 跳转
     }else if(context.mounted){
       showGeneralOk(context, "loginFailTitle".tr, message);
     }
