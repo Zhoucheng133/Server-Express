@@ -78,4 +78,5 @@ const Map<String, String> enUS = {
 
   'home': 'Home',
   'noServer': 'No Server',
+  'noDownload': 'No downloaded files',
 };

@@ -78,4 +78,5 @@ const Map<String, String> zhCN = {
 
   'home': '主页',
   'noServer': '没有服务器',
+  'noDownload': '没有下载的文件',
 };

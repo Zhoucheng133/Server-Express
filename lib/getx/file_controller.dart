@@ -40,6 +40,7 @@ class FileController extends GetxController {
 
   // 移动端
   RxString downloadDir="".obs;
+  RxList<FileClass> localFiles=<FileClass>[].obs;
 
   Future<void> getFiles(BuildContext context) async {
     final SshController sshController=Get.find();
@@ -65,6 +66,31 @@ class FileController extends GetxController {
         getFiles(context);
       }
     }
+  }
+
+  Future<void> getLocalFiles(String path) async {
+    final directory=Directory(path);
+    if(!await directory.exists()) return;
+    List<FileClass> list=[];
+    await for (final entity in directory.list()) {
+      if(entity is File){
+        list.add(FileClass(name: p.basename(entity.path), isDir: false, size: entity.lengthSync()));
+      }else if(entity is Directory){
+        list.add(FileClass(name: p.basename(entity.path), isDir: true, size: null));
+      }
+    }
+    list.sort((a, b){
+      if (a.isDir && !b.isDir) {
+        return -1;
+      }
+      if (!a.isDir && b.isDir) {
+        return 1;
+      }
+      final String nameA = PinyinHelper.getPinyinE(a.name, separator: '').toLowerCase();
+      final String nameB = PinyinHelper.getPinyinE(b.name, separator: '').toLowerCase();
+      return nameA.compareTo(nameB);
+    });
+    localFiles.value=list;
   }
 
   bool checkDownload(List<String> fileNames, String local){
