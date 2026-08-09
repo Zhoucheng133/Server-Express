@@ -29,6 +29,7 @@ class _FileViewMState extends State<FileViewM> {
   }
 
   Future<void> handleBack() async {
+    fileController.selectMode.value=false;
     fileController.path.value=p.dirname(fileController.path.value);
     await fileController.getFiles(context);
   }

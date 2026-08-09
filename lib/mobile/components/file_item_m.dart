@@ -96,6 +96,28 @@ class _FileItemMState extends State<FileItemM> {
     }
   }
 
+  void showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context, 
+      builder: (context)=>Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.download_rounded),
+            title: Text("download".tr),
+            onTap: (){
+              Navigator.pop(context);
+              downloadHandler(context);
+            },
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ]
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -118,7 +140,14 @@ class _FileItemMState extends State<FileItemM> {
         widget.file.name,
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
+      subtitle: widget.file.size != null ? Text(formatSize(widget.file.size!)) : null,
+      trailing: Transform.translate(
+        offset: Offset(10, 0),
+        child: IconButton(
+          onPressed: ()=>showBottomSheet(context), 
+          icon: Icon(Icons.more_vert_rounded)
+        )
+      ),
       onTap: ()=>openHandler(context),
       onLongPress: (){
         fileController.selectMode.value=true;
