@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/mobile/components/download_item_m.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DownloadView extends StatefulWidget {
   const DownloadView({super.key});
@@ -20,23 +22,6 @@ class _DownloadViewState extends State<DownloadView> {
 
   String rootPath="";
   String currentPath="";
-
-  String formatSize(int bytes) {
-    if (bytes <= 0) return "0 B";
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    int unitIndex = 0;
-    double size = bytes.toDouble();
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    String result = size.toStringAsFixed(2);
-    result = result.replaceFirst(RegExp(r'\.?0+$'), '');
-
-    return "$result ${units[unitIndex]}";
-  }
 
   @override
   void initState() {
@@ -73,8 +58,77 @@ class _DownloadViewState extends State<DownloadView> {
     }else if(file.isDir){
       await loadDir(p.join(currentPath, file.name));
       return;
+    }else{
+      final data = XFile(p.join(currentPath, file.name));
+      await SharePlus.instance.share(
+        ShareParams(files: [data]),
+      );
     }
-    // TODO
+  }
+
+  void selectAll(BuildContext context) async {
+    int selectCount=0;
+    for(var file in fileController.localFiles){
+      if(file.selcted){
+        selectCount++;
+      }
+    }
+    if(selectCount==fileController.localFiles.length){
+      for(var file in fileController.localFiles){
+        file.selcted=false;
+      }
+    }else{
+      for(var file in fileController.localFiles){
+        file.selcted=true;
+      }
+    }
+    fileController.localFiles.refresh();
+  }
+
+  Future<void> deleteSelected(BuildContext context) async {
+    int selectCount=fileController.localFiles.where((element) => element.selcted).length;
+    if(selectCount==0){
+      showGeneralOk(context, "noSelect".tr, "noSelectContent".tr);
+      return;
+    }
+    bool ok=await showGeneralConfirm(context, "deleteSelected".tr, "deleteSelectedContent".tr, okText: 'delete'.tr);
+    if(ok){
+      for (var file in fileController.localFiles) {
+        if(file.selcted && context.mounted){
+          try {
+            final String fullPath=p.join(currentPath, file.name);
+            if(file.isDir){
+              await Directory(fullPath).delete(recursive: true);
+            }else{
+              await File(fullPath).delete();
+            }
+          } catch (_) {
+            if(context.mounted){
+              showGeneralOk(context, "cantDelete".tr, file.name);
+            }
+          }
+        }
+      }
+      if(context.mounted) await loadDir(currentPath);
+      fileController.selectMode.value=false;
+    }
+  }
+
+  Future<void> shareSelected(BuildContext context) async {
+    int selectCount=fileController.localFiles.where((element) => element.selcted).length;
+    if(selectCount==0){
+      showGeneralOk(context, "noSelect".tr, "noSelectContent".tr);
+      return;
+    }
+    List<XFile> files=[];
+    for (var element in fileController.localFiles) {
+      if(element.selcted){
+        files.add(XFile(p.join(currentPath, element.name)));
+      }
+    }
+    await SharePlus.instance.share(
+      ShareParams(files: files),
+    );
   }
 
   @override
@@ -119,13 +173,37 @@ class _DownloadViewState extends State<DownloadView> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainer,
               ),
-              child: Row(
-                children: [
-                  TextButton(
-                    onPressed: () => fileController.toggleSelectMode(), 
-                    child: Text("unselect".tr)
-                  )
-                ],
+              child: Padding(
+                padding: .symmetric(horizontal: 10.0),
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => fileController.toggleSelectMode(), 
+                      child: Text("unselect".tr)
+                    ),
+                    TextButton(
+                      onPressed: () => selectAll(context), 
+                      child: Text("selectAll".tr)
+                    ),
+                    Expanded(child: Container()),
+                    IconButton(
+                      onPressed: () => shareSelected(context), 
+                      icon: Icon(
+                        Icons.share_rounded,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => deleteSelected(context),
+                      icon: Icon(
+                        Icons.delete_rounded,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ) : SizedBox(),
           ),
