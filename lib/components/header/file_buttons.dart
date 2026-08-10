@@ -285,7 +285,7 @@ class _FileButtonsState extends State<FileButtons> {
         children: fileController.selectMode.value ? [
           HeaderButtonItem(buttonSide: ButtonSide.left, func: () => disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>selectAll(context), icon: Icons.check_box_rounded, text: "selectAll".tr),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.deletSelected(context), icon: Icons.delete_rounded, text: "delete".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.deleteSelected(context), icon: Icons.delete_rounded, text: "delete".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.downloadSelected(context), icon: Icons.download_rounded, text: "download".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_outline_blank_rounded, text: "unselect".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),

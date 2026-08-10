@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/components/transfer_progress.dart';
+import 'package:server_express/getx/general_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 import 'package:path/path.dart' as p;
 
@@ -183,7 +184,7 @@ class FileController extends GetxController {
     );
   }
 
-  Future<void> deletSelected(BuildContext context) async {
+  Future<void> deleteSelected(BuildContext context) async {
     int selectCount=files.where((element) => element.selcted).length;
     if(selectCount==0){
       showGeneralOk(context, "noSelect".tr, "noSelectContent".tr);
@@ -228,7 +229,7 @@ class FileController extends GetxController {
       return;
     }
 
-    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    String? selectedDirectory = isDesktop() ? await FilePicker.platform.getDirectoryPath() : downloadDir.value;
     if (selectedDirectory != null && context.mounted) {
 
       final List<String> selectedFiles = files.where((element) => element.selcted).toList().map((item)=>item.name).toList();
