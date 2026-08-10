@@ -79,4 +79,5 @@ const Map<String, String> zhTW = {
   'home': '首頁',
   'noServer': '無伺服器',
   'noDownload': '沒有下載的檔案',
+  'share': '分享',
 };

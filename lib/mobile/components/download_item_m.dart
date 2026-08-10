@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DownloadItemM extends StatefulWidget {
 
@@ -48,6 +49,10 @@ class _DownloadItemMState extends State<DownloadItemM> {
     }
   }
 
+  void renameFile(FileClass file) async {
+    // TODO
+  }
+
   String formatSize(int bytes) {
     if (bytes <= 0) return "0 B";
     const units = ["B", "KB", "MB", "GB", "TB"];
@@ -72,6 +77,25 @@ class _DownloadItemMState extends State<DownloadItemM> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ListTile(
+              leading: Icon(Icons.share_rounded),
+              title: Text("share".tr),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final file = XFile(p.join(widget.currentPath, widget.file.name));
+                await SharePlus.instance.share(
+                  ShareParams(files: [file]),
+                );
+              }
+            ),
+            ListTile(
+              leading: Icon(Icons.edit_rounded),
+              title: Text("rename".tr),
+              onTap: (){
+                Navigator.of(context).pop();
+                renameFile(widget.file);
+              }
+            ),
             ListTile(
               leading: Icon(Icons.delete_rounded),
               title: Text("delete".tr),
