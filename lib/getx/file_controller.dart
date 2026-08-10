@@ -114,7 +114,7 @@ class FileController extends GetxController {
     return await Get.find<SshController>().sftpDownload(path, local);
   }
 
-  void deleteFile(BuildContext context, String path) async { 
+  Future<void> deleteFile(BuildContext context, String path) async { 
     bool ok=await showGeneralConfirm(
       context, "deleteFileTitle".tr, 
       "${'delete'.tr}: ${p.basename(path)}\n${'deleteFileContent'.tr}", 
@@ -122,15 +122,15 @@ class FileController extends GetxController {
     );
     if(ok){
       String message=await Get.find<SshController>().sftpDelete(path);
-      if(!message.contains("OK") && context.mounted){
-        showGeneralOk(context, "cantDelete".tr, message);
-      }else if(context.mounted){
-        getFiles(context);
+      if(!message.contains("OK")){
+        showGeneralOk(Get.context!, "cantDelete".tr, message);
+      }else{
+        getFiles(Get.context!);
       }
     }
   }
 
-  void renameFile(BuildContext context, String path) async {
+  Future<void> renameFile(BuildContext context, String path) async {
     final controller=TextEditingController(text: p.basename(path));
     showDialog(
       context: context, 
@@ -169,11 +169,11 @@ class FileController extends GetxController {
                 return;
               }
               String message=await Get.find<SshController>().sftpRename(path, controller.text);
-              if(context.mounted && !message.contains("OK")){
-                showGeneralOk(context, "renameFail".tr, message);
-              }else if(context.mounted){
-                Navigator.pop(context);
-                getFiles(context);
+              if(!message.contains("OK")){
+                showGeneralOk(Get.context!, "renameFail".tr, message);
+              }else{
+                Navigator.pop(Get.context!);
+                getFiles(Get.context!);
               }
             }, 
             child: Text('rename'.tr)

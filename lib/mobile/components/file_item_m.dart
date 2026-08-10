@@ -111,6 +111,22 @@ class _FileItemMState extends State<FileItemM> {
               downloadHandler(context);
             },
           ),
+          ListTile(
+            leading: Icon(Icons.delete_rounded),
+            title: Text("delete".tr),
+            onTap: (){
+              Navigator.pop(context);
+              fileController.deleteFile(context, p.join(fileController.path.value, widget.file.name));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.edit_rounded),
+            title: Text("rename".tr),
+            onTap: (){
+              Navigator.pop(context);
+              fileController.renameFile(context, p.join(fileController.path.value, widget.file.name));
+            },
+          ),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
           )
