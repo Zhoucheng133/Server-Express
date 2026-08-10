@@ -5,6 +5,7 @@ import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/server_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
+import 'package:server_express/mobile/components/file_bottom_sheet.dart';
 import 'package:server_express/mobile/components/file_item_m.dart';
 
 class FileViewM extends StatefulWidget {
@@ -123,34 +124,16 @@ class _FileViewMState extends State<FileViewM> {
               ),
             ],
           ),
-          bottomSheet: AnimatedSwitcher(
-            duration: Duration(milliseconds: 200),
-            child: fileController.selectMode.value ? Container(
-              key: ValueKey(1),
-              height: 60 + MediaQuery.of(context).padding.bottom,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(50),
-                    blurRadius: 10.0,
-                  )
-                ]
-              ),
-              child: Padding(
-                padding: .only(bottom: MediaQuery.of(context).padding.bottom),
-                child: Row(
-                  crossAxisAlignment: .center,
-                  children: [
-                    TextButton(
-                      onPressed: () => fileController.toggleSelectMode(), 
-                      child: Text("unselect".tr)
-                    )
-                  ],
-                ),
-              ),
-            ) : SizedBox(key: ValueKey(2)),
+          bottomSheet: Container(
+            height: 60 + MediaQuery.of(context).padding.bottom,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+            ),
+            child: Padding(
+              padding: .only(bottom: MediaQuery.of(context).padding.bottom, left: 15, right: 15),
+              child: FileBottomSheet(),
+            ),
           ),
         ),
       ),
