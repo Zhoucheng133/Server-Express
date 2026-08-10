@@ -49,8 +49,76 @@ class _DownloadItemMState extends State<DownloadItemM> {
     }
   }
 
-  void renameFile(FileClass file) async {
-    // TODO
+  void renameFile(BuildContext context, FileClass file) async {
+    final controller=TextEditingController(text: file.name);
+    showDialog(
+      context: context,
+      builder: (context)=>AlertDialog(
+        title: Text("rename".tr,),
+        content: StatefulBuilder(
+          builder: (context, setState)=>TextField(
+            decoration: InputDecoration(
+              labelText: "newName".tr,
+            ),
+            controller: controller,
+            onSubmitted: (val) async {
+              if(controller.text.isEmpty){
+                showGeneralOk(context, "renameFail".tr, "renameEmpty".tr);
+                return;
+              }
+              String message="";
+              try {
+                final String oldPath=p.join(widget.currentPath, file.name);
+                final String newPath=p.join(widget.currentPath, controller.text);
+                if(file.isDir){
+                  await Directory(oldPath).rename(newPath);
+                }else{
+                  await File(oldPath).rename(newPath);
+                }
+                await widget.loadDir();
+              } catch (_) {
+                message="renameFail".tr;
+              }
+              if(context.mounted && message.isNotEmpty){
+                showGeneralOk(context, "renameFail".tr, message);
+              }
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: ()=>Navigator.pop(context),
+            child: Text("cancel".tr),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if(controller.text.isEmpty){
+                showGeneralOk(context, "renameFail".tr, "renameEmpty".tr);
+                return;
+              }
+              String message="";
+              try {
+                final String oldPath=p.join(widget.currentPath, file.name);
+                final String newPath=p.join(widget.currentPath, controller.text);
+                if(file.isDir){
+                  await Directory(oldPath).rename(newPath);
+                }else{
+                  await File(oldPath).rename(newPath);
+                }
+                if(context.mounted) Navigator.pop(context);
+                await widget.loadDir();
+              } catch (_) {
+                message="renameFail".tr;
+              }
+              if(context.mounted && message.isNotEmpty){
+                showGeneralOk(context, "renameFail".tr, message);
+              }
+            },
+            child: Text('rename'.tr)
+          )
+        ],
+      )
+    );
   }
 
   String formatSize(int bytes) {
@@ -93,7 +161,7 @@ class _DownloadItemMState extends State<DownloadItemM> {
               title: Text("rename".tr),
               onTap: (){
                 Navigator.of(context).pop();
-                renameFile(widget.file);
+                renameFile(context, widget.file);
               }
             ),
             ListTile(
