@@ -32,7 +32,7 @@ class _SettingsViewState extends State<SettingsView> {
                   splashRadius: 0,
                   value: generalController.autoDark.value,
                   onChanged: (value){
-                    generalController.changeAutoDark(value, context);
+                    generalController.changeAutoDark(value);
                   },
                 ),
               ),
@@ -86,6 +86,11 @@ class _SettingsViewState extends State<SettingsView> {
               title: Text("darkMode".tr),
               subtitle: Text(generalController.autoDark.value ? "auto".tr : generalController.darkMode.value ? "on".tr : "off".tr),
               onTap: () => showDarkModeDialog(context),
+            ),
+            ListTile(
+              title: Text("about".tr),
+              onTap: (){
+              },
             )
           ],
         ),

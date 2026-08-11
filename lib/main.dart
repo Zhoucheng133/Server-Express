@@ -63,8 +63,8 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = MediaQuery.of(context).platformBrightness;
-    controller.darkModeHandler(brightness == Brightness.dark);
+    bool platformDarkMode=Get.isPlatformDarkMode;
+    controller.darkModeHandler(platformDarkMode);
 
     return Obx(()=>
       GetMaterialApp(

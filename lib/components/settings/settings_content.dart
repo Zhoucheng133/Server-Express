@@ -30,7 +30,7 @@ class _SettingsContentState extends State<SettingsContent> {
                 splashRadius: 0,
                 value: generalController.autoDark.value,
                 onChanged: (value){
-                  generalController.changeAutoDark(value, context);
+                  generalController.changeAutoDark(value);
                 },
               ),
             ),

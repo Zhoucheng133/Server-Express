@@ -59,15 +59,14 @@ class GeneralController extends GetxController {
   void darkModeHandler(bool dark){ 
     if(autoDark.value){
       darkMode.value=dark;
-      darkMode.refresh();
     }
   }
 
-  void changeAutoDark(bool auto, BuildContext context){
+  void changeAutoDark(bool auto){
     autoDark.value=auto;
     prefs.setBool("autoDark", auto);
     if(auto){
-      darkMode.value=MediaQuery.of(context).platformBrightness==Brightness.dark;
+      darkMode.value=Get.isPlatformDarkMode;
     }
   }
 
