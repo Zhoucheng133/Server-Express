@@ -125,6 +125,9 @@ class _FileViewMState extends State<FileViewM> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 60,
+              )
             ],
           ),
           bottomSheet: Container(

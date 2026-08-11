@@ -168,13 +168,13 @@ class _DownloadViewState extends State<DownloadView> {
           child: Obx(()=>
             fileController.selectMode.value ?
             Container(
-              height: 70,
+              height: 60 + MediaQuery.of(context).padding.bottom,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainer,
               ),
               child: Padding(
-                padding: .symmetric(horizontal: 10.0),
+                padding: .only(left: 10.0, right: 10.0, bottom: MediaQuery.of(context).padding.bottom),
                 child: Row(
                   children: [
                     TextButton(
@@ -275,6 +275,11 @@ class _DownloadViewState extends State<DownloadView> {
                   },
                 ),
               ),
+            ),
+            Obx(
+              () => fileController.selectMode.value ? SizedBox(
+                height: 60,
+              ) : Container(),
             ),
           ],
         ),
