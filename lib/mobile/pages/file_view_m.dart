@@ -117,9 +117,12 @@ class _FileViewMState extends State<FileViewM> {
                 )
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: fileController.files.length,
-                  itemBuilder: (context, index)=>FileItemM(file: fileController.files[index], index: index,)
+                child: RefreshIndicator(
+                  onRefresh: () => fileController.getFiles(context),
+                  child: ListView.builder(
+                    itemCount: fileController.files.length,
+                    itemBuilder: (context, index)=>FileItemM(file: fileController.files[index], index: index,)
+                  ),
                 ),
               ),
             ],
