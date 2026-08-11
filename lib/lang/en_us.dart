@@ -80,4 +80,7 @@ const Map<String, String> enUS = {
   'noServer': 'No Server',
   'noDownload': 'No downloaded files',
   'share': 'Share',
+  'auto': 'Auto',
+  'on': 'On',
+  'off': 'Off',
 };

@@ -80,4 +80,7 @@ const Map<String, String> zhCN = {
   'noServer': '没有服务器',
   'noDownload': '没有下载的文件',
   'share': '分享',
+  'auto': '自动',
+  'on': '开启',
+  'off': '关闭',
 };

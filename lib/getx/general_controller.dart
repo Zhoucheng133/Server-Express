@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,15 +56,19 @@ class GeneralController extends GetxController {
     Get.updateLocale(lang.value.locale);
   }
 
-  void darkModeHandler(Brightness brightness){ 
+  void darkModeHandler(bool dark){ 
     if(autoDark.value){
-      darkMode.value=brightness==Brightness.dark;
+      darkMode.value=dark;
+      darkMode.refresh();
     }
   }
 
-  void changeAutoDark(bool auto){
+  void changeAutoDark(bool auto, BuildContext context){
     autoDark.value=auto;
     prefs.setBool("autoDark", auto);
+    if(auto){
+      darkMode.value=MediaQuery.of(context).platformBrightness==Brightness.dark;
+    }
   }
 
   void changeDarkMode(bool dark){

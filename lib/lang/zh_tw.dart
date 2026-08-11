@@ -80,4 +80,7 @@ const Map<String, String> zhTW = {
   'noServer': '無伺服器',
   'noDownload': '沒有下載的檔案',
   'share': '分享',
+  'auto': '自動',
+  'on': '開啟',
+  'off': '關閉',
 };
