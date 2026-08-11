@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:server_express/components/dialogs/about.dart';
 import 'package:server_express/components/dialogs/language.dart';
 import 'package:server_express/components/settings/setting_item.dart';
 import 'package:server_express/getx/general_controller.dart';
@@ -14,6 +16,21 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
 
   final GeneralController generalController = Get.find();
+
+  String version="";
+
+  void getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      version = "v${packageInfo.version}";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getVersion();
+  }
 
   Future<void> showDarkModeDialog(BuildContext context) async {
     await showDialog(
@@ -89,8 +106,8 @@ class _SettingsViewState extends State<SettingsView> {
             ),
             ListTile(
               title: Text("about".tr),
-              onTap: (){
-              },
+              subtitle: Text(version),
+              onTap: ()=>showAbout(context),
             )
           ],
         ),
