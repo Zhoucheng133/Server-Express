@@ -27,6 +27,7 @@ class _SettingsContentState extends State<SettingsContent> {
             child: Transform.scale(
               scale: 0.8,
               child: Switch(
+                mouseCursor: SystemMouseCursors.basic,
                 splashRadius: 0,
                 value: generalController.autoDark.value,
                 onChanged: (value){
@@ -41,6 +42,7 @@ class _SettingsContentState extends State<SettingsContent> {
             child: Transform.scale(
               scale: 0.8,
               child: Switch(
+                mouseCursor: SystemMouseCursors.basic,
                 splashRadius: 0,
                 value: generalController.darkMode.value,
                 onChanged: generalController.autoDark.value ? null : (value){
