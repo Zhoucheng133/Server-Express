@@ -83,4 +83,6 @@ const Map<String, String> zhCN = {
   'auto': '自动',
   'on': '开启',
   'off': '关闭',
+  'fromFile': '来自文件',
+  'fromPhotos': '来自相册',
 };

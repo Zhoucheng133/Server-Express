@@ -83,4 +83,6 @@ const Map<String, String> enUS = {
   'auto': 'Auto',
   'on': 'On',
   'off': 'Off',
+  'fromFile': 'From File',
+  'fromPhotos': 'From Photos'
 };

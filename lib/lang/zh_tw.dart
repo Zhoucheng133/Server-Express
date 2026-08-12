@@ -83,4 +83,6 @@ const Map<String, String> zhTW = {
   'auto': '自動',
   'on': '開啟',
   'off': '關閉',
+  'fromFile': '來自檔案',
+  'fromPhotos': '來自圖庫',
 };
