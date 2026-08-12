@@ -100,6 +100,7 @@ class _FileItemMState extends State<FileItemM> {
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context, 
+      clipBehavior: Clip.antiAlias,
       builder: (context)=>Column(
         mainAxisSize: MainAxisSize.min,
         children: [
