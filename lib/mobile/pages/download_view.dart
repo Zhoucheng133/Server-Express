@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:server_express/components/dialogs/general.dart';
@@ -59,10 +60,7 @@ class _DownloadViewState extends State<DownloadView> {
       await loadDir(p.join(currentPath, file.name));
       return;
     }else{
-      final data = XFile(p.join(currentPath, file.name));
-      await SharePlus.instance.share(
-        ShareParams(files: [data]),
-      );
+      await OpenFile.open(p.join(currentPath, file.name));
     }
   }
 

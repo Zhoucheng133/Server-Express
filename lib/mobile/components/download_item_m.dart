@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as p;
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
@@ -141,10 +142,19 @@ class _DownloadItemMState extends State<DownloadItemM> {
   void showButtonSheet(BuildContext context){
     showModalBottomSheet(
       context: context,
+      clipBehavior: Clip.antiAlias,
       builder: (context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ListTile(
+              leading: Icon(Icons.open_in_new_rounded),
+              title: Text("open".tr),
+              onTap: (){
+                Navigator.of(context).pop();
+                OpenFile.open(p.join(widget.currentPath, widget.file.name));
+              }
+            ),
             ListTile(
               leading: Icon(Icons.share_rounded),
               title: Text("share".tr),
