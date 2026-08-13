@@ -19,12 +19,18 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 
 ## 截图
 
-<img src="demo/截图1.png" width="600px">
-<img src="demo/截图2.png" width="600px">
+### 桌面端
+
+<img src="screenshot/cn/screenshot1.png" width="600px">
+<img src="screenshot/cn/screenshot2.png" width="600px">
+
+### 移动端
+
+<img src="screenshot/cn/screenshot3.png" width="600px">
 
 ## 在你的设备上配置
 
-- 安装Flutter，安装步骤见[Flutter - Quick start](https://docs.flutter.cn/get-started/quick)，本项目使用的Flutter版本为`3.32`
+- 安装Flutter，安装步骤见[Flutter - Quick start](https://docs.flutter.cn/get-started/quick)，本项目使用的Flutter版本为`3.41`
 - 建议使用Visual Studio Code打开项目
   - 在Visual Studio Code的右下角找到`Device`按钮（也有可能显示为可用的设备），选择目标设备或者模拟器
   - 在`运行和调试`面板选择`Debug`，`Profile`或者`Release`，详细的区别见[Flutter官网](https://docs.flutter.dev/testing/build-modes)
