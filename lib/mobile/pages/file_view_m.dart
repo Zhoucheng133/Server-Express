@@ -39,6 +39,8 @@ class _FileViewMState extends State<FileViewM> {
     bool ok=await showGeneralConfirm(context, "disconnect".tr, "disconnectContent".tr);
     if(ok){
       await sshController.disconnect();
+      fileController.clipboardAction.value = ClipBoardAction.none;
+      fileController.clipboardFiles = [];
       fileController.selectMode.value=false;
       serverController.nowServer.value=null;
       fileController.path.value="/";

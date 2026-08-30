@@ -333,6 +333,11 @@ class FileController extends GetxController {
     clipboardFiles = [file];
   }
 
+  void cancelCopyMove(){
+    clipboardAction.value=ClipBoardAction.none;
+    clipboardFiles = [];
+  }
+
   Future<void> pasteFiles(BuildContext context) async {
     if (clipboardAction.value == ClipBoardAction.none || clipboardFiles.isEmpty || clipboardSourcePath == null) {
       return;

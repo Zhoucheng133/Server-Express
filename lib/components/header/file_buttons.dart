@@ -29,6 +29,8 @@ class _FileButtonsState extends State<FileButtons> {
     bool ok=await showGeneralConfirm(context, "disconnect".tr, "disconnectContent".tr);
     if(ok){
       await sshController.disconnect();
+      fileController.clipboardAction.value = ClipBoardAction.none;
+      fileController.clipboardFiles = [];
       serverController.nowServer.value=null;
       fileController.path.value="/";
     }
@@ -283,8 +285,8 @@ class _FileButtonsState extends State<FileButtons> {
     return Obx(
       ()=>Row(
         children: fileController.selectMode.value ? [
-          HeaderButtonItem(buttonSide: ButtonSide.left, func: () => disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>selectAll(context), icon: Icons.check_box_rounded, text: "selectAll".tr),
+          // HeaderButtonItem(buttonSide: ButtonSide.left, func: () => disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
+          HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>selectAll(context), icon: Icons.check_box_rounded, text: "selectAll".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.deleteSelected(context), icon: Icons.delete_rounded, text: "delete".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.downloadSelected(context), icon: Icons.download_rounded, text: "download".tr),
           HeaderButtonItem(
@@ -302,9 +304,9 @@ class _FileButtonsState extends State<FileButtons> {
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_outline_blank_rounded, text: "unselect".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
         ] : [
-          HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>addFolder(context), icon: Icons.create_new_folder_rounded, text: "addFolder".tr),
+          if (fileController.clipboardAction.value == ClipBoardAction.none) HeaderButtonItem(buttonSide: ButtonSide.left, func: ()=>disconnectServer(context), icon: Icons.link_off_rounded, text: "disconnect".tr),
+          if (fileController.clipboardAction.value == ClipBoardAction.none) HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
+          HeaderButtonItem(buttonSide: fileController.clipboardAction.value == ClipBoardAction.none ? ButtonSide.mid : ButtonSide.left, func: ()=>addFolder(context), icon: Icons.create_new_folder_rounded, text: "addFolder".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>parentFolder(context), icon: Icons.keyboard_arrow_up_rounded, text: "parentFolder".tr),
           if (fileController.clipboardAction.value != ClipBoardAction.none && fileController.clipboardFiles.isNotEmpty)
             HeaderButtonItem(
@@ -313,7 +315,8 @@ class _FileButtonsState extends State<FileButtons> {
               icon: Icons.paste_rounded,
               text: fileController.clipboardAction.value==ClipBoardAction.copy ? "paste".tr : "move".tr,
             ),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
+          if (fileController.clipboardAction.value == ClipBoardAction.none) HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
+          if (fileController.clipboardAction.value != ClipBoardAction.none) HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.cancelCopyMove(), icon: Icons.cancel_rounded, text: "cancel".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
         ],
       )

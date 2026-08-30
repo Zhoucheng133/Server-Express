@@ -263,9 +263,13 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
         ) : Row(
           crossAxisAlignment: .center,
           children: [
-            TextButton(
+            if (fileController.clipboardAction.value == ClipBoardAction.none) TextButton(
               onPressed: () => fileController.toggleSelectMode(), 
               child: Text("select".tr)
+            ),
+            if (fileController.clipboardAction.value != ClipBoardAction.none) TextButton(
+              onPressed: () => fileController.cancelCopyMove(),
+              child: Text("cancel".tr)
             ),
             if (fileController.clipboardAction.value != ClipBoardAction.none && fileController.clipboardFiles.isNotEmpty)
               TextButton(
@@ -273,7 +277,7 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
                 child: Text(fileController.clipboardAction.value==ClipBoardAction.copy ? "paste".tr : "move".tr,),
               ),
             Expanded(child: Container()),
-            TextButton(
+            if (fileController.clipboardAction.value == ClipBoardAction.none) TextButton(
               onPressed: ()=>upload(context), 
               child: Text("upload".tr)
             ),
