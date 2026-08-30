@@ -311,7 +311,7 @@ class _FileButtonsState extends State<FileButtons> {
               buttonSide: ButtonSide.mid,
               func: () => fileController.pasteFiles(context),
               icon: Icons.paste_rounded,
-              text: "paste".tr,
+              text: fileController.clipboardAction.value==ClipBoardAction.copy ? "paste".tr : "move".tr,
             ),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),

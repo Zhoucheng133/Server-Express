@@ -270,7 +270,7 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
             if (fileController.clipboardAction.value != ClipBoardAction.none && fileController.clipboardFiles.isNotEmpty)
               TextButton(
                 onPressed: () => fileController.pasteFiles(context),
-                child: Text("paste".tr),
+                child: Text(fileController.clipboardAction.value==ClipBoardAction.copy ? "paste".tr : "move".tr,),
               ),
             Expanded(child: Container()),
             TextButton(
