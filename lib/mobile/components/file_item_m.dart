@@ -128,6 +128,22 @@ class _FileItemMState extends State<FileItemM> {
               fileController.renameFile(context, p.join(fileController.path.value, widget.file.name));
             },
           ),
+          ListTile(
+            leading: Icon(Icons.copy_rounded),
+            title: Text("copy".tr),
+            onTap: (){
+              Navigator.pop(context);
+              fileController.prepareCopySingle(context, widget.file);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.drive_file_move_rounded),
+            title: Text("move".tr),
+            onTap: (){
+              Navigator.pop(context);
+              fileController.prepareMoveSingle(context, widget.file);
+            },
+          ),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
           )

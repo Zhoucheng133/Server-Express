@@ -34,10 +34,20 @@ class FileClass{
   };
 }
 
+enum ClipBoardAction{
+  none,
+  copy,
+  move
+}
+
 class FileController extends GetxController {
   RxString path="/".obs;
   RxList<FileClass> files=<FileClass>[].obs;
   RxBool selectMode=false.obs;
+
+  Rx<ClipBoardAction> clipboardAction=Rx(ClipBoardAction.none);
+  String? clipboardSourcePath;
+  List<FileClass> clipboardFiles = [];
 
   // 移动端
   RxString downloadDir="".obs;
@@ -292,6 +302,65 @@ class FileController extends GetxController {
       nowDownloadFile.value="";
       downloadCount.value=0;
       downloadIndex.value=0;
+    }
+  }
+
+  void prepareCopy(BuildContext context, List<FileClass> selectedFiles) {
+    if (selectedFiles.isEmpty) return;
+    clipboardAction.value=ClipBoardAction.copy;
+    clipboardSourcePath = path.value;
+    clipboardFiles = selectedFiles;
+    selectMode.value = false;
+  }
+
+  void prepareMove(BuildContext context, List<FileClass> selectedFiles) {
+    if (selectedFiles.isEmpty) return;
+    clipboardAction.value=ClipBoardAction.move;
+    clipboardSourcePath = path.value;
+    clipboardFiles = selectedFiles;
+    selectMode.value = false;
+  }
+
+  void prepareCopySingle(BuildContext context, FileClass file) {
+    clipboardAction.value=ClipBoardAction.copy;
+    clipboardSourcePath = path.value;
+    clipboardFiles = [file];
+  }
+
+  void prepareMoveSingle(BuildContext context, FileClass file) {
+    clipboardAction.value=ClipBoardAction.move;
+    clipboardSourcePath = path.value;
+    clipboardFiles = [file];
+  }
+
+  Future<void> pasteFiles(BuildContext context) async {
+    if (clipboardAction.value == ClipBoardAction.none || clipboardFiles.isEmpty || clipboardSourcePath == null) {
+      return;
+    }
+    final sshController = Get.find<SshController>();
+    final filesJson = jsonEncode(clipboardFiles.map((item)=>item.name).toList());
+    
+    String msg = "";
+    if (clipboardAction.value == ClipBoardAction.copy) {
+      msg = await sshController.sftpCopy(clipboardSourcePath!, path.value, filesJson);
+      if (msg.contains("OK")) {
+        clipboardAction.value = ClipBoardAction.none;
+        clipboardFiles = [];
+        clipboardSourcePath = null;
+        if (context.mounted) getFiles(context);
+      } else {
+        if (context.mounted) showGeneralOk(context, "copyFail".tr, msg);
+      }
+    } else if (clipboardAction.value == ClipBoardAction.move) {
+      msg = await sshController.sftpMove(clipboardSourcePath!, path.value, filesJson);
+      if (msg.contains("OK")) {
+        clipboardAction.value = ClipBoardAction.none;
+        clipboardFiles = [];
+        clipboardSourcePath = null;
+        if (context.mounted) getFiles(context);
+      } else {
+        if (context.mounted) showGeneralOk(context, "moveFail".tr, msg);
+      }
     }
   }
 }

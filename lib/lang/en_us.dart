@@ -84,5 +84,12 @@ const Map<String, String> enUS = {
   'on': 'On',
   'off': 'Off',
   'fromFile': 'From File',
-  'fromPhotos': 'From Photos'
+  'fromPhotos': 'From Photos',
+  'copy': 'Copy',
+  'move': 'Move',
+  'copySuccess': 'Copy successfully',
+  'copyFail': 'Copy failed',
+  'moveSuccess': 'Move successfully',
+  'moveFail': 'Move failed',
+  'paste': 'Paste',
 };

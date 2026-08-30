@@ -85,4 +85,11 @@ const Map<String, String> zhCN = {
   'off': '关闭',
   'fromFile': '来自文件',
   'fromPhotos': '来自相册',
+  'copy': '复制',
+  'move': '移动',
+  'copySuccess': '复制成功',
+  'copyFail': '复制失败',
+  'moveSuccess': '移动成功',
+  'moveFail': '移动失败',
+  'paste': '粘贴',
 };

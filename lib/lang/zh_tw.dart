@@ -85,4 +85,11 @@ const Map<String, String> zhTW = {
   'off': '關閉',
   'fromFile': '來自檔案',
   'fromPhotos': '來自圖庫',
+  'copy': '複製',
+  'move': '移動',
+  'copySuccess': '複製成功',
+  'copyFail': '複製失敗',
+  'moveSuccess': '移動成功',
+  'moveFail': '移動失敗',
+  'paste': '貼上',
 };

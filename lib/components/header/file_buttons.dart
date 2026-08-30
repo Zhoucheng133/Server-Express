@@ -287,6 +287,18 @@ class _FileButtonsState extends State<FileButtons> {
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>selectAll(context), icon: Icons.check_box_rounded, text: "selectAll".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.deleteSelected(context), icon: Icons.delete_rounded, text: "delete".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.downloadSelected(context), icon: Icons.download_rounded, text: "download".tr),
+          HeaderButtonItem(
+            buttonSide: ButtonSide.mid,
+            func: () => fileController.prepareCopy(context, fileController.files.where((e) => e.selcted).toList()),
+            icon: Icons.copy_rounded,
+            text: "copy".tr,
+          ),
+          HeaderButtonItem(
+            buttonSide: ButtonSide.mid,
+            func: () => fileController.prepareMove(context, fileController.files.where((e) => e.selcted).toList()),
+            icon: Icons.drive_file_move_rounded,
+            text: "move".tr,
+          ),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_outline_blank_rounded, text: "unselect".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
         ] : [
@@ -294,6 +306,13 @@ class _FileButtonsState extends State<FileButtons> {
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>upload(context), icon: Icons.upload_file_rounded, text: "upload".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>addFolder(context), icon: Icons.create_new_folder_rounded, text: "addFolder".tr),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>parentFolder(context), icon: Icons.keyboard_arrow_up_rounded, text: "parentFolder".tr),
+          if (fileController.clipboardAction.value != ClipBoardAction.none && fileController.clipboardFiles.isNotEmpty)
+            HeaderButtonItem(
+              buttonSide: ButtonSide.mid,
+              func: () => fileController.pasteFiles(context),
+              icon: Icons.paste_rounded,
+              text: "paste".tr,
+            ),
           HeaderButtonItem(buttonSide: ButtonSide.mid, func: ()=>fileController.toggleSelectMode(), icon: Icons.check_box_rounded, text: "select".tr),
           HeaderButtonItem(buttonSide: ButtonSide.right, func: ()=>refreshFiles(context), icon: Icons.refresh_rounded, text: "refresh".tr),
         ],

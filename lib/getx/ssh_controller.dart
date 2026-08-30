@@ -27,6 +27,14 @@ typedef SftpDeleteDart = Pointer<Utf8> Function(Pointer<Utf8>);
 typedef SftpRenameNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 typedef SftpRenameDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);
 
+// func SftpCopy(path *C.char, dest *C.char, filesJson *C.char) *C.char
+typedef SftpCopyNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>);
+typedef SftpCopyDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>);
+
+// func SftpMove(path *C.char, dest *C.char, filesJson *C.char) *C.char
+typedef SftpMoveNative = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>);
+typedef SftpMoveDart = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>);
+
 // func Disconnect() *C.char
 typedef DisconnectNative = Pointer<Utf8> Function();
 typedef DisconnectDart = Pointer<Utf8> Function();
@@ -232,6 +240,30 @@ class SshController extends GetxController {
     return cancel().toDartString();
   }
 
+  static String sftpCopyHandler(List params){
+    String path=params[0];
+    String dest=params[1];
+    String filesJson=params[2];
+    final dynamicLib=dylibPath();
+    final SftpCopyDart sftpCopy=dynamicLib
+    .lookup<NativeFunction<SftpCopyNative>>('SftpCopy')
+    .asFunction();
+
+    return sftpCopy(path.toNativeUtf8(), dest.toNativeUtf8(), filesJson.toNativeUtf8()).toDartString();
+  }
+
+  static String sftpMoveHandler(List params){
+    String path=params[0];
+    String dest=params[1];
+    String filesJson=params[2];
+    final dynamicLib=dylibPath();
+    final SftpMoveDart sftpMove=dynamicLib
+    .lookup<NativeFunction<SftpMoveNative>>('SftpMove')
+    .asFunction();
+
+    return sftpMove(path.toNativeUtf8(), dest.toNativeUtf8(), filesJson.toNativeUtf8()).toDartString();
+  }
+
   Future<String> sshLogin(String url, String port, String username, String password) async {
     return await compute(sshLoginHandler, [url, port, username, password]);
   }
@@ -262,6 +294,14 @@ class SshController extends GetxController {
 
   Future<String> sftpMkdir(String path, String name) async {
     return await compute(mkdirHandler, [path, name]);
+  }
+
+  Future<String> sftpCopy(String path, String dest, String filesJson) async {
+    return await compute(sftpCopyHandler, [path, dest, filesJson]);
+  }
+
+  Future<String> sftpMove(String path, String dest, String filesJson) async {
+    return await compute(sftpMoveHandler, [path, dest, filesJson]);
   }
 
   Future<String> cancelTransfer() async {

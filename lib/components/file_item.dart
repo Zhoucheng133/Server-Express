@@ -111,6 +111,34 @@ class _FileItemState extends State<FileItem> {
         ),
         PopupMenuItem(
           height: 35,
+          value: "copy",
+          child: Row(
+            children: [
+              Icon(
+                Icons.copy_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('copy'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
+          value: "move",
+          child: Row(
+            children: [
+              Icon(
+                Icons.drive_file_move_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('move'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
           value: "copyDirPath",
           child: Row(
             children: [
@@ -154,8 +182,12 @@ class _FileItemState extends State<FileItem> {
         break;
       case "copyPath":
         await FlutterClipboard.copy(p.join(fileController.path.value, widget.file.name));
-      case "copyDirPath":
-        await FlutterClipboard.copy(fileController.path.value);
+      case "copy":
+        if(context.mounted) fileController.prepareCopySingle(context, widget.file);
+        break;
+      case "move":
+        if(context.mounted) fileController.prepareMoveSingle(context, widget.file);
+        break;
     }
   }
 

@@ -236,6 +236,22 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
             ),
           ),
           IconButton(
+            onPressed: () => fileController.prepareCopy(context, fileController.files.where((e) => e.selcted).toList()),
+            icon: Icon(
+              Icons.copy_rounded,
+              size: 20,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          IconButton(
+            onPressed: () => fileController.prepareMove(context, fileController.files.where((e) => e.selcted).toList()),
+            icon: Icon(
+              Icons.drive_file_move_rounded,
+              size: 20,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          IconButton(
             onPressed: () => fileController.deleteSelected(context),
             icon: Icon(
               Icons.delete_rounded,
@@ -244,23 +260,28 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
             ),
           ),
         ],
-      ) : Row(
-        crossAxisAlignment: .center,
-        children: [
-          TextButton(
-            onPressed: () => fileController.toggleSelectMode(), 
-            child: Text("select".tr)
-          ),
-          Expanded(child: Container()),
-          TextButton(
-            onPressed: ()=>upload(context), 
-            child: Text("upload".tr)
-          ),
-          TextButton(
-            onPressed: () => addFolder(context), 
-            child: Text("addFolder".tr)
-          ),
-        ],
+        ) : Row(
+          crossAxisAlignment: .center,
+          children: [
+            TextButton(
+              onPressed: () => fileController.toggleSelectMode(), 
+              child: Text("select".tr)
+            ),
+            if (fileController.clipboardAction.value != ClipBoardAction.none && fileController.clipboardFiles.isNotEmpty)
+              TextButton(
+                onPressed: () => fileController.pasteFiles(context),
+                child: Text("paste".tr),
+              ),
+            Expanded(child: Container()),
+            TextButton(
+              onPressed: ()=>upload(context), 
+              child: Text("upload".tr)
+            ),
+            TextButton(
+              onPressed: () => addFolder(context), 
+              child: Text("addFolder".tr)
+            ),
+          ],
       ),
     );
   }
