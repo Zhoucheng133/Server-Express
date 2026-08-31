@@ -344,27 +344,65 @@ class FileController extends GetxController {
     }
     final sshController = Get.find<SshController>();
     final filesJson = jsonEncode(clipboardFiles.map((item)=>item.name).toList());
+    final isCopy = clipboardAction.value == ClipBoardAction.copy;
     
+    bool cancelled = false;
+    RxString progressFileName = RxString(clipboardFiles.first.name);
+
+    if (context.mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: Text(isCopy ? "copy".tr : "move".tr),
+          content: SizedBox(
+            width: 300,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Obx(
+                  () => TransferProgressView(
+                    fallbackFileName: progressFileName.value,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text("cancel".tr),
+              onPressed: () {
+                cancelled = true;
+                sshController.cancelTransfer();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
     String msg = "";
-    if (clipboardAction.value == ClipBoardAction.copy) {
+    if (isCopy) {
       msg = await sshController.sftpCopy(clipboardSourcePath!, path.value, filesJson);
-      if (msg.contains("OK")) {
-        clipboardAction.value = ClipBoardAction.none;
-        clipboardFiles = [];
-        clipboardSourcePath = null;
-        if (context.mounted) getFiles(context);
-      } else {
-        if (context.mounted) showGeneralOk(context, "copyFail".tr, msg);
-      }
-    } else if (clipboardAction.value == ClipBoardAction.move) {
+    } else {
       msg = await sshController.sftpMove(clipboardSourcePath!, path.value, filesJson);
-      if (msg.contains("OK")) {
-        clipboardAction.value = ClipBoardAction.none;
-        clipboardFiles = [];
-        clipboardSourcePath = null;
-        if (context.mounted) getFiles(context);
-      } else {
-        if (context.mounted) showGeneralOk(context, "moveFail".tr, msg);
+    }
+
+    if (context.mounted && !cancelled) {
+      Navigator.pop(context);
+    }
+
+    if (msg.contains("OK") || cancelled) {
+      clipboardAction.value = ClipBoardAction.none;
+      clipboardFiles = [];
+      clipboardSourcePath = null;
+      if (context.mounted) {
+        getFiles(context);
+      }
+    } else {
+      if (context.mounted) {
+        showGeneralOk(context, isCopy ? "copyFail".tr : "moveFail".tr, msg);
       }
     }
   }

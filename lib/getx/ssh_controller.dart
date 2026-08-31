@@ -297,11 +297,11 @@ class SshController extends GetxController {
   }
 
   Future<String> sftpCopy(String path, String dest, String filesJson) async {
-    return await compute(sftpCopyHandler, [path, dest, filesJson]);
+    return _runTransfer(() => compute(sftpCopyHandler, [path, dest, filesJson]));
   }
 
   Future<String> sftpMove(String path, String dest, String filesJson) async {
-    return await compute(sftpMoveHandler, [path, dest, filesJson]);
+    return _runTransfer(() => compute(sftpMoveHandler, [path, dest, filesJson]));
   }
 
   Future<String> cancelTransfer() async {
