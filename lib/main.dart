@@ -9,6 +9,13 @@ import 'package:server_express/getx/server_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 import 'package:server_express/lang/en_us.dart';
 import 'package:server_express/lang/zh_cn.dart';
+import 'package:server_express/lang/ja_jp.dart';
+import 'package:server_express/lang/ko_kr.dart';
+import 'package:server_express/lang/de_de.dart';
+import 'package:server_express/lang/ru_ru.dart';
+import 'package:server_express/lang/es_es.dart';
+import 'package:server_express/lang/pt_pt.dart';
+import 'package:server_express/lang/fr_fr.dart';
 import 'package:server_express/mobile/main_view.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -46,6 +53,13 @@ class MainTranslations extends Translations {
     'en_US': enUS,
     'zh_CN': zhCN,
     'zh_TW': zhTW,
+    'ja_JP': jaJP,
+    'ko_KR': koKR,
+    'de_DE': deDE,
+    'ru_RU': ruRU,
+    'es_ES': esES,
+    'pt_PT': ptPT,
+    'fr_FR': frFR,
   };
 }
 

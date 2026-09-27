@@ -18,6 +18,13 @@ List<LanguageType> get supportedLocales => [
   LanguageType("English", Locale("en", "US")),
   LanguageType("简体中文", Locale("zh", "CN")),
   LanguageType("繁體中文", Locale("zh", "TW")),
+  LanguageType("日本語", Locale("ja", "JP")),
+  LanguageType("한국어", Locale("ko", "KR")),
+  LanguageType("Deutsch", Locale("de", "DE")),
+  LanguageType("Русский", Locale("ru", "RU")),
+  LanguageType("Español", Locale("es", "ES")),
+  LanguageType("Português", Locale("pt", "PT")),
+  LanguageType("Français", Locale("fr", "FR")),
 ];
 
 class GeneralController extends GetxController {
