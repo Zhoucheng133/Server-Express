@@ -92,4 +92,12 @@ const Map<String, String> zhCN = {
   'moveSuccess': '移动成功',
   'moveFail': '移动失败',
   'paste': '粘贴',
+
+  'fileInfo': '文件信息',
+  'dirInfo': '目录信息',
+  'size': '大小',
+  'path': '路径',
+  'type': '类型',
+  'dir': '目录',
+  'file': '文件'
 };

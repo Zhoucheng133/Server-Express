@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/general.dart';
+import 'package:server_express/components/file_info.dart';
 import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
@@ -19,26 +20,44 @@ class FileItem extends StatefulWidget {
   State<FileItem> createState() => _FileItemState();
 }
 
-class _FileItemState extends State<FileItem> {
+String formatSize(int bytes) {
+  if (bytes <= 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  int unitIndex = 0;
+  double size = bytes.toDouble();
 
-  String formatSize(int bytes) {
-    if (bytes <= 0) return "0 B";
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    int unitIndex = 0;
-    double size = bytes.toDouble();
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    String result = size.toStringAsFixed(2);
-    result = result.replaceFirst(RegExp(r'\.?0+$'), '');
-
-    return "$result ${units[unitIndex]}";
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex++;
   }
 
+  String result = size.toStringAsFixed(2);
+  result = result.replaceFirst(RegExp(r'\.?0+$'), '');
+
+  return "$result ${units[unitIndex]}";
+}
+
+class _FileItemState extends State<FileItem> {
+
   final FileController fileController=Get.find();
+
+  Future<void> showInfo(BuildContext context) async {
+    await showDialog(
+      context: context, 
+      builder: (context)=>StatefulBuilder(
+        builder: (context, setState)=>AlertDialog(
+          title: Text(widget.file.isDir ? "dirInfo".tr : "fileInfo".tr),
+          content: FileInfo(item: widget.file),
+          actions: [
+            ElevatedButton(
+              onPressed: ()=>Navigator.pop(context),
+              child: Text("ok".tr)
+            )
+          ],
+        )
+      )
+    );
+  }
 
   Future<void> showFuncMenu(BuildContext context, TapDownDetails details) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -97,15 +116,15 @@ class _FileItemState extends State<FileItem> {
         ),
         PopupMenuItem(
           height: 35,
-          value: "copyPath",
+          value: "delete",
           child: Row(
             children: [
               Icon(
-                Icons.copy_rounded,
+                Icons.delete_rounded,
                 size: 20,
               ),
               const SizedBox(width: 5,),
-              Text('copyPath'.tr),
+              Text('delete'.tr),
             ],
           ),
         ),
@@ -139,6 +158,20 @@ class _FileItemState extends State<FileItem> {
         ),
         PopupMenuItem(
           height: 35,
+          value: "copyPath",
+          child: Row(
+            children: [
+              Icon(
+                Icons.copy_rounded,
+                size: 20,
+              ),
+              const SizedBox(width: 5,),
+              Text('copyPath'.tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          height: 35,
           value: "copyDirPath",
           child: Row(
             children: [
@@ -153,15 +186,15 @@ class _FileItemState extends State<FileItem> {
         ),
         PopupMenuItem(
           height: 35,
-          value: "delete",
+          value: "info",
           child: Row(
             children: [
               Icon(
-                Icons.delete_rounded,
+                Icons.info_rounded,
                 size: 20,
               ),
               const SizedBox(width: 5,),
-              Text('delete'.tr),
+              Text('info'.tr),
             ],
           ),
         ),
@@ -191,6 +224,9 @@ class _FileItemState extends State<FileItem> {
         break;
       case "move":
         if(context.mounted) fileController.prepareMoveSingle(context, widget.file);
+        break;
+      case "info":
+        if(context.mounted) showInfo(context);
         break;
     }
   }
@@ -281,7 +317,7 @@ class _FileItemState extends State<FileItem> {
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Text(widget.file.size != null ? formatSize(widget.file.size!) : ""),
-        onTap: ()=>openHandler(context)
+        onTap: ()=>openHandler(context),
       ),
     );
   }
