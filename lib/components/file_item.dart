@@ -182,6 +182,10 @@ class _FileItemState extends State<FileItem> {
         break;
       case "copyPath":
         await FlutterClipboard.copy(p.join(fileController.path.value, widget.file.name));
+        break;
+      case "copyDirPath":
+        await FlutterClipboard.copy(fileController.path.value);
+        break;
       case "copy":
         if(context.mounted) fileController.prepareCopySingle(context, widget.file);
         break;
