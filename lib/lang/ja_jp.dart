@@ -92,4 +92,12 @@ const Map<String, String> jaJP = {
   'moveSuccess': '移動しました',
   'moveFail': '移動に失敗しました',
   'paste': '貼り付け',
+
+  'fileInfo': 'ファイル情報',
+  'dirInfo': 'フォルダ情報',
+  'size': 'サイズ',
+  'path': 'パス',
+  'type': '種類',
+  'dir': 'フォルダ',
+  'file': 'ファイル'
 };

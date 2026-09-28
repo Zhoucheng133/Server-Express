@@ -92,4 +92,12 @@ const Map<String, String> ruRU = {
   'moveSuccess': 'Успешно перемещено',
   'moveFail': 'Ошибка перемещения',
   'paste': 'Вставить',
+
+  'fileInfo': 'Информация о файле',
+  'dirInfo': 'Информация о папке',
+  'size': 'Размер',
+  'path': 'Путь',
+  'type': 'Тип',
+  'dir': 'Папка',
+  'file': 'Файл'
 };

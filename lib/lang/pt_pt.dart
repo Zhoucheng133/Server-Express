@@ -92,4 +92,12 @@ const Map<String, String> ptPT = {
   'moveSuccess': 'Movido com sucesso',
   'moveFail': 'Falha ao mover',
   'paste': 'Colar',
+
+  'fileInfo': 'Informações do ficheiro',
+  'dirInfo': 'Informações da pasta',
+  'size': 'Tamanho',
+  'path': 'Caminho',
+  'type': 'Tipo',
+  'dir': 'Pasta',
+  'file': 'Ficheiro'
 };

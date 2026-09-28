@@ -92,4 +92,12 @@ const Map<String, String> zhTW = {
   'moveSuccess': '移動成功',
   'moveFail': '移動失敗',
   'paste': '貼上',
+
+  'fileInfo': '檔案資訊',
+  'dirInfo': '目錄資訊',
+  'size': '大小',
+  'path': '路徑',
+  'type': '類型',
+  'dir': '目錄',
+  'file': '檔案'
 };

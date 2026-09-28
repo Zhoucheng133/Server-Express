@@ -92,4 +92,12 @@ const Map<String, String> enUS = {
   'moveSuccess': 'Move successfully',
   'moveFail': 'Move failed',
   'paste': 'Paste',
+
+  'fileInfo': 'File Info',
+  'dirInfo': 'Folder Info',
+  'size': 'Size',
+  'path': 'Path',
+  'type': 'Type',
+  'dir': 'Folder',
+  'file': 'File'
 };

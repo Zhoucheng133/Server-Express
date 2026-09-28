@@ -92,4 +92,12 @@ const Map<String, String> esES = {
   'moveSuccess': 'Movido con éxito',
   'moveFail': 'Error al mover',
   'paste': 'Pegar',
+
+  'fileInfo': 'Información del archivo',
+  'dirInfo': 'Información de la carpeta',
+  'size': 'Tamaño',
+  'path': 'Ruta',
+  'type': 'Tipo',
+  'dir': 'Carpeta',
+  'file': 'Archivo'
 };

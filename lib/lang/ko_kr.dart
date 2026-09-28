@@ -92,4 +92,12 @@ const Map<String, String> koKR = {
   'moveSuccess': '이동 성공',
   'moveFail': '이동 실패',
   'paste': '붙여넣기',
+
+  'fileInfo': '파일 정보',
+  'dirInfo': '폴더 정보',
+  'size': '크기',
+  'path': '경로',
+  'type': '유형',
+  'dir': '폴더',
+  'file': '파일'
 };

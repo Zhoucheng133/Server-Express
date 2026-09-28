@@ -92,4 +92,12 @@ const Map<String, String> frFR = {
   'moveSuccess': 'Déplacé avec succès',
   'moveFail': 'Échec du déplacement',
   'paste': 'Coller',
+
+  'fileInfo': 'Infos du fichier',
+  'dirInfo': 'Infos du dossier',
+  'size': 'Taille',
+  'path': 'Chemin',
+  'type': 'Type',
+  'dir': 'Dossier',
+  'file': 'Fichier'
 };

@@ -92,4 +92,12 @@ const Map<String, String> deDE = {
   'moveSuccess': 'Erfolgreich verschoben',
   'moveFail': 'Verschieben fehlgeschlagen',
   'paste': 'Einfügen',
+
+  'fileInfo': 'Dateiinfo',
+  'dirInfo': 'Ordnerinfo',
+  'size': 'Größe',
+  'path': 'Pfad',
+  'type': 'Typ',
+  'dir': 'Ordner',
+  'file': 'Datei'
 };
