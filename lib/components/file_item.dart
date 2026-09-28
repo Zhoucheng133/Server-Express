@@ -232,7 +232,7 @@ class _FileItemState extends State<FileItem> {
   }
 
   void downloadHandler(BuildContext context) async {
-    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    String? selectedDirectory = await FilePicker.getDirectoryPath();
     if (selectedDirectory != null && context.mounted) {
 
       bool cancelled=false;

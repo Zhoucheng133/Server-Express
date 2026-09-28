@@ -54,11 +54,11 @@ class _FileButtonsState extends State<FileButtons> {
   }
 
   Future<void> uploadFile(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
-    if (result != null) {
-      List paths = result.paths;
+    List<PlatformFile> files = await FilePicker.pickFiles();
+    if (files.isNotEmpty) {
+      List paths = files.map((item)=>item.path!).toList();
 
-      List<String> fileNames=paths.map((path) => p.basename(path)).toList();
+      List<String> fileNames=files.map((item)=>item.name).toList();
       
       if(matchName(fileNames) && context.mounted){
         showGeneralOk(context, "uploadFail".tr, "fileNameRepeat".tr);
@@ -116,7 +116,7 @@ class _FileButtonsState extends State<FileButtons> {
   }
 
   void uploadDir(BuildContext context) async {
-    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    String? selectedDirectory = await FilePicker.getDirectoryPath();
     if (selectedDirectory != null) {
       
       if(matchName([p.basename(selectedDirectory)]) && context.mounted){

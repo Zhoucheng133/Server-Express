@@ -239,7 +239,7 @@ class FileController extends GetxController {
       return;
     }
 
-    String? selectedDirectory = isDesktop() ? await FilePicker.platform.getDirectoryPath() : downloadDir.value;
+    String? selectedDirectory = isDesktop() ? await FilePicker.getDirectoryPath() : downloadDir.value;
     if (selectedDirectory != null && context.mounted) {
 
       final List<String> selectedFiles = files.where((element) => element.selcted).toList().map((item)=>item.name).toList();

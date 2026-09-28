@@ -161,9 +161,11 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
   }
 
   Future<void> uploadFromFile(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
-    if (result != null && context.mounted) {
-      List<String> paths = result.paths.whereType<String>().toList();
+    // FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+    List<PlatformFile> files = await FilePicker.pickFiles();
+    if (files.isNotEmpty && context.mounted) {
+      // List<String> paths = result.paths.whereType<String>().toList();
+      List<String> paths = files.map((item)=>item.path!).toList();
       await uploadHandler(context, paths);
     }
   }
