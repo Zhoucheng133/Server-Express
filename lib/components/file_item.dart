@@ -194,7 +194,7 @@ class _FileItemState extends State<FileItem> {
                 size: 20,
               ),
               const SizedBox(width: 5,),
-              Text('info'.tr),
+              Text(widget.file.isDir ? 'dirInfo'.tr : 'fileInfo'.tr),
             ],
           ),
         ),
