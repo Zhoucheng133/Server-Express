@@ -10,13 +10,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   ffi: ^2.1.4
-  file_picker: ^10.3.7
+  file_picker: ^13.1.0
   flutter:
     sdk: flutter
   get: ^4.7.2
   loading_animation_widget: ^1.3.0
   msix: ^3.18.0
-  package_info_plus: ^9.0.0
   path: ^1.9.1
   path_provider: ^2.1.6
   shared_preferences: ^2.5.3
@@ -28,9 +27,10 @@ dependencies:
   font_awesome_flutter: ^10.9.1
   flutter_localized_locales: ^2.0.5
   desktop_drop: ^0.7.0
-  share_plus: ^12.0.2
   open_file: ^4.0.0
   image_picker: ^1.2.3
+  package_info_plus: ^10.2.1
+  share_plus: ^13.3.0
 
 dev_dependencies:
   flutter_test:
