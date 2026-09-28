@@ -62,7 +62,26 @@ class _InfoItemState extends State<InfoItem> {
         ),
       );
     }else{
-      return Container();
+      return Column(
+        mainAxisSize: .min,
+        crossAxisAlignment: .start,
+        children: [
+          Text(
+            widget.label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),
+          ),
+          Text(
+            widget.value,
+            maxLines: 3,
+            style: TextStyle(
+              overflow: TextOverflow.ellipsis,
+              color: Theme.of(context).brightness==Brightness.light ? Colors.grey[600] : Colors.grey[400]
+            ),
+          ),
+        ],
+      );
     }
   }
 }
@@ -75,11 +94,12 @@ class _FileInfoState extends State<FileInfo> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: .min,
+      crossAxisAlignment: .start,
       spacing: 10,
       children: [
         InfoItem(label: "name".tr, value: widget.item.name),
         InfoItem(label: "path".tr, value: p.join(fileController.path.value, widget.item.name)),
-        InfoItem(label: "type".tr, value: widget.item.isDir ? 'dir'.tr : 'file'),
+        InfoItem(label: "type".tr, value: widget.item.isDir ? 'dir'.tr : 'file'.tr),
         InfoItem(label: "size".tr, value: widget.item.isDir ? "/" : formatSize(widget.item.size!)),
       ],
     );

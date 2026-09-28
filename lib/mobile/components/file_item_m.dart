@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:server_express/components/dialogs/general.dart';
+import 'package:server_express/components/file_info.dart';
 import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/getx/ssh_controller.dart';
@@ -97,6 +98,24 @@ class _FileItemMState extends State<FileItemM> {
     }
   }
 
+  Future<void> showInfo(BuildContext context) async {
+    await showDialog(
+      context: context, 
+      builder: (context)=>StatefulBuilder(
+        builder: (context, setState)=>AlertDialog(
+          title: Text(widget.file.isDir ? "dirInfo".tr : "fileInfo".tr),
+          content: FileInfo(item: widget.file),
+          actions: [
+            ElevatedButton(
+              onPressed: ()=>Navigator.pop(context),
+              child: Text("ok".tr)
+            )
+          ],
+        )
+      )
+    );
+  }
+
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context, 
@@ -142,6 +161,14 @@ class _FileItemMState extends State<FileItemM> {
             onTap: (){
               Navigator.pop(context);
               fileController.prepareMoveSingle(context, widget.file);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.info_rounded),
+            title: Text(widget.file.isDir ? 'dirInfo'.tr : 'fileInfo'.tr),
+            onTap: (){
+              Navigator.pop(context);
+              showInfo(context);
             },
           ),
           SizedBox(
