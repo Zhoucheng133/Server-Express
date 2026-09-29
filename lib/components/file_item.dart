@@ -1,6 +1,6 @@
-import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/components/file_info.dart';
@@ -214,10 +214,10 @@ class _FileItemState extends State<FileItem> {
         if(context.mounted) fileController.deleteFile(context, p.join(fileController.path.value, widget.file.name));
         break;
       case "copyPath":
-        await FlutterClipboard.copy(p.join(fileController.path.value, widget.file.name));
+        Clipboard.setData(ClipboardData(text: p.join(fileController.path.value, widget.file.name)));
         break;
       case "copyDirPath":
-        await FlutterClipboard.copy(fileController.path.value);
+        Clipboard.setData(ClipboardData(text: fileController.path.value));
         break;
       case "copy":
         if(context.mounted) fileController.prepareCopySingle(context, widget.file);
