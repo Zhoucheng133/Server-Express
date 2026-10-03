@@ -15,8 +15,10 @@ class DownloadItemM extends StatefulWidget {
   final Future<void> Function() loadDir;
   final String currentPath;
   final int index;
+  final VoidCallback onCopy;
+  final VoidCallback onMove;
 
-  const DownloadItemM({super.key, required this.file, required this.onTap, required this.loadDir, required this.currentPath, required this.index});
+  const DownloadItemM({super.key, required this.file, required this.onTap, required this.loadDir, required this.currentPath, required this.index, required this.onCopy, required this.onMove});
 
   @override
   State<DownloadItemM> createState() => _DownloadItemMState();
@@ -172,6 +174,22 @@ class _DownloadItemMState extends State<DownloadItemM> {
               onTap: (){
                 Navigator.of(context).pop();
                 renameFile(context, widget.file);
+              }
+            ),
+            ListTile(
+              leading: Icon(Icons.copy_rounded),
+              title: Text("copy".tr),
+              onTap: (){
+                Navigator.of(context).pop();
+                widget.onCopy();
+              }
+            ),
+            ListTile(
+              leading: Icon(Icons.drive_file_move_rounded),
+              title: Text("move".tr),
+              onTap: (){
+                Navigator.of(context).pop();
+                widget.onMove();
               }
             ),
             ListTile(

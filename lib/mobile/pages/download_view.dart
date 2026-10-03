@@ -23,6 +23,9 @@ class _DownloadViewState extends State<DownloadView> {
 
   String rootPath="";
   String currentPath="";
+  final Rx<ClipBoardAction> localClipboardAction=Rx(ClipBoardAction.none);
+  String? localClipboardSourcePath;
+  List<FileClass> localClipboardFiles=[];
 
   @override
   void initState() {
@@ -129,6 +132,120 @@ class _DownloadViewState extends State<DownloadView> {
     );
   }
 
+  void prepareCopy(List<FileClass> files) {
+    if(files.isEmpty) return;
+    localClipboardAction.value=ClipBoardAction.copy;
+    localClipboardSourcePath=currentPath;
+    localClipboardFiles=List<FileClass>.from(files);
+    fileController.selectMode.value=false;
+  }
+
+  void prepareMove(List<FileClass> files) {
+    if(files.isEmpty) return;
+    localClipboardAction.value=ClipBoardAction.move;
+    localClipboardSourcePath=currentPath;
+    localClipboardFiles=List<FileClass>.from(files);
+    fileController.selectMode.value=false;
+  }
+
+  void cancelCopyMove() {
+    localClipboardAction.value=ClipBoardAction.none;
+    localClipboardSourcePath=null;
+    localClipboardFiles=[];
+  }
+
+  Future<void> copyDirectory(String sourcePath, String destinationPath) async {
+    await Directory(destinationPath).create(recursive: true);
+    await for(final entity in Directory(sourcePath).list(recursive: false)){
+      final destination=p.join(destinationPath, p.basename(entity.path));
+      if(entity is Directory){
+        await copyDirectory(entity.path, destination);
+      }else if(entity is File){
+        await entity.copy(destination);
+      }
+    }
+  }
+
+  Future<void> pasteFiles(BuildContext context) async {
+    if(localClipboardAction.value==ClipBoardAction.none || localClipboardSourcePath==null || localClipboardFiles.isEmpty) return;
+
+    final sourcePath=localClipboardSourcePath!;
+    final isCopy=localClipboardAction.value==ClipBoardAction.copy;
+    final destinationPaths=localClipboardFiles.map((file) => p.join(currentPath, file.name)).toList();
+
+    if(destinationPaths.any((path) => p.equals(path, p.join(sourcePath, p.basename(path))) || FileSystemEntity.typeSync(path)!=FileSystemEntityType.notFound)){
+      showGeneralOk(context, isCopy ? "copyFail".tr : "moveFail".tr, "fileNameRepeat".tr);
+      return;
+    }
+    if(localClipboardFiles.any((file) => file.isDir && p.isWithin(p.join(sourcePath, file.name), currentPath))){
+      showGeneralOk(context, isCopy ? "copyFail".tr : "moveFail".tr, "fileNameRepeat".tr);
+      return;
+    }
+
+    try {
+      for(var file in localClipboardFiles){
+        final source=p.join(sourcePath, file.name);
+        final destination=p.join(currentPath, file.name);
+        if(isCopy){
+          if(file.isDir){
+            await copyDirectory(source, destination);
+          }else{
+            await File(source).copy(destination);
+          }
+        }else if(file.isDir){
+          await Directory(source).rename(destination);
+        }else{
+          await File(source).rename(destination);
+        }
+      }
+      cancelCopyMove();
+      if(context.mounted) await loadDir(currentPath);
+    } catch (_) {
+      if(context.mounted) showGeneralOk(context, isCopy ? "copyFail".tr : "moveFail".tr, "fileNameRepeat".tr);
+    }
+  }
+
+  void addFolder(BuildContext context) {
+    final controller=TextEditingController();
+    final focusNode=FocusNode();
+    Future<void> createFolder() async {
+      final name=controller.text.trim();
+      if(name.isEmpty || p.basename(name)!=name){
+        showGeneralOk(context, "addFolderFail".tr, "nameNotEmpty".tr);
+        return;
+      }
+      final directory=Directory(p.join(currentPath, name));
+      if(await directory.exists()){
+        if(context.mounted) showGeneralOk(context, "addFolderFail".tr, "fileNameRepeat".tr);
+        return;
+      }
+      try {
+        await directory.create();
+        if(context.mounted) Navigator.pop(context);
+        if(context.mounted) await loadDir(currentPath);
+      } catch (_) {
+        if(context.mounted) showGeneralOk(context, "addFolderFail".tr, "fileNameRepeat".tr);
+      }
+    }
+    showDialog(
+      context: context,
+      builder: (context)=>AlertDialog(
+        title: Text("addFolder".tr),
+        content: TextField(
+          controller: controller,
+          focusNode: focusNode,
+          decoration: InputDecoration(labelText: "name".tr),
+          onSubmitted: (_) => createFolder(),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text("cancel".tr)),
+          ElevatedButton(onPressed: createFolder, child: Text("ok".tr)),
+        ],
+      ),
+    );
+    focusNode.requestFocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final String relative=p.relative(currentPath, from: rootPath);
@@ -193,12 +310,49 @@ class _DownloadViewState extends State<DownloadView> {
                       ),
                     ),
                     IconButton(
+                      onPressed: () => prepareCopy(fileController.localFiles.where((file) => file.selcted).toList()),
+                      icon: Icon(
+                        Icons.copy_rounded,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => prepareMove(fileController.localFiles.where((file) => file.selcted).toList()),
+                      icon: Icon(
+                        Icons.drive_file_move_rounded,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    IconButton(
                       onPressed: () => deleteSelected(context),
                       icon: Icon(
                         Icons.delete_rounded,
                         size: 20,
                         color: Theme.of(context).colorScheme.error,
                       ),
+                    ),
+                  ],
+                ),
+              ),
+            ) : localClipboardAction.value!=ClipBoardAction.none ? Container(
+              height: 60 + MediaQuery.of(context).padding.bottom,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+              ),
+              child: Padding(
+                padding: .only(left: 10.0, right: 10.0, bottom: MediaQuery.of(context).padding.bottom),
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: cancelCopyMove,
+                      child: Text("cancel".tr),
+                    ),
+                    TextButton(
+                      onPressed: () => pasteFiles(context),
+                      child: Text(localClipboardAction.value==ClipBoardAction.copy ? "paste".tr : "move".tr),
                     ),
                   ],
                 ),
@@ -269,18 +423,27 @@ class _DownloadViewState extends State<DownloadView> {
                       onTap: ()=>openFile(file, index),
                       loadDir: () => loadDir(currentPath),
                       currentPath: currentPath,
+                      onCopy: () => prepareCopy([file]),
+                      onMove: () => prepareMove([file]),
                     );
                   },
                 ),
               ),
             ),
             Obx(
-              () => fileController.selectMode.value ? SizedBox(
+              () => fileController.selectMode.value || localClipboardAction.value!=ClipBoardAction.none ? SizedBox(
                 height: 60,
               ) : Container(),
             ),
           ],
         ),
+        floatingActionButton: Obx(
+          () => fileController.selectMode.value ? SizedBox() : FloatingActionButton(
+            onPressed: () => addFolder(context),
+            child: Icon(Icons.create_new_folder_rounded),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }

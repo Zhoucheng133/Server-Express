@@ -90,6 +90,7 @@ class _MainAppState extends State<MainApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
+        supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
         fallbackLocale: supportedLocales[0].locale,
         theme: ThemeData(
           brightness: controller.darkMode.value ? Brightness.dark : Brightness.light,
