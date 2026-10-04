@@ -8,8 +8,24 @@ class AddServerItem extends StatefulWidget {
   final bool enableCorrect;
   final bool obscureText;
   final bool numberOnly;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onSubmitted;
+  final VoidCallback? onEditingComplete;
+  final FocusNode? focusNode;
 
-  const AddServerItem({super.key, required this.label, required this.controller, this.enableCorrect=true, this.obscureText=false, this.numberOnly=false, this.hint=""});
+  const AddServerItem({
+    super.key, 
+    required this.label, 
+    required this.controller, 
+    this.enableCorrect=true, 
+    this.obscureText=false, 
+    this.numberOnly=false, 
+    this.hint="",
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
+  });
 
   @override
   State<AddServerItem> createState() => _AddServerItemState();
@@ -27,6 +43,10 @@ class _AddServerItemState extends State<AddServerItem> {
         const SizedBox(height: 5,),
         TextField(
           controller: widget.controller,
+          focusNode: widget.focusNode,
+          textInputAction: widget.textInputAction,
+          onSubmitted: widget.onSubmitted,
+          onEditingComplete: widget.onEditingComplete,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             isCollapsed: true,

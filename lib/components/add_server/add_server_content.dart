@@ -17,6 +17,31 @@ class AddServerContent extends StatefulWidget {
 }
 
 class _AddServerContentState extends State<AddServerContent> {
+  late final FocusNode nameFocus;
+  late final FocusNode addrFocus;
+  late final FocusNode portFocus;
+  late final FocusNode usernameFocus;
+  late final FocusNode passwordFocus;
+
+  @override
+  void initState() {
+    super.initState();
+    nameFocus = FocusNode();
+    addrFocus = FocusNode();
+    portFocus = FocusNode();
+    usernameFocus = FocusNode();
+    passwordFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    nameFocus.dispose();
+    addrFocus.dispose();
+    portFocus.dispose();
+    usernameFocus.dispose();
+    passwordFocus.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +50,52 @@ class _AddServerContentState extends State<AddServerContent> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AddServerItem(label: "serverName".tr, controller: widget.nameController),
+            AddServerItem(
+              label: "serverName".tr, 
+              controller: widget.nameController,
+              focusNode: nameFocus,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => addrFocus.requestFocus(),
+            ),
             const SizedBox(height: 10,),
-            AddServerItem(label: "serverAddr".tr, controller: widget.addrController, hint: "ipDomain".tr, enableCorrect: false),
+            AddServerItem(
+              label: "serverAddr".tr, 
+              controller: widget.addrController, 
+              hint: "ipDomain".tr, 
+              enableCorrect: false,
+              focusNode: addrFocus,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => portFocus.requestFocus(),
+            ),
             const SizedBox(height: 10,),
-            AddServerItem(label: "port".tr, controller: widget.portController, numberOnly: true, enableCorrect: false,),
+            AddServerItem(
+              label: "port".tr, 
+              controller: widget.portController, 
+              numberOnly: true, 
+              enableCorrect: false,
+              focusNode: portFocus,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => usernameFocus.requestFocus(),
+            ),
             const SizedBox(height: 10,),
-            AddServerItem(label: "username".tr, controller: widget.usernameController, enableCorrect: false),
+            AddServerItem(
+              label: "username".tr, 
+              controller: widget.usernameController, 
+              enableCorrect: false,
+              focusNode: usernameFocus,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => passwordFocus.requestFocus(),
+            ),
             const SizedBox(height: 10,),
-            AddServerItem(label: "password".tr, controller: widget.passwordController, obscureText: true, enableCorrect: false),
+            AddServerItem(
+              label: "password".tr, 
+              controller: widget.passwordController, 
+              obscureText: true, 
+              enableCorrect: false,
+              focusNode: passwordFocus,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => passwordFocus.unfocus(),
+            ),
           ],
         ),
       )
