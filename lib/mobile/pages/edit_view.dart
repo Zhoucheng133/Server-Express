@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:server_express/components/dialogs/general.dart';
 
 class EditView extends StatefulWidget {
   final String filePath;
@@ -27,7 +29,7 @@ class _EditViewState extends State<EditView> {
     try {
       controller.text=await File(widget.filePath).readAsString();
     } catch (_) {
-      error='Unable to open this text file.';
+      error='openFailed'.tr;
     }
     if(mounted){
       setState(() {
@@ -46,9 +48,7 @@ class _EditViewState extends State<EditView> {
       if(mounted) Navigator.of(context).pop();
     } catch (_) {
       if(mounted){
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unable to save this text file.')),
-        );
+        showGeneralOk(context, "saveFailed".tr, "tryAgainTip".tr);
       }
     } finally {
       if(mounted){

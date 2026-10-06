@@ -99,5 +99,9 @@ const Map<String, String> enUS = {
   'path': 'Path',
   'type': 'Type',
   'dir': 'Folder',
-  'file': 'File'
+  'file': 'File',
+  
+  'openFailed': 'Open failed\nThis may not be a plain text file',
+  'saveFailed': 'Save failed',
+  'tryAgainTip': 'Please try again',
 };

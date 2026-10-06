@@ -99,5 +99,9 @@ const Map<String, String> deDE = {
   'path': 'Pfad',
   'type': 'Typ',
   'dir': 'Ordner',
-  'file': 'Datei'
+  'file': 'Datei',
+  
+  'openFailed': 'Öffnen fehlgeschlagen\nDies ist möglicherweise keine einfache Textdatei',
+  'saveFailed': 'Speichern fehlgeschlagen',
+  'tryAgainTip': 'Bitte versuchen Sie es erneut',
 };

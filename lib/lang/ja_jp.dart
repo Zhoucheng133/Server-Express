@@ -99,5 +99,9 @@ const Map<String, String> jaJP = {
   'path': 'パス',
   'type': '種類',
   'dir': 'フォルダ',
-  'file': 'ファイル'
+  'file': 'ファイル',
+  
+  'openFailed': 'オープンに失敗しました\nプレーンテキストファイルではない可能性があります',
+  'saveFailed': '保存に失敗しました',
+  'tryAgainTip': 'もう一度お試しください',
 };

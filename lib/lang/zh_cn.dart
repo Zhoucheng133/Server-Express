@@ -99,5 +99,9 @@ const Map<String, String> zhCN = {
   'path': '路径',
   'type': '类型',
   'dir': '目录',
-  'file': '文件'
+  'file': '文件',
+
+  'openFailed': '打开失败\n这可能不是一个纯文本文件',
+  'saveFailed': '保存失败',
+  'tryAgainTip': '请重试',
 };

@@ -99,5 +99,9 @@ const Map<String, String> esES = {
   'path': 'Ruta',
   'type': 'Tipo',
   'dir': 'Carpeta',
-  'file': 'Archivo'
+  'file': 'Archivo',
+  
+  'openFailed': 'Error al abrir\nEste puede no ser un archivo de texto plano',
+  'saveFailed': 'Error al guardar',
+  'tryAgainTip': 'Por favor, inténtelo de nuevo',
 };

@@ -99,5 +99,9 @@ const Map<String, String> koKR = {
   'path': '경로',
   'type': '유형',
   'dir': '폴더',
-  'file': '파일'
+  'file': '파일',
+  
+  'openFailed': '열기 실패\n순수 텍스트 파일이 아닐 수 있습니다',
+  'saveFailed': '저장 실패',
+  'tryAgainTip': '다시 시도해주세요',
 };

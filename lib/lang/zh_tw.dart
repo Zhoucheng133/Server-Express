@@ -99,5 +99,9 @@ const Map<String, String> zhTW = {
   'path': '路徑',
   'type': '類型',
   'dir': '目錄',
-  'file': '檔案'
+  'file': '檔案',
+  
+  'openFailed': '開啟失敗\n這可能不是一個純文字檔案',
+  'saveFailed': '儲存失敗',
+  'tryAgainTip': '請重試',
 };

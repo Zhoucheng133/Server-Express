@@ -99,5 +99,9 @@ const Map<String, String> frFR = {
   'path': 'Chemin',
   'type': 'Type',
   'dir': 'Dossier',
-  'file': 'Fichier'
+  'file': 'Fichier',
+  
+  'openFailed': 'Échec de l\'ouverture\nCe n\'est peut-être pas un fichier texte brut',
+  'saveFailed': 'Échec de l\'enregistrement',
+  'tryAgainTip': 'Veuillez réessayer',
 };
