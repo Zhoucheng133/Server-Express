@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/file_controller.dart';
 import 'package:server_express/mobile/components/download_item_m.dart';
+import 'package:server_express/mobile/pages/edit_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DownloadView extends StatefulWidget {
@@ -62,9 +63,31 @@ class _DownloadViewState extends State<DownloadView> {
     }else if(file.isDir){
       await loadDir(p.join(currentPath, file.name));
       return;
+    }else if(isTextFile(file.name)){
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => EditView(filePath: p.join(currentPath, file.name)),
+        ),
+      );
+      if(mounted) await loadDir(currentPath);
+      return;
     }else{
       await OpenFile.open(p.join(currentPath, file.name));
     }
+  }
+
+  bool isTextFile(String name) {
+    const textExtensions={
+      '.txt', '.md', '.markdown', '.json', '.yaml', '.yml', '.toml',
+      '.xml', '.html', '.htm', '.css', '.scss', '.sass', '.less',
+      '.js', '.jsx', '.ts', '.tsx', '.dart', '.java', '.kt', '.kts',
+      '.swift', '.py', '.rb', '.php', '.c', '.h', '.cc', '.cpp', '.cxx',
+      '.hpp', '.cs', '.go', '.rs', '.sh', '.bash', '.zsh', '.fish',
+      '.bat', '.cmd', '.ps1', '.sql', '.csv', '.tsv', '.ini', '.cfg',
+      '.conf', '.properties', '.gradle', '.log', '.gitignore', '.env',
+    };
+    return textExtensions.contains(p.extension(name).toLowerCase()) ||
+      name == '.gitignore' || name == '.env';
   }
 
   void selectAll(BuildContext context) async {
@@ -439,6 +462,7 @@ class _DownloadViewState extends State<DownloadView> {
         ),
         floatingActionButton: Obx(
           () => fileController.selectMode.value ? SizedBox() : FloatingActionButton(
+            heroTag: 'download-add-folder',
             onPressed: () => addFolder(context),
             child: Icon(Icons.create_new_folder_rounded),
           ),

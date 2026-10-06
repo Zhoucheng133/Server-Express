@@ -64,6 +64,7 @@ class _HomeViewState extends State<HomeView> {
         title: Text("home".tr),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'home-add-server',
         child: Icon(Icons.add_rounded),
         onPressed: ()=>showAddServer(context),
       ),
