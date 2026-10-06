@@ -381,18 +381,27 @@ class _DownloadUploadPickerState extends State<_DownloadUploadPicker> {
         height: MediaQuery.of(context).size.height*0.8,
         child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: p.equals(currentPath, widget.rootPath) ? null : goBack,
-                  icon: const Icon(Icons.arrow_back_rounded),
+            SizedBox(
+              height: 70,
+              child: Padding(
+                padding: .symmetric(horizontal: 5),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: p.equals(currentPath, widget.rootPath) ? null : goBack,
+                      icon: const Icon(Icons.arrow_back_rounded),
+                    ),
+                    SizedBox(width: 5,),
+                    Expanded(
+                      child: Text("download".tr)
+                    ),
+                    TextButton(
+                      onPressed: selectedPaths.isEmpty ? null : () => Navigator.pop(context, selectedPaths.toList()),
+                      child: Text("upload".tr),
+                    ),
+                  ],
                 ),
-                Expanded(child: Text("download".tr)),
-                TextButton(
-                  onPressed: selectedPaths.isEmpty ? null : () => Navigator.pop(context, selectedPaths.toList()),
-                  child: Text("upload".tr),
-                ),
-              ],
+              ),
             ),
             Expanded(
               child: loading ? const Center(child: CircularProgressIndicator()) : ListView.builder(
@@ -402,19 +411,31 @@ class _DownloadUploadPickerState extends State<_DownloadUploadPicker> {
                   final isDirectory=file is Directory;
                   final isSelected=selectedPaths.contains(file.path);
                   return ListTile(
-                    leading: isDirectory ? const Icon(Icons.folder_rounded) : Checkbox(
-                      value: isSelected,
-                      onChanged: (value){
-                        setState(() {
-                          if(value==true){
-                            selectedPaths.add(file.path);
-                          }else{
-                            selectedPaths.remove(file.path);
-                          }
-                        });
-                      },
+                    title: Row(
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: isDirectory ? const Icon(Icons.folder_rounded) : Checkbox(
+                            value: isSelected,
+                            onChanged: (value){
+                              setState(() {
+                                if(value==true){
+                                  selectedPaths.add(file.path);
+                                }else{
+                                  selectedPaths.remove(file.path);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            p.basename(file.path),
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ),
+                      ],
                     ),
-                    title: Text(p.basename(file.path)),
                     onTap: isDirectory ? () => openDirectory(file.path) : (){
                       setState(() {
                         if(isSelected){
