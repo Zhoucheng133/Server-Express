@@ -1,7 +1,7 @@
 name: server_express
 description: "SFTP Tool"
 publish_to: 'none'
-version: 1.0.0+4
+version: 1.1.0
 
 environment:
   sdk: ^3.10.0
