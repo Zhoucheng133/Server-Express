@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/components/transfer_progress.dart';
 import 'package:server_express/getx/file_controller.dart';
@@ -180,6 +183,25 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
     }
   }
 
+  Future<void> uploadFromDownloads(BuildContext context) async {
+    String downloadPath=fileController.downloadDir.value;
+    if(downloadPath.isEmpty){
+      downloadPath=p.join((await getApplicationSupportDirectory()).path, "downloads");
+    }
+    if(!await Directory(downloadPath).exists()){
+      await Directory(downloadPath).create(recursive: true);
+    }
+    if(!context.mounted) return;
+    final paths=await showModalBottomSheet<List<String>>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => _DownloadUploadPicker(rootPath: downloadPath),
+    );
+    if(context.mounted && paths!=null && paths.isNotEmpty){
+      await uploadHandler(context, paths);
+    }
+  }
+
   void upload(BuildContext context){
 
     final rootContext=context;
@@ -204,6 +226,14 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
             onTap: (){
               Navigator.pop(context);
               uploadFromPhotos(rootContext);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.download_rounded),
+            title: Text("download".tr),
+            onTap: (){
+              Navigator.pop(context);
+              uploadFromDownloads(rootContext);
             },
           ),
           SizedBox(
@@ -288,6 +318,118 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
               child: Text("addFolder".tr)
             ),
           ],
+      ),
+    );
+  }
+}
+
+class _DownloadUploadPicker extends StatefulWidget {
+  final String rootPath;
+
+  const _DownloadUploadPicker({required this.rootPath});
+
+  @override
+  State<_DownloadUploadPicker> createState() => _DownloadUploadPickerState();
+}
+
+class _DownloadUploadPickerState extends State<_DownloadUploadPicker> {
+  late String currentPath;
+  List<FileSystemEntity> files=[];
+  final Set<String> selectedPaths={};
+  bool loading=true;
+
+  @override
+  void initState() {
+    super.initState();
+    currentPath=widget.rootPath;
+    loadFiles();
+  }
+
+  Future<void> loadFiles() async {
+    setState(() {
+      loading=true;
+    });
+    final items=await Directory(currentPath).list().toList();
+    items.sort((a, b){
+      if(a is Directory && b is! Directory) return -1;
+      if(a is! Directory && b is Directory) return 1;
+      return p.basename(a.path).compareTo(p.basename(b.path));
+    });
+    if(mounted){
+      setState(() {
+        files=items;
+        loading=false;
+      });
+    }
+  }
+
+  Future<void> openDirectory(String path) async {
+    currentPath=path;
+    await loadFiles();
+  }
+
+  Future<void> goBack() async {
+    if(p.equals(currentPath, widget.rootPath)) return;
+    currentPath=p.dirname(currentPath);
+    await loadFiles();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height*0.8,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: p.equals(currentPath, widget.rootPath) ? null : goBack,
+                  icon: const Icon(Icons.arrow_back_rounded),
+                ),
+                Expanded(child: Text("download".tr)),
+                TextButton(
+                  onPressed: selectedPaths.isEmpty ? null : () => Navigator.pop(context, selectedPaths.toList()),
+                  child: Text("upload".tr),
+                ),
+              ],
+            ),
+            Expanded(
+              child: loading ? const Center(child: CircularProgressIndicator()) : ListView.builder(
+                itemCount: files.length,
+                itemBuilder: (context, index){
+                  final file=files[index];
+                  final isDirectory=file is Directory;
+                  final isSelected=selectedPaths.contains(file.path);
+                  return ListTile(
+                    leading: isDirectory ? const Icon(Icons.folder_rounded) : Checkbox(
+                      value: isSelected,
+                      onChanged: (value){
+                        setState(() {
+                          if(value==true){
+                            selectedPaths.add(file.path);
+                          }else{
+                            selectedPaths.remove(file.path);
+                          }
+                        });
+                      },
+                    ),
+                    title: Text(p.basename(file.path)),
+                    onTap: isDirectory ? () => openDirectory(file.path) : (){
+                      setState(() {
+                        if(isSelected){
+                          selectedPaths.remove(file.path);
+                        }else{
+                          selectedPaths.add(file.path);
+                        }
+                      });
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
