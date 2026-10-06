@@ -101,6 +101,7 @@ const Map<String, String> frFR = {
   'dir': 'Dossier',
   'file': 'Fichier',
   
+  'error': 'Erreur',
   'openFailed': 'Échec de l\'ouverture\nCe n\'est peut-être pas un fichier texte brut',
   'saveFailed': 'Échec de l\'enregistrement',
   'tryAgainTip': 'Veuillez réessayer',

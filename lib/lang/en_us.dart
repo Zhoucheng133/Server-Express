@@ -101,6 +101,7 @@ const Map<String, String> enUS = {
   'dir': 'Folder',
   'file': 'File',
   
+  'error': 'Error',
   'openFailed': 'Open failed\nThis may not be a plain text file',
   'saveFailed': 'Save failed',
   'tryAgainTip': 'Please try again',

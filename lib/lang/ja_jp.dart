@@ -101,6 +101,7 @@ const Map<String, String> jaJP = {
   'dir': 'フォルダ',
   'file': 'ファイル',
   
+  'error': 'エラー',
   'openFailed': 'オープンに失敗しました\nプレーンテキストファイルではない可能性があります',
   'saveFailed': '保存に失敗しました',
   'tryAgainTip': 'もう一度お試しください',

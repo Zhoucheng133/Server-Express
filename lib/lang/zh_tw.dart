@@ -101,6 +101,7 @@ const Map<String, String> zhTW = {
   'dir': '目錄',
   'file': '檔案',
   
+  'error': '錯誤',
   'openFailed': '開啟失敗\n這可能不是一個純文字檔案',
   'saveFailed': '儲存失敗',
   'tryAgainTip': '請重試',

@@ -101,6 +101,7 @@ const Map<String, String> koKR = {
   'dir': '폴더',
   'file': '파일',
   
+  'error': '오류',
   'openFailed': '열기 실패\n순수 텍스트 파일이 아닐 수 있습니다',
   'saveFailed': '저장 실패',
   'tryAgainTip': '다시 시도해주세요',

@@ -101,6 +101,7 @@ const Map<String, String> esES = {
   'dir': 'Carpeta',
   'file': 'Archivo',
   
+  'error': 'Error',
   'openFailed': 'Error al abrir\nEste puede no ser un archivo de texto plano',
   'saveFailed': 'Error al guardar',
   'tryAgainTip': 'Por favor, inténtelo de nuevo',

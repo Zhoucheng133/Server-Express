@@ -101,6 +101,7 @@ const Map<String, String> deDE = {
   'dir': 'Ordner',
   'file': 'Datei',
   
+  'error': 'Fehler',
   'openFailed': 'Öffnen fehlgeschlagen\nDies ist möglicherweise keine einfache Textdatei',
   'saveFailed': 'Speichern fehlgeschlagen',
   'tryAgainTip': 'Bitte versuchen Sie es erneut',

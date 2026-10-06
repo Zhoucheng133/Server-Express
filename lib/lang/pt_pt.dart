@@ -101,6 +101,7 @@ const Map<String, String> ptPT = {
   'dir': 'Pasta',
   'file': 'Ficheiro',
   
+  'error': 'Erro',
   'openFailed': 'Falha ao abrir\nEste pode não ser um ficheiro de texto simples',
   'saveFailed': 'Falha ao guardar',
   'tryAgainTip': 'Por favor, tente novamente',
