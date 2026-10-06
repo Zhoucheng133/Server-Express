@@ -108,7 +108,7 @@ class _FileButtonsState extends State<FileButtons> {
         }else{
           if(context.mounted) Navigator.pop(context);
           if(context.mounted) showGeneralOk(context, "uploadFail".tr, msg);
-          break;
+          return;
         }
       }
 

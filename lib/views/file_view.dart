@@ -81,7 +81,7 @@ class _FileViewState extends State<FileView> {
           }else{
             if(context.mounted) Navigator.pop(context);
             if(context.mounted) showGeneralOk(context, "uploadFail".tr, msg);
-            break;
+            return;
           }
         }
 
