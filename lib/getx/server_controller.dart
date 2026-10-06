@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:server_express/components/dialogs/general.dart';
 import 'package:server_express/getx/ssh_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -105,19 +106,7 @@ class ServerController extends GetxController {
         )
       );
     }else if(context.mounted){
-      await showDialog(
-        context: context, 
-        builder: (context)=>AlertDialog(
-          title: Text("addFail".tr),
-          content: Text(message),
-          actions: [
-            ElevatedButton(
-              onPressed: ()=> Navigator.pop(context), 
-              child: Text("ok".tr)
-            )
-          ],
-        )
-      );
+      showGeneralOk(context, "addFail".tr, message);
     }
   }
 

@@ -76,10 +76,12 @@ class _FileViewState extends State<FileView> {
           if(cancelled) break;
           progressFileName.value=p.basename(path);
           String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
-          if(context.mounted && (msg.contains("OK") || cancelled)){
-            await fileController.getFiles(context);
-          }else if(context.mounted){
-            showGeneralOk(context, "uploadFail".tr, msg);
+          if(msg.contains("OK") || cancelled){
+            if(context.mounted) await fileController.getFiles(context);
+          }else{
+            if(context.mounted) Navigator.pop(context);
+            if(context.mounted) showGeneralOk(context, "uploadFail".tr, msg);
+            break;
           }
         }
 

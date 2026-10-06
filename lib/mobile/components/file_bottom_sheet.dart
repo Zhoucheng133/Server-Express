@@ -48,9 +48,15 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
                 showGeneralOk(context, "addFolderFail".tr, "fileNameRepeat".tr);
                 return;
               }else{
-                await sshController.sftpMkdir(fileController.path.value, controller.text);
-                if(context.mounted) fileController.getFiles(context);
-                if(context.mounted) Navigator.pop(context);
+                String msg = await sshController.sftpMkdir(fileController.path.value, controller.text);
+                if(context.mounted){
+                  if(!msg.contains("OK")){
+                    showGeneralOk(context, "error".tr, msg);
+                  }else{
+                    fileController.getFiles(context);
+                    Navigator.pop(context);
+                  }
+                }
               }
             },
           ),
@@ -69,9 +75,15 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
                 showGeneralOk(context, "addFolderFail".tr, "fileNameRepeat".tr);
                 return;
               }else{
-                await sshController.sftpMkdir(fileController.path.value, controller.text);
-                if(context.mounted) fileController.getFiles(context);
-                if(context.mounted) Navigator.pop(context);
+                String msg = await sshController.sftpMkdir(fileController.path.value, controller.text);
+                if(context.mounted){
+                  if(!msg.contains("OK")){
+                    showGeneralOk(context, "error".tr, msg);
+                  }else{
+                    fileController.getFiles(context);
+                    Navigator.pop(context);
+                  }
+                }
               }
             }, 
             child: Text('ok'.tr)
@@ -152,10 +164,13 @@ class _FileBottomSheetState extends State<FileBottomSheet> {
       if(cancelled) break;
       progressFileName.value=p.basename(path);
       String msg=await sshController.sftpUpload(p.join(fileController.path.value, p.basename(path)), path);
-      if(context.mounted && (msg.contains("OK") || cancelled)){
-        await fileController.getFiles(context);
-      }else if(context.mounted){
-        showGeneralOk(context, "uploadFail".tr, msg);
+      if(msg.contains("OK") || cancelled){
+        if(context.mounted) await fileController.getFiles(context);
+      }else{
+        if(context.mounted) Navigator.pop(context);
+        if(context.mounted) showGeneralOk(context, "uploadFail".tr, msg);
+        progressFileName.value = "";
+        return;
       }
     }
 

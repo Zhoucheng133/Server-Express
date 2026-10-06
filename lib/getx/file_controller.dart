@@ -73,7 +73,11 @@ class FileController extends GetxController {
     } catch (_) {
       path.value="/";
       if(context.mounted){
-        showGeneralOk(context, "noPath".tr, msg);
+        if(msg.startsWith("ERR:") || !msg.startsWith("[")){
+          showGeneralOk(context, "error".tr, msg);
+        }else{
+          showGeneralOk(context, "noPath".tr, msg);
+        }
         getFiles(context);
       }
     }
